@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import './App.css';
-import Authorization from './pages/AuthorizationPage/Authorization'
+import { Route } from "react-router-dom";
+import './index.css';
+import Intro from './components/intro/Intro';
+import AuthorizationForm from './components/authorizationForm/AuthorizationForm'
 
 class App extends Component {
   render() {
     return (
-       <Authorization />
+       <div>
+         <Route path="/" exact component={Intro} />
+         <Route path="/AuthorizationForm" exact component={AuthorizationForm} />
+       </div>
     );
   }
 }

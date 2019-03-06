@@ -1,11 +1,3 @@
-*{
-    box-sizing: border-box;
-}
-body {
-    background: url(../AuthorizationPage/1.jpg) center center no-repeat;
-    background-size: cover;
-    height: 100vh;
-}
 h2  {
     color: #fff;
 }
@@ -31,31 +23,6 @@ h2  {
     flex-direction: column;
     align-items: center;
     height: 100%;
-}
-.default-input {
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 0 10px  rgba(0,0,0,.7);
-    margin-bottom: 10px;
-}
-.button {
-    border: none;
-    border-radius: 20px;
-    background-color: #f30b0b ;
-    color: #fff;
-    text-transform: uppercase;
-    width: 200px;
-    padding: 10px;
-    cursor: pointer;
-    transition: all .2s linear;
-}
-.button:hover {
-    transition: all .2s linear;
-    background-color: #b50202;
-}
-.button:active {
-    background-color: #864848;
 }
 .authorization-form  .button{
     margin-top: 40px;

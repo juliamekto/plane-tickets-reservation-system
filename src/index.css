@@ -1,3 +1,6 @@
+*{
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   padding: 0;
@@ -6,6 +9,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  background: url(./1.jpg) center center no-repeat;
+  background-size: cover;
 }
 
 code {
@@ -14,4 +20,29 @@ code {
 }
 h2 {
   font-size: 30px;
+}
+.default-input {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 0 10px  rgba(0,0,0,.7);
+  margin-bottom: 10px;
+}
+.button {
+  border: none;
+  border-radius: 20px;
+  background-color: #f30b0b ;
+  color: #fff;
+  text-transform: uppercase;
+  width: 200px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all .2s linear;
+}
+.button:hover {
+  transition: all .2s linear;
+  background-color: #b50202;
+}
+.button:active {
+  background-color: #864848;
 }

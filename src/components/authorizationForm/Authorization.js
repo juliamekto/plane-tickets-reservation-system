@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Authorization.css';
-import AuthorizationForm from '../../components/AuthorizationForm.jsx';
+import AuthorizationForm from './AuthorizationForm.jsx';
 
 class Authorization extends Component {
   render() {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import FormInput from './FormInput.jsx';
-import Button from './Button.jsx';
+import './Authorization.css';
+import FormInput from '../FormInput.jsx';
+import Button from '../Button.jsx';
 
 
 class AuthorizationForm extends Component {
