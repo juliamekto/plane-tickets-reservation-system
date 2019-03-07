@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Authorization.css';
 import FormInput from '../FormInput.jsx';
+import { Link } from "react-router-dom";
 import Button from '../Button.jsx';
 
 
@@ -31,7 +32,7 @@ class AuthorizationForm extends Component {
            <FormInput id="password" name="password" type="password" placeholder="password" value={this.state.password} onChange={this.handleUserInput}/> 
            <Button type="submit" caption="sign in"/>
        </form>
-       <a href="#">or sign up</a>
+       <Link to="/Registration"> or sign up </Link>
      </div>
    );
  }
