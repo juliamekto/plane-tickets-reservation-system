@@ -10,7 +10,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
-  background: url(./1.jpg) center center no-repeat;
+  background: url(./assets/img/1.jpg) center center no-repeat;
   background-size: cover;
 }
 

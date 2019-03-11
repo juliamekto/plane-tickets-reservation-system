@@ -1,12 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class AuthorizationForm extends Component {
+const AuthorizationForm = (props) => {
+  return (
+    <input className="default-input" 
+           name={props.name} 
+           type={props.type}
+           placeholder={props.placeholder}
+    />
+  );
+}
 
-    render() {
-      return (
-         <input className="default-input" name={this.props.name} type={this.props.type} placeholder={this.props.placeholder}/>
-      );
-    }
-  }
-  
-  export default AuthorizationForm;
+AuthorizationForm.propTypes  = {
+  name: PropTypes.string,
+  type: PropTypes.string,
+  placeholder: PropTypes.string
+}
+
+AuthorizationForm.defaultProps  = {
+  name: 'text',
+  type: 'text',
+  placeholder: ''
+}
+export default AuthorizationForm;

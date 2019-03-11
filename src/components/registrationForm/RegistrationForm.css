@@ -1,7 +1,7 @@
-h2  {
+.registration-form-wrapper__title {
     color: #fff;
 }
-.authorization-form-wrapper {
+.registration-form-wrapper {
     width: 90%;
     max-width: 500px;
     position: absolute;
@@ -18,19 +18,19 @@ h2  {
     border-radius: 10px;
     padding: 10px;
 }
-.authorization-form {
+.registration-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100%;
 }
-.authorization-form  .button{
+.registration-form  .button{
     margin-top: 40px;
 }
-.authorization-form-wrapper a{
+.registration-form-wrapper .form-link{
     color: #fff;
     text-decoration: none;
 }
-.authorization-form-wrapper  a:hover {
+.registration-form-wrapper  .form-link:hover {
     color: #f30b0b;
 }

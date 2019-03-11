@@ -8,7 +8,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.intro-wrapper h1 {
+.intro-wrapper .intro-wrapper__title {
     color: #fff;
     font-size: 50px;
     text-transform: uppercase;
@@ -17,7 +17,7 @@
     padding: 10px;
 }
 @media screen and (max-width:1200px) {
-    .intro-wrapper h1 {
+    .intro-wrapper .intro-wrapper__title {
         font-size: calc( (100vw - 320px)/(1200 - 320) * (46 - 24) + 24px);
     }
 }  

@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
-import './RegistrationForm.css';
+import React from 'react';
 import RegistrationForm from './RegistrationForm.jsx';
+import './RegistrationForm.css';
 
-class Registration extends Component {
-  render() {
-    return (
-      <RegistrationForm />
-    );
-  }
+const Registration = () => {
+  return (
+    <RegistrationForm />
+  );
 }
 
 export default Registration;

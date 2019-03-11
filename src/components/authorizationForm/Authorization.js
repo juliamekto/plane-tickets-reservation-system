@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
-import './Authorization.css';
+import React from 'react';
 import AuthorizationForm from './AuthorizationForm.jsx';
+import './Authorization.css';
 
-class Authorization extends Component {
-  render() {
-    return (
-      <AuthorizationForm />
-    );
-  }
+const Authorization = () => {
+  return (
+    <AuthorizationForm />
+  );
 }
 
 export default Authorization;

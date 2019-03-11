@@ -1,4 +1,4 @@
-h2  {
+.authorization-form-wrapper__title {
     color: #fff;
 }
 .authorization-form-wrapper {
@@ -27,10 +27,10 @@ h2  {
 .authorization-form  .button{
     margin-top: 40px;
 }
-.authorization-form-wrapper a{
+.authorization-form-wrapper .form-link{
     color: #fff;
     text-decoration: none;
 }
-.authorization-form-wrapper  a:hover {
+.authorization-form-wrapper  .form-link:hover {
     color: #f30b0b;
 }
