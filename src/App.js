@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import './App.css';
-import Authorization from './pages/AuthorizationPage/Authorization'
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import AppRouter from './components/AppRouter.jsx';
+import './index.css';
 
-class App extends Component {
-  render() {
+const App = () => {
     return (
-       <Authorization />
-    );
-  }
+      <BrowserRouter>
+          <AppRouter />
+      </BrowserRouter>
+  );
 }
 
 export default App;

@@ -1,0 +1,25 @@
+.intro-wrapper {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.intro-wrapper .intro-wrapper__title {
+    color: #fff;
+    font-size: 50px;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: rgba(0,0,0,.3);
+    padding: 10px;
+}
+
+@media screen and (max-width:1200px) {
+    .intro-wrapper .intro-wrapper__title {
+        font-size: calc( (100vw - 320px)/(1200 - 320) * (46 - 24) + 24px);
+    }
+}  
