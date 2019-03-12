@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import FormInput from '../FormInput.jsx';
 import Button from '../Button.jsx';
 import './RegistrationForm.css';
 
 
-class RegistrationForm extends Component {
- render() {
-  
+const RegistrationForm = () => {
    return (
      <div className="registration-form-wrapper">
        <h2 className="registration-form-wrapper__title">Sign Up</h2>
@@ -42,7 +40,6 @@ class RegistrationForm extends Component {
        <Link to="/authorization" className="form-link"> or sign in </Link>
      </div>
    );
- }
 }
 
 export default RegistrationForm;

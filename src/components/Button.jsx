@@ -6,20 +6,17 @@ const Button = ({type, name, action, caption}) => {
     <button className="button" 
             type={type}  
             name={name}
-            onClick={action}
-            
-    >
-    {caption}
+            onClick={action}>
+            {caption}
     </button>
   );
 }
-
 
 Button.propTypes  = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string,
   caption: PropTypes.string.isRequired,
-  onClick: PropTypes.func
+  action: PropTypes.func
 }
 
 Button.defaultProps  = {

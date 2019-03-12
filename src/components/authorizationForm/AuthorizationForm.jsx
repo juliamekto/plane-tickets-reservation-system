@@ -12,23 +12,17 @@ class AuthorizationForm extends Component {
       email: '',
       password: ''
     }
-
-    this.handleInput = this.handleInput.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.handleFormValidation = this.handleFormValidation.bind(this);
   }
 
-  handleInput(e) {
+  handleInput = (e) => {
     const name = e.target.name,
           value = e.target.value;
     this.setState({
       [name]: value
     });
-    console.log('changed')
-    console.log(this.state)
   }
 
-  handleFormSubmit(e) {
+  handleFormSubmit = (e) => {
     e.preventDefault();
     
     const userData = this.state;
@@ -43,11 +37,12 @@ class AuthorizationForm extends Component {
 
   }
 
-  handleFormValidation() {
-    let emailInput = this.state.email;
-    let passwordInput = this.state.password;
-    let errors = {};
-    let formIsValid = true;
+  handleFormValidation = () => {
+    let { email, password } = this.state;
+    let emailInput = email,
+        passwordInput = password,
+        errors = {},
+        formIsValid = true;
     
     //email
     if(emailInput === ''){
@@ -61,22 +56,12 @@ class AuthorizationForm extends Component {
       errors = 'password field cannot be empty';
     }
 
-
-    // if(typeof fields["email"] !== "undefined"){
-    //   let lastAtPos = fields["email"].lastIndexOf('@');
-    //   let lastDotPos = fields["email"].lastIndexOf('.');
-
-    //   if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') == -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
-    //       formIsValid = false;
-    //       errors["email"] = "Email is not valid";
-    //     }
-    // }  
-
-    this.setState({errors: errors});
+    this.setState({errors});
     return formIsValid;
   }
 
   render() {
+    const { email, password } = this.state;
    return (
      <div className="authorization-form-wrapper">
        <h2 className="authorization-form-wrapper__title"> Sign in </h2>
@@ -85,16 +70,15 @@ class AuthorizationForm extends Component {
            <FormInput id="email"
                       name="email"
                       type="email" 
-                      value={this.state.email}
+                      value={email}
                       placeholder="email" 
-                      // action={this.handleInput}
                       action={this.handleFormValidation}
             />
            <FormInput id="password" 
                       name="password" 
                       type="password" 
                       placeholder="password"
-                      value={this.state.password}
+                      value={password}
                       action={this.handleInput}  
             /> 
            <Button type="submit" 

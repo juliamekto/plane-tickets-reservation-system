@@ -16,7 +16,7 @@ AuthorizationForm.propTypes  = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  onChange:  PropTypes.func
+  action: PropTypes.func
 }
 
 AuthorizationForm.defaultProps  = {

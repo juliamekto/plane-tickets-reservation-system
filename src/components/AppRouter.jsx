@@ -1,22 +1,20 @@
-import React, { Component }  from "react";
+import React from "react";
 import { BrowserRouter } from 'react-router-dom';
 import { Route } from "react-router-dom";
 import Intro from './intro/Intro.jsx';
-import Authorization from './authorizationForm/Authorization.js';
-import Registration from './registrationForm/Registration.js';
+import Authorization from './authorizationForm/Authorization.jsx';
+import Registration from './registrationForm/Registration.jsx';
 
-class AppRouter extends Component {
-    render() {
-        return (
-           <BrowserRouter>
-                <div>
-                    <Route path="/" exact component={Intro} />
-                    <Route path="/authorization" exact component={Authorization} />
-                    <Route path="/registration" exact component={Registration} />
-                </div>
-           </BrowserRouter>
-        );
-      }
+const AppRouter = () => {
+    return (
+        <BrowserRouter>
+             <div>
+                 <Route path="/" exact component={Intro} />
+                 <Route path="/authorization" exact component={Authorization} />
+                 <Route path="/registration" exact component={Registration} />
+             </div>
+        </BrowserRouter>
+     );
 }
 
 export default AppRouter;
