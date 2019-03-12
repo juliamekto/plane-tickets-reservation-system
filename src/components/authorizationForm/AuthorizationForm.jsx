@@ -2,91 +2,104 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Button from '../Button.jsx';
 import FormInput from '../FormInput.jsx';
-// import InlineErrors from '../InlineError.jsx';
+import InlineError from '../InlineError.jsx';
 import './Authorization.css';
 
 class AuthorizationForm extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      email: "",
-      password: '',
-      formErrors: {email: '', password: ''},
-      emailValid: false,
-      passwordValid: false,
-      formValid: false
+      email: '',
+      password: ''
     }
+
+    this.handleInput = this.handleInput.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleFormValidation = this.handleFormValidation.bind(this);
   }
 
-  handleUserInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+  handleInput(e) {
+    const name = e.target.name,
+          value = e.target.value;
     this.setState({
       [name]: value
-    },
-      () => { this.validateField(name, value) });
+    });
+    console.log('changed')
+    console.log(this.state)
   }
 
-
-  validateField(fieldName, value) {
-    let fieldValidationErrors = this.state.formErrors;
-    let emailValid = this.state.emailValid;
-    let passwordValid = this.state.passwordValid;
-
-    switch(fieldName) {
-      case 'email':
-        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
-        break;
-      case 'password':
-        passwordValid = value.length >= 6;
-        fieldValidationErrors.password = passwordValid ? '': ' is too short';
-        break;
-      default:
-        break;
-    }
-    this.setState(
-      {
-        formErrors: fieldValidationErrors,
-        emailValid: emailValid,
-        passwordValid: passwordValid
-      }, 
-      this.validateForm);
-  }
-
-  validateForm() {
-    this.setState({
-      formValid: this.state.emailValid && this.state.passwordValid});
-  }
-
-  errorClass(error) {
-    return(error.length === 0 ? '' : 'has-error');
-  }
-
-  handleClick(e) {
+  handleFormSubmit(e) {
     e.preventDefault();
-    console.log('Click happened');
+    
+    const userData = this.state;
+    console.log('form was submitted',userData);
+  
+    //clear form state
+    this.setState({
+      email: '',
+      password: '',
+      errors: ''
+    });
+
+  }
+
+  handleFormValidation() {
+    let emailInput = this.state.email;
+    let passwordInput = this.state.password;
+    let errors = {};
+    let formIsValid = true;
+    
+    //email
+    if(emailInput === ''){
+      formIsValid = false;
+      errors = 'email field cannot be empty';
+    }
+   
+    //password
+    if(passwordInput === ''){
+      formIsValid = false;
+      errors = 'password field cannot be empty';
+    }
+
+
+    // if(typeof fields["email"] !== "undefined"){
+    //   let lastAtPos = fields["email"].lastIndexOf('@');
+    //   let lastDotPos = fields["email"].lastIndexOf('.');
+
+    //   if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') == -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
+    //       formIsValid = false;
+    //       errors["email"] = "Email is not valid";
+    //     }
+    // }  
+
+    this.setState({errors: errors});
+    return formIsValid;
   }
 
   render() {
    return (
      <div className="authorization-form-wrapper">
        <h2 className="authorization-form-wrapper__title"> Sign in </h2>
-       <form className="authorization-form">
+       <InlineError  formErrors={this.state.errors}/>
+       <form className="authorization-form" onSubmit={this.handleFormSubmit}>
            <FormInput id="email"
                       name="email"
                       type="email" 
-                      placeholder="email"  
-                      
+                      value={this.state.email}
+                      placeholder="email" 
+                      // action={this.handleInput}
+                      action={this.handleFormValidation}
             />
            <FormInput id="password" 
                       name="password" 
                       type="password" 
-                      placeholder="password"       
+                      placeholder="password"
+                      value={this.state.password}
+                      action={this.handleInput}  
             /> 
            <Button type="submit" 
                    caption="sign in" 
-                   handleClick={this.handleClick}   
+                   action={this.handleFormSubmit}
             />
        </form>
        <Link to="/registration" 

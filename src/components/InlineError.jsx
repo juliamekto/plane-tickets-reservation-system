@@ -1,15 +1,11 @@
 import React from 'react';
- const InlineErrors = ({formErrors}) =>
-  <div className='formErrors'>
-    {Object.keys(formErrors).map((fieldName, i) => {
-      if(formErrors[fieldName].length > 0){
-        return (
-          <p key={i}>{fieldName} {formErrors[fieldName]}</p>
-        )        
-      } else {
-        return '';
-      }
-    })}
-  </div>
+ 
+const InlineError = ({formErrors}) => {
+   return (
+      <div>an error: {formErrors}
+      </div>
+   );
+ }
 
-  export default InlineErrors;
+
+export default InlineError;

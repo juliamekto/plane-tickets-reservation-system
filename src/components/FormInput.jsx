@@ -1,20 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AuthorizationForm = (props) => {
+const AuthorizationForm = ({name, type, placeholder,action}) => {
   return (
     <input className="default-input" 
-           name={props.name} 
-           type={props.type}
-           placeholder={props.placeholder}
+           name={name} 
+           type={type}
+           placeholder={placeholder}
+           onChange={action}
     />
   );
 }
 
 AuthorizationForm.propTypes  = {
-  name: PropTypes.string,
-  type: PropTypes.string,
-  placeholder: PropTypes.string
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  onChange:  PropTypes.func
 }
 
 AuthorizationForm.defaultProps  = {
@@ -22,4 +24,5 @@ AuthorizationForm.defaultProps  = {
   type: 'text',
   placeholder: ''
 }
+
 export default AuthorizationForm;
