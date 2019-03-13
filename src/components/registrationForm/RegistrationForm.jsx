@@ -7,25 +7,37 @@ import './RegistrationForm.css';
 
 
 class RegistrationForm extends Component {
-    constructor (props) {
-      super(props);
-      this.state = {
-        modal: {
-          show: false
-        }
-      }
+  state = {
+    modal: {
+      show: false
+    },
+    checkbox: {
+      hovered: false,
+      checked: false
     }
+  }
 
   showModal = (e) => {
       e.preventDefault();
       this.setState ({ modal : {show: true}});
   }
 
-  hideModal = () => {
-      this.setState ({modal : {show: false}});
+  hideModal = () => this.setState ({modal : {show: false}});
+
+  handleCheckbox = () => {
+    this.setState ({checkbox : {hovered: !this.state.checkbox.hovered}});
   }
 
+  handleCheckbox2 = () => {
+    this.setState ({checkbox : {checked: !this.state.checkbox.checked}});
+  }
+ 
   render() {
+
+    let checkmarkClass = this.state.checkbox.hovered ? "checkmark hovered" : "checkmark";
+    let currentClass2 = this.state.checkbox.hovered ? "checkmark checked" : "checkmark";
+
+    const {show} = this.state.modal;
     return (
       <React.Fragment>
          <div className="registration-form-wrapper">
@@ -56,15 +68,18 @@ class RegistrationForm extends Component {
                        action={this.showModal}/>
            </form>
            <div className="privacy-policy-wrapper">
-               <label className="container">
+               <label className="container"  
+                      onMouseEnter={this.handleCheckbox} 
+                      onMouseLeave={this.handleCheckbox} 
+                      onClick={this.handleCheckbox2} >
                  <FormInput type="checkbox" /> 
-                 <span className="checkmark"></span>
+                 <span className={checkmarkClass}></span>
                </label>
                <span className="caption">I agree to the terms and conditions</span>
            </div>
            <Link to="/authorization" className="form-link"> i already have an account </Link>
          </div>
-         <Modal show={this.state.modal.show} handleClose={this.hideModal}>
+         <Modal show={show} handleClose={this.hideModal}>
           <div className="greeting">
               <span className="greeting__title">Great!</span>
               <span className="greeting__text">You've been successfully registered!</span>

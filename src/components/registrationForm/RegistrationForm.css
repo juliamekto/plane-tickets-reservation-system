@@ -46,7 +46,7 @@
     align-items: center; 
 }
 
-.registration-form-wrapper .privacy-policy-wrapper .caption {
+.privacy-policy-wrapper .caption {
     color: #fff;
     margin-left: 10px;
 }
@@ -80,15 +80,19 @@
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
+.checkmark.hovered {
     background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.checkmark.checked {
     transition: all .2s linear;
     background-color: #f30b0b;
 }
+/* .container input:checked ~ .checkmark {
+    transition: all .2s linear;
+    background-color: #f30b0b;
+} */
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
