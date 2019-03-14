@@ -46,30 +46,20 @@
     align-items: center; 
 }
 
-.privacy-policy-wrapper .caption {
+.privacy-policy-wrapper__caption{
     color: #fff;
     margin-left: 10px;
 }
 
 /* CHECKBOX STYLING*/
 
-/* Customize the label (the container) */
-.container {
+.privacy-policy-wrapper__container {
     display: block;
     position: relative;
     cursor: pointer;
   }
-  
-/* Hide the browser's default checkbox */
-.container input {
-    position: absolute;
-    opacity: 0;
-    height: 0;
-    width: 0;
-} 
 
-/* Create a custom checkbox */
-.checkmark {
+.privacy-policy-wrapper .checkmark {
     display: block;
     height: 15px;
     width: 15px;
@@ -79,37 +69,28 @@
     transition: background-color .2s linear;
 }
 
-/* On mouse-over, add a grey background color */
-.checkmark.hovered {
+.privacy-policy-wrapper  .checkmark.checkmark--hovered {
     background-color: #ccc;
 }
 
-/* When the checkbox is checked, add a blue background */
-.checkmark.checked {
+.privacy-policy-wrapper  .checkmark.checkmark--checked {
     transition: all .2s linear;
     background-color: #f30b0b;
 }
-/* .container input:checked ~ .checkmark {
-    transition: all .2s linear;
-    background-color: #f30b0b;
-} */
 
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
+.privacy-policy-wrapper  .checkmark:after {
     content: "";
     display: block;
     opacity: 0;
     transition: opacity .2s linear;
 }
 
-/* Show the checkmark when checked */
-.container .checkmark.checked:after {
+.privacy-policy-wrapper .checkmark.checkmark--checked:after {
     transition: opacity .2s linear;
     opacity: 1;
 }
 
-/* Style the checkmark/indicator */
-.container .checkmark.checked:after {
+.privacy-policy-wrapper .checkmark.checkmark--checked:after {
     position: absolute;
     top: calc(50% - 10px/2);
     left: calc(50% - 9px/2);
@@ -121,7 +102,7 @@
 }
 
 @media screen and (max-width: 425px) {
-    .registration-form-wrapper .privacy-policy-wrapper .caption {
+    .privacy-policy-wrapper__caption {
         font-size: 14px;
     }
     .registration-form-wrapper .form-link {

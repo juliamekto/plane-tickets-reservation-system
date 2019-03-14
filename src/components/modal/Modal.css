@@ -69,11 +69,11 @@
     margin: 30px 0;
 }
 
-.display-block {
+.show {
     display: block;
 }
 
-.display-none {
+.hide{
     display: none;
 }
 

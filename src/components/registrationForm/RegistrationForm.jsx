@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames/bind';
 import { Link } from "react-router-dom";
 import FormInput from '../FormInput.jsx';
 import Button from '../Button.jsx';
@@ -8,37 +9,30 @@ import './RegistrationForm.css';
 
 class RegistrationForm extends Component {
   state = {
-    modal: {
-      show: false
-    },
-    checkbox: {
-      hovered: false,
-      checked: false
-    }
+    isModalShown: false,
+    isCheckboxHovered: false,
+    isCheckboxChecked: false
   }
 
   showModal = (e) => {
       e.preventDefault();
-      this.setState ({ modal : {show: true}});
+      this.setState ({ isModalShown: true});
   }
 
-  hideModal = () => this.setState ({modal : {show: false}});
+  hideModal = () => this.setState ({isModalShown : false});
 
-  handleCheckbox = () => {
-    this.setState ({checkbox : {hovered: !this.state.checkbox.hovered}});
-  }
+  handleCheckboxHover = () => this.setState (({ isCheckboxHovered }) => ( { isCheckboxHovered: !isCheckboxHovered }));
 
-  handleCheckbox2 = () => {
-    this.setState ({checkbox : {checked: !this.state.checkbox.checked } });
-    console.log(this.state.checkbox)
-  }
+  handleCheckboxClick= () => this.setState (({ isCheckboxChecked }) => ( { isCheckboxChecked: !isCheckboxChecked }));
 
   render() {
 
-    // let checkmarkClass = this.state.checkbox.hovered ? "checkmark hovered" : "checkmark";
-    let checkmarkClass = this.state.checkbox.checked ? "checkmark checked" : "checkmark";
-    
-    const {show} = this.state.modal;
+    const checkBoxClass = classNames('checkmark',{
+      'checkmark--hovered': this.state.isCheckboxHovered ,
+      'checkmark--checked': this.state.isCheckboxChecked
+    });
+
+    const {isModalShown} = this.state;
    
     return (
       <React.Fragment>
@@ -70,24 +64,30 @@ class RegistrationForm extends Component {
                        action={this.showModal}/>
            </form>
            <div className="privacy-policy-wrapper">
-               <label className="container"  
-                      // onMouseEnter={this.handleCheckbox} 
-                      // onMouseLeave={this.handleCheckbox} 
-                      onClick={this.handleCheckbox2} >
-                 <FormInput type="checkbox" /> 
-                 <span   className={checkmarkClass}></span>
+               <label className="privacy-policy-wrapper__container"  
+                      onMouseEnter={this.handleCheckboxHover} 
+                      onMouseLeave={this.handleCheckboxHover} 
+                      onClick={this.handleCheckboxClick}>
+                <span className={checkBoxClass}
+                      tabIndex="0" 
+                      role="checkbox" 
+                      aria-checked="true">
+                </span>
                </label>
-               <span className="caption">I agree to the terms and conditions</span>
+               <span className="privacy-policy-wrapper__caption">I agree to the terms and conditions</span>
            </div>
            <Link to="/authorization" className="form-link"> i already have an account </Link>
          </div>
-         <Modal show={show} handleClose={this.hideModal}>
-          <div className="greeting">
-              <span className="greeting__title">Great!</span>
-              <span className="greeting__text">You've been successfully registered!</span>
-          </div>
-          <div className="img-wrapper"></div>
-          <Link to="/" className="route_link"><Button action={this.hideModal} caption="start"/></Link>
+         <Modal show={isModalShown} 
+                handleClose={this.hideModal}>
+              <div className="greeting">
+                  <span className="greeting__title">Great!</span>
+                  <span className="greeting__text">You've been successfully registered!</span>
+              </div>
+              <div className="img-wrapper"></div>
+              <Link to="/" className="route_link" onClick={this.hideModal}>
+                  <Button caption="start"/>
+              </Link>
         </Modal>
       </React.Fragment>
     );
