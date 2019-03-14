@@ -29,15 +29,17 @@ class RegistrationForm extends Component {
   }
 
   handleCheckbox2 = () => {
-    this.setState ({checkbox : {checked: !this.state.checkbox.checked}});
+    this.setState ({checkbox : {checked: !this.state.checkbox.checked } });
+    console.log(this.state.checkbox)
   }
- 
+
   render() {
 
-    let checkmarkClass = this.state.checkbox.hovered ? "checkmark hovered" : "checkmark";
-    let currentClass2 = this.state.checkbox.hovered ? "checkmark checked" : "checkmark";
-
+    // let checkmarkClass = this.state.checkbox.hovered ? "checkmark hovered" : "checkmark";
+    let checkmarkClass = this.state.checkbox.checked ? "checkmark checked" : "checkmark";
+    
     const {show} = this.state.modal;
+   
     return (
       <React.Fragment>
          <div className="registration-form-wrapper">
@@ -69,11 +71,11 @@ class RegistrationForm extends Component {
            </form>
            <div className="privacy-policy-wrapper">
                <label className="container"  
-                      onMouseEnter={this.handleCheckbox} 
-                      onMouseLeave={this.handleCheckbox} 
+                      // onMouseEnter={this.handleCheckbox} 
+                      // onMouseLeave={this.handleCheckbox} 
                       onClick={this.handleCheckbox2} >
                  <FormInput type="checkbox" /> 
-                 <span className={checkmarkClass}></span>
+                 <span   className={checkmarkClass}></span>
                </label>
                <span className="caption">I agree to the terms and conditions</span>
            </div>

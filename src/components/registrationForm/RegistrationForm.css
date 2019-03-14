@@ -103,13 +103,13 @@
 }
 
 /* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
+.container .checkmark.checked:after {
     transition: opacity .2s linear;
     opacity: 1;
 }
 
 /* Style the checkmark/indicator */
-.container .checkmark:after {
+.container .checkmark.checked:after {
     position: absolute;
     top: calc(50% - 10px/2);
     left: calc(50% - 9px/2);
