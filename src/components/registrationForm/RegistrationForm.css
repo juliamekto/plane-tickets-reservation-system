@@ -59,7 +59,7 @@
     cursor: pointer;
   }
 
-.privacy-policy-wrapper .checkmark {
+.checkmark {
     display: block;
     height: 15px;
     width: 15px;
@@ -69,28 +69,28 @@
     transition: background-color .2s linear;
 }
 
-.privacy-policy-wrapper  .checkmark.checkmark--hovered {
+.checkmark--hovered {
     background-color: #ccc;
 }
 
-.privacy-policy-wrapper  .checkmark.checkmark--checked {
+.checkmark--checked {
     transition: all .2s linear;
     background-color: #f30b0b;
 }
 
-.privacy-policy-wrapper  .checkmark:after {
+.checkmark:after {
     content: "";
     display: block;
     opacity: 0;
     transition: opacity .2s linear;
 }
 
-.privacy-policy-wrapper .checkmark.checkmark--checked:after {
+.checkmark--checked:after {
     transition: opacity .2s linear;
     opacity: 1;
 }
 
-.privacy-policy-wrapper .checkmark.checkmark--checked:after {
+.checkmark--checked:after {
     position: absolute;
     top: calc(50% - 10px/2);
     left: calc(50% - 9px/2);

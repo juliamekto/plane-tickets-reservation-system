@@ -19,11 +19,11 @@ class RegistrationForm extends Component {
       this.setState ({ isModalShown: true});
   }
 
-  hideModal = () => this.setState ({isModalShown : false});
+  hideModal = () => this.setState({isModalShown : false});
 
-  handleCheckboxHover = () => this.setState (({ isCheckboxHovered }) => ( { isCheckboxHovered: !isCheckboxHovered }));
+  handleCheckboxHover = () => this.setState(({ isCheckboxHovered }) => ( { isCheckboxHovered: !isCheckboxHovered }));
 
-  handleCheckboxClick= () => this.setState (({ isCheckboxChecked }) => ( { isCheckboxChecked: !isCheckboxChecked }));
+  handleCheckboxClick= () => this.setState(({ isCheckboxChecked }) => ( { isCheckboxChecked: !isCheckboxChecked }));
 
   render() {
 
