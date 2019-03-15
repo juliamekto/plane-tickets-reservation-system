@@ -32,6 +32,10 @@ h2 {
   margin-bottom: 10px;
 }
 
+.default-input--active {
+  box-shadow: 0 0 20px #3bdaa2;
+}
+
 .button {
   border: none;
   border-radius: 20px;
