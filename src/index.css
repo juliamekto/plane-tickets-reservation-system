@@ -52,3 +52,18 @@ h2 {
 .button:active {
   background-color: #864848;
 }
+
+.form-link{
+  color: #fff;
+  text-decoration: none;
+}
+
+.form-link:hover {
+  color: #f30b0b;
+}
+
+@media screen and (max-width: 425px) {
+  .form-link {
+      font-size: 14px;
+  }
+}

@@ -31,16 +31,7 @@
     margin-top: 40px;
 }
 
-.registration-form-wrapper .form-link{
-    color: #fff;
-    text-decoration: none;
-}
-
-.registration-form-wrapper  .form-link:hover {
-    color: #f30b0b;
-}
-
-.registration-form-wrapper .privacy-policy-wrapper {
+.privacy-policy-wrapper {
     margin: 20px 0; 
     display: flex;
     align-items: center; 
@@ -103,9 +94,6 @@
 
 @media screen and (max-width: 425px) {
     .privacy-policy-wrapper__caption {
-        font-size: 14px;
-    }
-    .registration-form-wrapper .form-link {
         font-size: 14px;
     }
 }

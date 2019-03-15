@@ -24,7 +24,7 @@
     transform: translate(-50%,-50%);
 }
 
-.modal-main .greeting {
+.modal-greeting {
     width: 100%;
     background: linear-gradient(-10deg, #279870 50%, #2ba87c 50%);
     color: #fff;
@@ -34,16 +34,16 @@
     align-items: center;
 }
 
-.modal-main .greeting__title {
+.modal-greeting__title {
     font-size: 26px;
     font-weight: bold;
 }
 
-.modal-main .greeting__text {
+.modal-greeting__text {
     font-size: 20px;
 }
 
-.modal-main .route_link {
+.modal_route-link {
     width: 100%;
 }
 
@@ -62,7 +62,7 @@
     background-color: #1b654b;
 }
 
-.modal-main .img-wrapper {
+.modal__img-wrapper {
     width: 100px;
     height: 100px;
     background: url(../../assets/img/checked.svg) center center no-repeat;
@@ -75,10 +75,11 @@
 }
 
 @media screen and (max-width: 425px) {
-    .modal-main .greeting__text {
+    .modal-greeting__text {
         font-size: 16px;
     }
-    .modal-main .greeting {
+
+    .modal-greeting {
         padding: 20px 10px;
     }
 }

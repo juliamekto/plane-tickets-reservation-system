@@ -30,12 +30,3 @@
 .authorization-form  .button{
     margin-top: 40px;
 }
-
-.authorization-form-wrapper .form-link{
-    color: #fff;
-    text-decoration: none;
-}
-
-.authorization-form-wrapper  .form-link:hover {
-    color: #f30b0b;
-}
