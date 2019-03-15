@@ -85,7 +85,7 @@ class RegistrationForm extends Component {
                   <span className="modal-greeting__text">You've been successfully registered!</span>
               </div>
               <div className="modal__img-wrapper"></div>
-              <Link to="/" className="modal_route-link" onClick={this.hideModal}>
+              <Link to="/" className="modal__route-link" onClick={this.hideModal}>
                   <Button caption="start"/>
               </Link>
         </Modal>
