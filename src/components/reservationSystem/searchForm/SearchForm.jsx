@@ -1,25 +1,32 @@
 import React, { Component } from 'react';
 // import { Link } from "react-router-dom";
+import classNames from 'classnames/bind';
 import FormInput from '../../FormInput.jsx';
+import FormSelect from '../../FormSelect.jsx';
 import Button from '../../Button.jsx';
 import './SearchForm.css';
 
 class SearchForm extends Component {
-  state = {
-    isModalShown: false,
-    isCheckboxHovered: false,
-    isCheckboxChecked: false
-  }
+     state = {
+          isOneWayTicketChosen: false
+     }
+
+
+  handleTicketBtn = () => this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen }));
 
   render() {
+     
+     const ticketTypeClass = classNames('search-form__btn',{
+          'search-form__btn--active': this.state.isOneWayTicketChosen 
+     });
 
     return (
       <div className="search-form-wrapper">
         <h2 className="search-form-wrapper__title">Find the flight</h2>
         <form className="search-form">
-            <div className="search-form__header">
-                <button className="search-form__btn" type="button">one way</button>
-                <button className="search-form__btn" type="button">round ticket</button>
+            <div className="search-form__header" onClick={this.handleTicketBtn}>
+                <button className={ticketTypeClass} type="button">one way</button>
+                <button className={ticketTypeClass} type="button">round ticket</button>
             </div>
             <div className="search-form__content">
                 <div className="search-form__input search-form__input_departure-city">
@@ -40,7 +47,7 @@ class SearchForm extends Component {
                 </div>
                 <div className="search-form__input search-form__input_class-type">
                      <label className="search-form__label">Class</label>
-                     <FormInput name="classType"  placeholder="economy"/>
+                     <FormSelect name="classType"/>
                 </div>
                 <div className="search-form__input search-form__input_adult search-form__input_pass-type">
                      <label className="search-form__label">Adult(12+)</label>
@@ -50,7 +57,7 @@ class SearchForm extends Component {
                      <label className="search-form__label">Child(2-11 yrs)</label>
                      <FormInput name="childrenNum"  placeholder="0"/>
                 </div>
-                <Button className="search-form__send-btn" caption='show flights'/>
+                <Button className="search-form__send-btn button" caption='show flights'/>
             </div>
         </form>
       </div> 

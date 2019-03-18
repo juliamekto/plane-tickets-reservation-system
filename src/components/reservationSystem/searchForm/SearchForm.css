@@ -1,10 +1,10 @@
 .search-form-wrapper {
-    padding: 50px;
+    padding: 20px;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
+    justify-content: center;
 }
 
 .search-form-wrapper__title {
@@ -47,6 +47,10 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: all .2s linear;
+}
+
+.search-form__btn--active {
+    color: rgba(243,11,11,1)
 }
 
 .search-form__btn:hover {
@@ -116,4 +120,144 @@
     color: #fff;
     font-size: 16px;
     margin: 0 0 10px 10px;
+}
+
+.search-form__send-btn.button {
+    width: 100%;
+    grid-column: 2;
+    grid-row: 3;
+    align-self: flex-end;
+}
+
+@media screen and (max-width: 992px) {
+    .search-form {
+        padding: 0 15px 15px;
+    }
+
+    .search-form__content {
+        grid-template-columns: repeat(3,1fr);
+        padding: 15px 0 0;
+        grid-gap: 10px;
+    }
+
+    .search-form__input_departure-city {
+        grid-column: 1/-1;
+        grid-row: 1;
+    }
+
+    .search-form__input_destination-city {
+        grid-column: 1/-1;
+        grid-row: 2;
+    }
+
+    .search-form__input_departure-date {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .search-form__input_destination-date {
+        grid-column: 2;
+        grid-row: 3;
+    }
+
+    .search-form__input_adult {
+        grid-column: 1;
+        grid-row: 4;
+    }
+
+    .search-form__input_child {
+        grid-column: 2;
+        grid-row: 4;
+    }
+
+    .search-form__input_class-type {
+        grid-column: 3;
+        grid-row: 3;
+    }
+
+    .search-form__send-btn.button {
+        grid-column: 3;
+        grid-row: 4;
+    }
+
+    .search-form-wrapper__title {
+        font-size: 46px;
+    }
+
+    .search-form__btn {
+        font-size: 22px;
+    }
+
+    .search-form__header {
+        padding: 15px 0;
+    }
+}
+
+@media screen and (max-width: 660px) {
+    .search-form__content {
+        grid-template-columns: minmax(90px, auto) minmax(90px, auto);
+    }
+
+    .search-form__input_class-type {
+        grid-column: 1;
+        grid-row: 5;
+    }
+
+    .search-form__send-btn.button {
+        grid-column: 2;
+        grid-row: 5;
+    }
+
+    .search-form-wrapper__title {
+        font-size: 40px;
+    }
+
+    .search-form__label {
+        font-size: calc( (100vw - 425px)/(660 - 425) * (16 - 14) + 14px);
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .search-form__content {
+        grid-template-columns: 1fr;
+    }
+
+    .search-form__input_departure-date {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .search-form__input_destination-date {
+        grid-column: 1;
+        grid-row: 4;
+    }
+
+    .search-form__input_adult {
+        grid-column: 1;
+        grid-row: 5;
+    }
+
+    .search-form__input_child {
+        grid-column: 1;
+        grid-row: 6;
+    }
+
+    .search-form__input_class-type {
+        grid-column: 1;
+        grid-row: 7;
+    }
+
+    .search-form__send-btn.button {
+        margin-top: 10px;
+        grid-column: 1;
+        grid-row: 8;
+    }
+
+    .search-form__header {
+        flex-direction: column;
+    }
+
+    .search-form-wrapper__title {
+        font-size: 32px;
+    }
 }

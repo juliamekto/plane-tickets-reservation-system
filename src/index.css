@@ -36,6 +36,13 @@ h2 {
   box-shadow: 0 0 20px #3bdaa2;
 }
 
+.default-select {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 0 10px  rgba(0,0,0,.7);
+}
+
 .button {
   border: none;
   border-radius: 20px;
