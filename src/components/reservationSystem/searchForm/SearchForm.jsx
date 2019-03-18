@@ -7,18 +7,28 @@ import './SearchForm.css';
 
 class SearchForm extends Component {
      state = {
-          isOneWayTicketChosen: false
+          isOneWayTicketChosen: false,
+          isRoundTicketChosen: false
      }
 
 
-  handleTicketBtn = (e) => {
+  handleOneTicketBtn = () => {
        this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen }));
   }
 
+  handleRoundTicketBtn = () => {
+     this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen }));
+}
+
   render() {
-     const ticketTypeClass = classNames('search-form__btn',{
+     const oneWayTicketClass = classNames('search-form__btn',{
           'search-form__btn--active': this.state.isOneWayTicketChosen
      });
+
+     const roundTicketClass = classNames('search-form__btn',{
+          'search-form__btn--active': this.state.isRoundTicketChosen
+     });
+
 
      const oneWayContent = classNames('search-form__content',{
           'search-form__content--one-way': this.state.isOneWayTicketChosen
@@ -28,9 +38,9 @@ class SearchForm extends Component {
       <div className="search-form-wrapper">
         <h2 className="search-form-wrapper__title">Find the flight</h2>
         <form className="search-form">
-            <div className="search-form__header" onClick={this.handleTicketBtn}>
-                <button className={ticketTypeClass} type="button">one way</button>
-                <button className={ticketTypeClass} type="button">round ticket</button>
+            <div className="search-form__header">
+                <button className={oneWayTicketClass} type="button" onClick={this.handleOneTicketBtn}>one way</button>
+                <button className={roundTicketClass} type="button" onClick={this.handleRoundTicketBtn}>round ticket</button>
             </div>
             <div className={oneWayContent}>
                 <div className="search-form__input search-form__input_departure-city">
