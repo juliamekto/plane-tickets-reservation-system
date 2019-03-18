@@ -14,10 +14,12 @@ class SearchForm extends Component {
 
   handleOneTicketBtn = () => {
        this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen }));
+       this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: false }));
   }
 
   handleRoundTicketBtn = () => {
      this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen }));
+     this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: false }));
 }
 
   render() {
