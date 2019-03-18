@@ -129,6 +129,14 @@
     align-self: flex-end;
 }
 
+.search-form__content--one-way .search-form__input_destination-date{
+    display: none;
+}
+
+.search-form__content--one-way .search-form__input_departure-date {
+    grid-column: 1/3;
+    grid-row: 2;
+}
 @media screen and (max-width: 992px) {
     .search-form {
         padding: 0 15px 15px;
@@ -190,6 +198,11 @@
 
     .search-form__header {
         padding: 15px 0;
+    }
+
+    .search-form__content--one-way .search-form__input_departure-date {
+        grid-column: 1/3;
+        grid-row: 3;
     }
 }
 

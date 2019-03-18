@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { Link } from "react-router-dom";
 import classNames from 'classnames/bind';
 import FormInput from '../../FormInput.jsx';
 import FormSelect from '../../FormSelect.jsx';
@@ -12,12 +11,17 @@ class SearchForm extends Component {
      }
 
 
-  handleTicketBtn = () => this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen }));
+  handleTicketBtn = (e) => {
+       this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen }));
+  }
 
   render() {
-     
      const ticketTypeClass = classNames('search-form__btn',{
-          'search-form__btn--active': this.state.isOneWayTicketChosen 
+          'search-form__btn--active': this.state.isOneWayTicketChosen
+     });
+
+     const oneWayContent = classNames('search-form__content',{
+          'search-form__content--one-way': this.state.isOneWayTicketChosen
      });
 
     return (
@@ -28,7 +32,7 @@ class SearchForm extends Component {
                 <button className={ticketTypeClass} type="button">one way</button>
                 <button className={ticketTypeClass} type="button">round ticket</button>
             </div>
-            <div className="search-form__content">
+            <div className={oneWayContent}>
                 <div className="search-form__input search-form__input_departure-city">
                      <label className="search-form__label">From</label>
                      <FormInput name="depatureCity" placeholder="city or airport"/>
@@ -41,7 +45,7 @@ class SearchForm extends Component {
                      <label className="search-form__label">Depart</label>
                      <FormInput name="depatureDate"  placeholder="mm/dd/yyyy"/>
                 </div>
-                <div className="search-form__input search-form__input_destination-date">
+               <div className="search-form__input search-form__input_destination-date">
                      <label className="search-form__label">Return</label>
                      <FormInput name="destinationDate"  placeholder="mm/dd/yyyy"/>
                 </div>
