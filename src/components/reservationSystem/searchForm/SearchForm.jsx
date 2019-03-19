@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import classNames from 'classnames/bind';
 import FormInput from '../../FormInput.jsx';
 import FormSelect from '../../FormSelect.jsx';
@@ -73,7 +74,9 @@ class SearchForm extends Component {
                      <label className="search-form__label">Child(2-11 yrs)</label>
                      <FormInput name="childrenNum"  placeholder="0"/>
                 </div>
-                <Button className="search-form__send-btn button" caption='show flights'/>
+                <Link to="/flight-booking" className="search-form__route-link">
+                    <Button className="search-form__send-btn button" caption='show flights'/>
+              </Link>
             </div>
         </form>
       </div> 
