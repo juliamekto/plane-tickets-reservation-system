@@ -58,6 +58,7 @@ h2 {
 .button--search-form-send  {
   width: 100%;
 }
+
 .button:hover {
   transition: all .2s linear;
   background-color: #b50202;
