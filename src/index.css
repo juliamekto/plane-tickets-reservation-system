@@ -55,6 +55,9 @@ h2 {
   transition: all .2s linear;
 }
 
+.button--search-form-send  {
+  width: 100%;
+}
 .button:hover {
   transition: all .2s linear;
   background-color: #b50202;

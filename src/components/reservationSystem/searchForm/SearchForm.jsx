@@ -65,7 +65,7 @@ class SearchForm extends Component {
                      <label className="search-form__label">Child(2-11 yrs)</label>
                      <FormInput name="childrenNum"  placeholder="0"/>
                 </div>
-                <Button className="search-form__send-btn button" caption='show flights'/>
+                <Button className="search-form__send-btn button button--search-form-send" caption='show flights'/>
             </div>
         </form>
       </div> 
