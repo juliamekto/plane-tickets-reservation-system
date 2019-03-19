@@ -11,17 +11,10 @@ class SearchForm extends Component {
           isRoundTicketChosen: false
      }
 
+  handleOneTicketBtn = () => this.setState(({ isOneWayTicketChosen, isRoundTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen, isRoundTicketChosen: false }));
 
-  handleOneTicketBtn = () => {
-       this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen }));
-       this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: false }));
-  }
-
-  handleRoundTicketBtn = () => {
-     this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen }));
-     this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: false }));
-}
-
+  handleRoundTicketBtn = () => this.setState(({ isRoundTicketChosen, isOneWayTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen, isOneWayTicketChosen: false }));
+  
   render() {
      const oneWayTicketClass = classNames('search-form__btn',{
           'search-form__btn--active': this.state.isOneWayTicketChosen
@@ -30,7 +23,6 @@ class SearchForm extends Component {
      const roundTicketClass = classNames('search-form__btn',{
           'search-form__btn--active': this.state.isRoundTicketChosen
      });
-
 
      const oneWayContent = classNames('search-form__content',{
           'search-form__content--one-way': this.state.isOneWayTicketChosen
@@ -45,31 +37,31 @@ class SearchForm extends Component {
                 <button className={roundTicketClass} type="button" onClick={this.handleRoundTicketBtn}>round ticket</button>
             </div>
             <div className={oneWayContent}>
-                <div className="search-form__input search-form__input_departure-city">
+                <div className="search-form__input search-form__input--departure-city">
                      <label className="search-form__label">From</label>
                      <FormInput name="depatureCity" placeholder="city or airport"/>
                 </div>
-                <div className="search-form__input search-form__input_destination-city">
+                <div className="search-form__input search-form__input--destination-city">
                      <label className="search-form__label">To</label>
                      <FormInput name="destinationCity"  placeholder="city or airport"/>
                 </div>
-                <div className="search-form__input search-form__input_departure-date">
+                <div className="search-form__input search-form__input--departure-date">
                      <label className="search-form__label">Depart</label>
                      <FormInput name="depatureDate"  placeholder="mm/dd/yyyy"/>
                 </div>
-               <div className="search-form__input search-form__input_destination-date">
+               <div className="search-form__input search-form__input--destination-date">
                      <label className="search-form__label">Return</label>
                      <FormInput name="destinationDate"  placeholder="mm/dd/yyyy"/>
                 </div>
-                <div className="search-form__input search-form__input_class-type">
+                <div className="search-form__input search-form__input--class-type">
                      <label className="search-form__label">Class</label>
                      <FormSelect name="classType"/>
                 </div>
-                <div className="search-form__input search-form__input_adult search-form__input_pass-type">
+                <div className="search-form__input search-form__input--adult">
                      <label className="search-form__label">Adult(12+)</label>
                      <FormInput name="adultNum"  placeholder="0"/>
                 </div>
-                <div className="search-form__input search-form__input_child search-form__input_pass-type">
+                <div className="search-form__input search-form__input--child">
                      <label className="search-form__label">Child(2-11 yrs)</label>
                      <FormInput name="childrenNum"  placeholder="0"/>
                 </div>
