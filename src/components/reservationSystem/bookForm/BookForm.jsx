@@ -7,7 +7,7 @@ import Button from '../../Button.jsx';
 
 class SearchForm extends Component {
      state = {
-        isModalShown: false,
+        isModalShown: true,
      }
    
     showModal = (e) => {
@@ -57,7 +57,8 @@ class SearchForm extends Component {
             </div>
         </div>
         <Modal show={isModalShown} 
-                handleClose={this.hideModal}>
+                handleClose={this.hideModal}
+                modalMainClass="modal-main--booking">
               <div className="modal-booking">
                    <span className="modal-booking__destination">Minsk - London</span>
                    <span className="modal-booking__info">
@@ -71,9 +72,23 @@ class SearchForm extends Component {
                         <div className="seats-scheme__wrapper">
                         </div>
                    </div>
+                   <div className="modal-booking__luggage">
+                        <div className="luggage-availability">
+                            <span className="luggage-availability__question">Do you have luggage?</span>
+                            <div className="luggage-availability__answer">
+                                <label className="">Yes</label>
+                                <FormInput type="checkbox"/>
+                            </div>
+                            <span className="luggage-availability__question">How many pieces of luggage do you have?</span>
+                            <div className="luggage-availability__answer">
+                                <label className="">piece</label>
+                                <FormInput/>
+                            </div>
+                        </div>
+                   </div>
               </div>
               <Link to="/flight-search" className="modal__route-link" onClick={this.hideModal}>
-                  <Button caption="start"/>
+                    <Button caption="calculate" />
               </Link>
         </Modal>
       </div> 

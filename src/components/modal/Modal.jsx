@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import './Modal.css';
 
-const Modal = ({ handleClose, show, children }) => {
+const Modal = ({ handleClose, show, children, modalMainClass }) => {
 
 const showHideClassName = classNames('modal',{
   'modal--show': show 
@@ -10,7 +10,7 @@ const showHideClassName = classNames('modal',{
 
     return (
       <div className={showHideClassName}>
-        <section className="modal-main">
+        <section className={modalMainClass}>
           {children}
         </section>
       </div>

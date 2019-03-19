@@ -129,6 +129,12 @@
     align-self: flex-end;
 }
 
+.search-form__send-btn {
+    width: 50px;
+}
+.button--search-form-send {
+    width: 100%;
+}
 .search-form__content--one-way .search-form__input_destination-date{
     display: none;
 }

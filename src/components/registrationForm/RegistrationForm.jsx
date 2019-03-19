@@ -79,7 +79,8 @@ class RegistrationForm extends Component {
            <Link to="/authorization" className="form-link"> i already have an account </Link>
          </div>
          <Modal show={isModalShown} 
-                handleClose={this.hideModal}>
+                handleClose={this.hideModal}
+                modalMainClass="modal-main--greeting">
               <div className="modal-greeting">
                   <span className="modal-greeting__title">Great!</span>
                   <span className="modal-greeting__text">You've been successfully registered!</span>
