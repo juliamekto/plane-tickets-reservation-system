@@ -1,0 +1,87 @@
+.user-account-wrapper   {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.user-account__header {
+    width: 100%;
+    background-color: #f30b0b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.user-account__title {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.user-account-header-btn--btn1 {
+    margin-right: 20px;
+}
+
+.user-account__orders {
+    width: 100%;
+    background-color: rgba(0,0,0,.3);
+    color: #fff;
+    font-size: 20px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.orders__title {
+    background-color: rgba(0,0,0,.3);
+    padding: 15px;
+    font-size: 20px;
+    font-weight: lighter;
+}
+
+.orders__filters {
+    display: flex;
+    padding: 15px;
+    justify-content: center;
+}
+
+.orders__filters--past {
+    margin-right: 10px;
+}
+
+.orders__order-list {
+    background-color: rgba(0,0,0,.3);
+    margin: 30px 0 0 0;
+    padding: 20px 0;
+}
+
+.order-list__item--route,
+.order-list__item--date {
+    margin-right: 10px;
+}
+
+.order-list__item:nth-of-type(even) {
+    background-color: rgba(255,255,255,.3);
+}
+
+.order-list__item:hover {
+    color: #f30b0b;
+    transition: color .2s linear;
+    cursor: default;
+}
+
+.order-list__item {
+    list-style: none;
+    padding-left: 10px;
+}
+@media screen and (max-width: 425px) {
+    .user-account__title {
+        font-size: 17px;
+    }
+    
+    .user-account-header-btn--btn1 {
+        margin-right: 10px;
+    }
+}

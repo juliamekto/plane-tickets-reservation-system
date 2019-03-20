@@ -86,7 +86,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: hidden;
     height: auto;
     top: 50%;
     left:50%;
@@ -110,6 +109,7 @@
     max-width: 600px;
     margin: 20px 0;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     border-bottom: 1px solid #f30b0b;
 }
@@ -127,6 +127,108 @@
     font-weight: bold;
     border-bottom: 1px solid #f30b0b;
 }
+
+.modal-booking__luggage {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+.luggage-availability {
+    display: flex;
+    align-items: baseline;
+}
+
+.luggage-availability__question {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.luggage-availability__answer {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: baseline;
+}
+
+.luggage-availability__answer-text {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.luggage-availability__answer-input {
+    margin: 0;
+    width: 50px;
+    padding: 5px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,.7);
+}
+
+.modal__route-link--booking {
+    width: auto;
+}
+
+.modal__close-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 0;
+    border: 2px solid #f30b0b;
+    background-color: #fff;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: .2s  background-color linear;
+}
+
+.close-btn__icon-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.modal__close-btn::before {
+    content: '';
+    display: block;
+	width: 20px;
+	height: 2px;
+    background-color: #f30b0b;
+    position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    transition: .2s  background-color linear;
+}
+
+.modal__close-btn::after {
+    content: '';
+    display: block;
+	width: 20px;
+	height: 2px;
+    background-color: #f30b0b;
+    position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: .2s  background-color linear;
+}
+
+.modal__close-btn--hovered {
+    background-color: #f30b0b;
+    transition: .2s  background-color linear;
+}
+
+.modal__close-btn--hovered:after,
+.modal__close-btn--hovered:before {
+    background-color: #fff;
+    transition: .2s  background-color linear;
+}
 @media screen and (max-width: 425px) {
 /*REGISTRATION FORM STYLES*/
     .modal-greeting__text {
@@ -135,5 +237,18 @@
 
     .modal-greeting {
         padding: 20px 10px;
+    }
+
+/* BOOK FORM STYLES */
+    .luggage-availability {
+        flex-direction: column;
+    }
+
+    .luggage-availability__answer {
+        margin-top: 10px;
+    }
+    
+    .modal-booking__info {
+        justify-content: space-around;
     }
 }

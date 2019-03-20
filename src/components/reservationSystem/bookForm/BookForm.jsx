@@ -7,7 +7,10 @@ import Button from '../../Button.jsx';
 
 class SearchForm extends Component {
      state = {
-        isModalShown: true,
+        isModalShown: false,
+        isModalBtnHovered: false,
+        isCheckboxHovered: false,
+        isCheckboxChecked: false
      }
    
     showModal = (e) => {
@@ -17,8 +20,23 @@ class SearchForm extends Component {
     
     hideModal = () => this.setState({isModalShown : false});
 
+    handleCheckboxHover = () => this.setState(({ isCheckboxHovered }) => ( { isCheckboxHovered: !isCheckboxHovered }));
+
+    handleCheckboxClick= () => this.setState(({ isCheckboxChecked }) => ( { isCheckboxChecked: !isCheckboxChecked }));
+
+    handleModalBtnHover = () => this.setState(({ isModalBtnHovered }) => ( { isModalBtnHovered: !isModalBtnHovered }));
+
   render() {
     const {isModalShown} = this.state;
+
+    const checkBoxClass = classNames('checkmark checkmark--modal',{
+        'checkmark--hovered': this.state.isCheckboxHovered ,
+        'checkmark--checked': this.state.isCheckboxChecked
+    }); 
+
+    const modalCloseBtnClass = classNames('modal__close-btn',{
+        'modal__close-btn--hovered': this.state.isModalBtnHovered
+    }); 
 
     return (
       <div className="book-form-wrapper">
@@ -75,21 +93,36 @@ class SearchForm extends Component {
                    <div className="modal-booking__luggage">
                         <div className="luggage-availability">
                             <span className="luggage-availability__question">Do you have luggage?</span>
-                            <div className="luggage-availability__answer">
-                                <label className="">Yes</label>
-                                <FormInput type="checkbox"/>
+                            <div className="luggage-availability__answer"
+                                onMouseEnter={this.handleCheckboxHover} 
+                                onMouseLeave={this.handleCheckboxHover} 
+                                onClick={this.handleCheckboxClick}>
+                                <label className="luggage-availability__answer-text">Yes</label>
+                                <span className={checkBoxClass}
+                                      tabIndex="0" 
+                                      role="checkbox" 
+                                      aria-checked="true">
+                                 </span>
                             </div>
+                        </div>
+                        <div className="luggage-availability">
                             <span className="luggage-availability__question">How many pieces of luggage do you have?</span>
                             <div className="luggage-availability__answer">
-                                <label className="">piece</label>
-                                <FormInput/>
+                                <label className="luggage-availability__answer-text">piece</label>
+                                <FormInput customClassName="luggage-availability__answer-input"/>
                             </div>
                         </div>
                    </div>
               </div>
-              <Link to="/flight-search" className="modal__route-link" onClick={this.hideModal}>
+              <Link to="/success" className="modal__route-link--booking">
                     <Button caption="calculate" />
               </Link>
+              <button className={modalCloseBtnClass} 
+                      onClick={this.hideModal}
+                      onMouseEnter={this.handleModalBtnHover} 
+                      onMouseLeave={this.handleModalBtnHover} >
+                <div className="close-btn__icon-wrapper"></div>
+              </button>
         </Modal>
       </div> 
     );

@@ -50,6 +50,7 @@
 
 .flights__airline-name {
     border: 1px solid #fff;
+    font-weight: lighter;
     padding: 5px;
     text-align: center;
     grid-column: 1;

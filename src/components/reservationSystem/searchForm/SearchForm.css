@@ -71,37 +71,37 @@
     grid-gap: 10px 20px;
 }
 
-.search-form__input_departure-city {
+.search-form__input--departure-city {
     grid-column: 1/3;
     grid-row: 1;
 }
 
-.search-form__input_destination-city {
+.search-form__input--destination-city {
     grid-column: 3/5;
     grid-row: 1;
 }
 
-.search-form__input_departure-date {
+.search-form__input--departure-date {
     grid-column: 1;
     grid-row: 2;
 }
 
-.search-form__input_destination-date {
+.search-form__input--destination-date {
     grid-column: 2;
     grid-row: 2;
 }
 
-.search-form__input_adult {
+.search-form__input--adult {
     grid-column: 3;
     grid-row: 2;
 }
 
-.search-form__input_child {
+.search-form__input--child {
     grid-column: 4;
     grid-row: 2;
 }
 
-.search-form__input_class-type {
+.search-form__input--class-type {
     grid-column: 1;
     grid-row: 3;
 }
@@ -122,24 +122,17 @@
     margin: 0 0 10px 10px;
 }
 
-.search-form__send-btn.button {
-    width: 100%;
+.search-form__send-btn {
     grid-column: 2;
     grid-row: 3;
     align-self: flex-end;
 }
 
-.search-form__send-btn {
-    width: 50px;
-}
-.button--search-form-send {
-    width: 100%;
-}
-.search-form__content--one-way .search-form__input_destination-date{
+.search-form__content--one-way .search-form__input--destination-date{
     display: none;
 }
 
-.search-form__content--one-way .search-form__input_departure-date {
+.search-form__content--one-way .search-form__input--departure-date {
     grid-column: 1/3;
     grid-row: 2;
 }
@@ -158,42 +151,42 @@
         grid-gap: 10px;
     }
 
-    .search-form__input_departure-city {
+    .search-form__input--departure-city {
         grid-column: 1/-1;
         grid-row: 1;
     }
 
-    .search-form__input_destination-city {
+    .search-form__input--destination-city {
         grid-column: 1/-1;
         grid-row: 2;
     }
 
-    .search-form__input_departure-date {
+    .search-form__input--departure-date {
         grid-column: 1;
         grid-row: 3;
     }
 
-    .search-form__input_destination-date {
+    .search-form__input--destination-date {
         grid-column: 2;
         grid-row: 3;
     }
 
-    .search-form__input_adult {
+    .search-form__input--adult {
         grid-column: 1;
         grid-row: 4;
     }
 
-    .search-form__input_child {
+    .search-form__input--child {
         grid-column: 2;
         grid-row: 4;
     }
 
-    .search-form__input_class-type {
+    .search-form__input--class-type {
         grid-column: 3;
         grid-row: 3;
     }
 
-    .search-form__send-btn.button {
+    .search-form__send-btn {
         grid-column: 3;
         grid-row: 4;
     }
@@ -210,7 +203,7 @@
         padding: 15px 0;
     }
 
-    .search-form__content--one-way .search-form__input_departure-date {
+    .search-form__content--one-way .search-form__input--departure-date {
         grid-column: 1/3;
         grid-row: 3;
     }
@@ -221,12 +214,12 @@
         grid-template-columns: minmax(90px, auto) minmax(90px, auto);
     }
 
-    .search-form__input_class-type {
+    .search-form__input--class-type {
         grid-column: 1;
         grid-row: 5;
     }
 
-    .search-form__send-btn.button {
+    .search-form__send-btn {
         grid-column: 2;
         grid-row: 5;
     }
@@ -245,32 +238,32 @@
         grid-template-columns: 1fr;
     }
 
-    .search-form__input_departure-date {
+    .search-form__input--departure-date {
         grid-column: 1;
         grid-row: 3;
     }
 
-    .search-form__input_destination-date {
+    .search-form__input--destination-date {
         grid-column: 1;
         grid-row: 4;
     }
 
-    .search-form__input_adult {
+    .search-form__input--adult {
         grid-column: 1;
         grid-row: 5;
     }
 
-    .search-form__input_child {
+    .search-form__input--child {
         grid-column: 1;
         grid-row: 6;
     }
 
-    .search-form__input_class-type {
+    .search-form__input--class-type {
         grid-column: 1;
         grid-row: 7;
     }
 
-    .search-form__send-btn.button {
+    .search-form__send-btn{
         margin-top: 10px;
         grid-column: 1;
         grid-row: 8;
