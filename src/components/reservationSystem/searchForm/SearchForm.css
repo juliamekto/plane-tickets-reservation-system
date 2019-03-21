@@ -243,6 +243,11 @@
         grid-row: 3;
     }
 
+    .search-form__content--one-way .search-form__input--departure-date {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
     .search-form__input--destination-date {
         grid-column: 1;
         grid-row: 4;
@@ -253,9 +258,19 @@
         grid-row: 5;
     }
 
+    .search-form__content--one-way  .search-form__input--adult {
+        grid-column: 1;
+        grid-row: 4;
+    }
+
     .search-form__input--child {
         grid-column: 1;
         grid-row: 6;
+    }
+
+    .search-form__content--one-way  .search-form__input--child {
+        grid-column: 1;
+        grid-row: 5;
     }
 
     .search-form__input--class-type {
@@ -263,10 +278,25 @@
         grid-row: 7;
     }
 
-    .search-form__send-btn{
+    .search-form__content--one-way .search-form__input--class-type {
+        grid-column: 1;
+        grid-row: 6;
+    }
+
+    .search-form__send-btn {
         margin-top: 10px;
         grid-column: 1;
         grid-row: 8;
+    }
+
+    .search-form__content--one-way  .search-form__send-btn {
+        grid-column: 1;
+        grid-row: 7;
+    }
+
+    .search-form__content--one-way  .search-form__send-btn {
+        grid-column: 1;
+        grid-row: 7;
     }
 
     .search-form__header {

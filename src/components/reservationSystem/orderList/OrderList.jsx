@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { Link } from "react-router-dom";
 import Button from '../../Button.jsx';
 import './OrderList.css';
 
-class OrderList extends Component {
-    render() {
+const OrderList = () => {
         return (
             <React.Fragment className="user-account-wrapper">
                 <header className="user-account__header">
@@ -58,8 +57,6 @@ class OrderList extends Component {
                 </div>
             </React.Fragment>
         )
-    }
-  
 }
 
 export default OrderList;
