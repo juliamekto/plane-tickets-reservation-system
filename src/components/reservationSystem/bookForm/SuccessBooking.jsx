@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import Button from '../../Button.jsx';
 import './SuccessBooking.css';
 
-class SuccessBooking extends Component {
-    render() {
+const SuccessBooking = () => {
         return (
             <div className="success-wrapper">
             <div className="success-wrapper_form">
@@ -18,8 +17,6 @@ class SuccessBooking extends Component {
             </div> 
             </div>
         )
-    }
-  
 }
 
 export default SuccessBooking;
