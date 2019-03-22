@@ -4,10 +4,12 @@ import classNames from 'classnames/bind';
 import FormInput from '../../FormInput.jsx';
 import Modal from '../../modal/Modal.jsx';
 import Button from '../../Button.jsx';
+import Seat from '../bookForm/Seat.jsx';
+import seatData from '../bookForm/SeatsData';
 
 class SearchForm extends Component {
      state = {
-        isModalShown: false,
+        isModalShown: true,
         isModalBtnHovered: false,
         isCheckboxHovered: false,
         isCheckboxChecked: false
@@ -37,6 +39,20 @@ class SearchForm extends Component {
     const modalCloseBtnClass = classNames('modal__close-btn',{
         'modal__close-btn--hovered': this.state.isModalBtnHovered
     }); 
+
+    const seatDataItemRowA = []; 
+    const seatDataItemRowB = []; 
+    
+    seatData.forEach(function(el) {
+       if (el.row === "A") {
+        seatDataItemRowA.push(el)
+       } else {
+        seatDataItemRowB.push(el)
+       }
+    });
+
+    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id}/>)
+    const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id}/>)
 
     return (
       <div className="book-form">
@@ -88,6 +104,8 @@ class SearchForm extends Component {
                    <div className="modal-booking__seats-scheme">
                         <span className="seats-scheme__title">Choose a seat</span>
                         <div className="seats-scheme__wrapper">
+                            {seatsRowA}
+                            {seatsRowB}      
                         </div>
                    </div>
                    <div className="modal-booking__luggage">
