@@ -39,8 +39,8 @@ class SearchForm extends Component {
     }); 
 
     return (
-      <div className="book-form-wrapper">
-        <h2 className="book-form-wrapper__title">Book the flight</h2>
+      <div className="book-form">
+        <h2 className="book-form__title">Book the flight</h2>
         <div className="book-form__flights">
             <span className="flights__title">recommended flights</span>
             <div className="flights__info">
@@ -49,7 +49,7 @@ class SearchForm extends Component {
                     <span className="flights__depart-time">6:40 AM </span> -
                     <span className="flights__return-time"> 9:40 AM</span>
                 </div>
-                <Button className="flights__btn button"
+                <Button className="button--flights__btn button"
                         caption='view'
                         action={this.showModal}/>
             </div>
@@ -59,7 +59,7 @@ class SearchForm extends Component {
                     <span className="flights__depart-time">6:40 AM </span> -
                     <span className="flights__return-time"> 9:40 AM</span>
                 </div>
-                <Button className="flights__btn button"
+                <Button className="button--flights__btn button"
                         caption='view'
                         action={this.showModal}/>
             </div>
@@ -69,7 +69,7 @@ class SearchForm extends Component {
                     <span className="flights__depart-time">6:40 AM </span> -
                     <span className="flights__return-time"> 9:40 AM</span>
                 </div>
-                <Button className="flights__btn button" 
+                <Button className="button--flights__btn button" 
                         caption='view'
                         action={this.showModal}/>
             </div>

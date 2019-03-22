@@ -1,4 +1,4 @@
-.book-form-wrapper {
+.book-form {
     padding: 20px;
     height: 100vh;
     display: flex;
@@ -7,7 +7,7 @@
     justify-content: center;
 }
 
-.book-form-wrapper__title {
+.book-form__title {
     color: #fff;
     font-size: 50px;
 }
@@ -64,7 +64,7 @@
     justify-self: center;
 }
 
-.flights__btn {
+.button--flights__btn {
     grid-column: 3;
     grid-row: 1;
     align-self: center;
@@ -81,9 +81,6 @@
     .flights__info {
         font-size: 16px;
         grid-gap: 0 5px;
-    }
-    .flights__btn.button  {
-        width: 110px;
     }
 }
 
@@ -108,12 +105,8 @@
         grid-row: 2;
     }
 
-    .flights__btn {
+    .button--flights__btn {
         grid-column: 1;
         grid-row: 3;
-    }
-
-    .flights__btn.button  {
-        width: 200px;
     }
 }

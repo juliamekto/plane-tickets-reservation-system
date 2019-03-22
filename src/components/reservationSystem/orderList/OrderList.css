@@ -1,4 +1,4 @@
-.user-account-wrapper   {
+.user-account   {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,7 +20,7 @@
     color: #fff;
 }
 
-.user-account-header-btn--btn1 {
+.user-account-header-btn--search-btn {
     margin-right: 20px;
 }
 
@@ -47,7 +47,7 @@
     justify-content: center;
 }
 
-.orders__filters--past {
+.orders-filters-btn--past {
     margin-right: 10px;
 }
 
@@ -57,8 +57,8 @@
     padding: 20px 0;
 }
 
-.order-list__item--route,
-.order-list__item--date {
+.order-list__item-route,
+.order-list__item-date {
     margin-right: 10px;
 }
 
@@ -81,7 +81,7 @@
         font-size: 17px;
     }
     
-    .user-account-header-btn--btn1 {
+    .user-account-header-btn--search-btn {
         margin-right: 10px;
     }
 }

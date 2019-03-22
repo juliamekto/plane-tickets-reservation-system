@@ -5,16 +5,16 @@ import './SuccessBooking.css';
 
 const SuccessBooking = () => {
         return (
-            <div className="success-wrapper">
-            <div className="success-wrapper_form">
-                <h2 className="success-wrapper__title">Your booking is done</h2>
-                <span className="success-wrapper__text">
-                The price is <span className="success-wrapper__price">230$</span>  
-                </span>
-                <Link to="/user-account" className="modal__route-link--booking">
-                    <Button caption="confirm" />
-                </Link>
-            </div> 
+            <div className="success-page">
+                <div className="success-page__form">
+                    <h2 className="success-page__form-title">Your booking is done</h2>
+                    <span className="success-page_text">
+                         The price is <span className="success-page__price">230$</span>  
+                    </span>
+                    <Link to="/user-account">
+                        <Button caption="confirm" />
+                    </Link>
+                </div> 
             </div>
         )
 }

@@ -14,7 +14,8 @@ const AuthorizationForm = ({name, className}) => {
 
 AuthorizationForm.propTypes  = {
   name: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.string,
+  className: PropTypes.string
 }
 
 AuthorizationForm.defaultProps  = {

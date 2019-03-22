@@ -91,6 +91,12 @@ h2 {
   color: #f30b0b;
 }
 
+@media screen and (max-width: 660px) {
+  .button--flights__btn {
+    width: 110px;
+  }
+}
+
 @media screen and (max-width: 425px) {
   .form-link {
       font-size: 14px;
@@ -102,5 +108,9 @@ h2 {
 
   .button {
     font-size: 12px;
+  }
+
+  .button--flights__btn {
+    width: 200px;
   }
 }

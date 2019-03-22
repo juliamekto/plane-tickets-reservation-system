@@ -1,4 +1,4 @@
-.success-wrapper {
+.success-page {
     padding: 20px;
     height: 100vh;
     display: flex;
@@ -7,7 +7,7 @@
     justify-content: center;
 }
 
-.success-wrapper_form {
+.success-page__form {
     width: 100%;
     max-width: 900px;
     display: flex;
@@ -19,7 +19,7 @@
     padding: 30px;
 }
 
-.success-wrapper__title {
+.success-page__form-title {
     color: #fff;
     text-transform: uppercase;
     text-align: center;
@@ -27,7 +27,7 @@
     margin: 0;
 }  
 
-.success-wrapper__text {
+.success-page_text {
     color:#fff;
     font-size: 24px;
     margin: 30px 0;
@@ -35,13 +35,13 @@
     padding: 5px;
 }
 
-.success-wrapper__price {
+.success-page__price {
     font-size: 30px;
     font-weight: bold;
 }
 
 @media screen and (max-width: 425px) {
-    .success-wrapper_form {
+    .success-page__form {
         padding: 20px;
     }
 }
