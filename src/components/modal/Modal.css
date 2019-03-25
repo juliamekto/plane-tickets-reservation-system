@@ -128,6 +128,19 @@
     border-bottom: 1px solid #f30b0b;
 }
 
+.seats-scheme__wrapper {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+}
+
+.seats-wrapper {
+    display: flex;
+    height: 250px;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
 .modal-booking__luggage {
     display: flex;
     flex-direction: column;

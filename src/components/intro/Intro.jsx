@@ -5,8 +5,8 @@ import './Intro.css';
 
 const Intro = () => {
     return (
-      <section className="intro-wrapper">
-          <h1 className="intro-wrapper__title">Welcome to a plane ticket reservation system</h1>
+      <section className="intro-page">
+          <h1 className="intro-page__title">Welcome to a plane ticket reservation system</h1>
           <Link to="/authorization"> 
                 <Button type='button' 
                         caption="Let's start"

@@ -31,7 +31,7 @@ class SearchForm extends Component {
 
     return (
       <div className="search-form-wrapper">
-        <h2 className="search-form-wrapper__title">Find the flight</h2>
+        <h2 className="search-form__title">Find the flight</h2>
         <form className="search-form">
             <div className="search-form__header">
                 <button className={oneWayTicketClass} type="button" onClick={this.handleOneTicketBtn}>one way</button>

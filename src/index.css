@@ -67,6 +67,10 @@ h2 {
   font-size: 18px;
 }
 
+.button--registration-form-btn{
+  margin-top: 40px;
+}
+
 .button:hover {
   transition: all .2s linear;
   background-color: #b50202;

@@ -27,24 +27,20 @@
     height: 100%;
 }
 
-.registration-form  .button{
-    margin-top: 40px;
-}
-
-.privacy-policy-wrapper {
+.privacy-policy{
     margin: 20px 0; 
     display: flex;
     align-items: center; 
 }
 
-.privacy-policy-wrapper__caption{
+.privacy-policy__caption{
     color: #fff;
     margin-left: 10px;
 }
 
 /* CHECKBOX STYLING*/
 
-.privacy-policy-wrapper__container {
+.privacy-policy__container {
     display: block;
     position: relative;
     cursor: pointer;
@@ -98,7 +94,7 @@
 }
 
 @media screen and (max-width: 425px) {
-    .privacy-policy-wrapper__caption {
+    .privacy-policy__caption {
         font-size: 14px;
     }
 }

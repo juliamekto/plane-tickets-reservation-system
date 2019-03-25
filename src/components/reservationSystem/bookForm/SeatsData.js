@@ -58,6 +58,18 @@ const SeatsData = [
         num: 10,
         row: 'B',
         available: false
+    },
+    {
+        id: 11,
+        num: 11,
+        row: 'B',
+        available: false
+    },
+    {
+        id: 12,
+        num: 12,
+        row: 'B',
+        available: true
     }
 ]
 

@@ -7,7 +7,7 @@
     justify-content: center;
 }
 
-.success-page__form {
+.success__form {
     width: 100%;
     max-width: 900px;
     display: flex;
@@ -19,7 +19,7 @@
     padding: 30px;
 }
 
-.success-page__form-title {
+.success__form-title {
     color: #fff;
     text-transform: uppercase;
     text-align: center;
@@ -27,7 +27,7 @@
     margin: 0;
 }  
 
-.success-page_text {
+.success__text {
     color:#fff;
     font-size: 24px;
     margin: 30px 0;
@@ -35,13 +35,13 @@
     padding: 5px;
 }
 
-.success-page__price {
+.success__price {
     font-size: 30px;
     font-weight: bold;
 }
 
 @media screen and (max-width: 425px) {
-    .success-page__form {
+    .success__form {
         padding: 20px;
     }
 }

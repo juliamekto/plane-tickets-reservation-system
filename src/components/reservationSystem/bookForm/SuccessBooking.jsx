@@ -6,10 +6,10 @@ import './SuccessBooking.css';
 const SuccessBooking = () => {
         return (
             <div className="success-page">
-                <div className="success-page__form">
-                    <h2 className="success-page__form-title">Your booking is done</h2>
-                    <span className="success-page_text">
-                         The price is <span className="success-page__price">230$</span>  
+                <div className="success__form">
+                    <h2 className="success__form-title">Your booking is done</h2>
+                    <span className="success__text">
+                         The price is <span className="success__price">230$</span>  
                     </span>
                     <Link to="/user-account">
                         <Button caption="confirm" />

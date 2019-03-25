@@ -60,11 +60,12 @@ class RegistrationForm extends Component {
                            type="password" 
                            placeholder="repeat password"/> 
                <Button type="submit" 
+                       className="button button--registration-form-btn"
                        caption="sign up"
                        action={this.showModal}/>
            </form>
-           <div className="privacy-policy-wrapper">
-               <label className="privacy-policy-wrapper__container"  
+           <div className="privacy-policy">
+               <label className="privacy-policy__container"  
                       onMouseEnter={this.handleCheckboxHover} 
                       onMouseLeave={this.handleCheckboxHover} 
                       onClick={this.handleCheckboxClick}>
@@ -74,7 +75,7 @@ class RegistrationForm extends Component {
                       aria-checked="true">
                 </span>
                </label>
-               <span className="privacy-policy-wrapper__caption">I agree to the terms and conditions</span>
+               <span className="privacy-policy__caption">I agree to the terms and conditions</span>
            </div>
            <Link to="/authorization" className="form-link"> i already have an account </Link>
          </div>

@@ -6,6 +6,7 @@ import Modal from '../../modal/Modal.jsx';
 import Button from '../../Button.jsx';
 import Seat from '../bookForm/Seat.jsx';
 import seatData from '../bookForm/SeatsData';
+import FlightInfo from '../bookForm/FlightInfo.jsx';
 
 class SearchForm extends Component {
      state = {
@@ -51,7 +52,7 @@ class SearchForm extends Component {
        }
     });
 
-    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id}/>)
+    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id} row={item.row}/>)
     const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id}/>)
 
     return (
@@ -59,36 +60,22 @@ class SearchForm extends Component {
         <h2 className="book-form__title">Book the flight</h2>
         <div className="book-form__flights">
             <span className="flights__title">recommended flights</span>
-            <div className="flights__info">
-                <span className="flights__airline-name">Lufthansa</span>
-                <div className="flights__time">
-                    <span className="flights__depart-time">6:40 AM </span> -
-                    <span className="flights__return-time"> 9:40 AM</span>
-                </div>
-                <Button className="button--flights__btn button"
-                        caption='view'
-                        action={this.showModal}/>
-            </div>
-            <div className="flights__info">
-                <span className="flights__airline-name">Ryanair</span>
-                <div className="flights__time">
-                    <span className="flights__depart-time">6:40 AM </span> -
-                    <span className="flights__return-time"> 9:40 AM</span>
-                </div>
-                <Button className="button--flights__btn button"
-                        caption='view'
-                        action={this.showModal}/>
-            </div>
-            <div className="flights__info">
-                <span className="flights__airline-name">Alitalia</span>
-                <div className="flights__time">
-                    <span className="flights__depart-time">6:40 AM </span> -
-                    <span className="flights__return-time"> 9:40 AM</span>
-                </div>
-                <Button className="button--flights__btn button" 
-                        caption='view'
-                        action={this.showModal}/>
-            </div>
+            <FlightInfo companyName='s7'
+                        departTime='5:50 AM'
+                        returnTime="8:30 AM"
+                        action={this.showModal} />
+            <FlightInfo companyName='Lufthansa'
+                        departTime='5:50 AM'
+                        returnTime="8:30 AM"
+                        action={this.showModal} />
+            <FlightInfo companyName='Ryanair'
+                        departTime='5:50 AM'
+                        returnTime="8:30 AM"
+                        action={this.showModal} />
+            <FlightInfo companyName='Alitalia'
+                        departTime='5:50 AM'
+                        returnTime="8:30 AM"
+                        action={this.showModal} />
         </div>
         <Modal show={isModalShown} 
                 handleClose={this.hideModal}
@@ -101,11 +88,17 @@ class SearchForm extends Component {
                         <span className="info__people-num">1 traveler</span>
                         <span className="info__class-type">Economy</span>
                    </span>
-                   <div className="modal-booking__seats-scheme">
+                   <div className="seats-scheme">
                         <span className="seats-scheme__title">Choose a seat</span>
                         <div className="seats-scheme__wrapper">
-                            {seatsRowA}
-                            {seatsRowB}      
+                            <div className="seats-row">
+                                <span class='row-name'>A</span>
+                                <div className="seats-wrapper">{seatsRowA}</div>
+                            </div>
+                            <div className="seats-row">
+                                <span class='row-name'>B</span>
+                                <div className="seats-wrapper">{seatsRowB}</div>
+                            </div>
                         </div>
                    </div>
                    <div className="modal-booking__luggage">

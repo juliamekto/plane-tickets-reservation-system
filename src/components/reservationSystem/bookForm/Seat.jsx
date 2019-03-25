@@ -19,7 +19,7 @@ class Seat extends Component {
 
         return (
             <div className={seatClass}>
-                <p>{this.state.seatNum + this.state.seatRow}</p>
+                {this.state.seatNum}
             </div>
         )
     }
