@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import classNames from 'classnames/bind';
 import FormInput from '../../FormInput.jsx';
 import FormSelect from '../../FormSelect.jsx';
@@ -30,7 +31,7 @@ class SearchForm extends Component {
 
     return (
       <div className="search-form-wrapper">
-        <h2 className="search-form-wrapper__title">Find the flight</h2>
+        <h2 className="search-form__title">Find the flight</h2>
         <form className="search-form">
             <div className="search-form__header">
                 <button className={oneWayTicketClass} type="button" onClick={this.handleOneTicketBtn}>one way</button>
@@ -65,7 +66,9 @@ class SearchForm extends Component {
                      <label className="search-form__label">Child(2-11 yrs)</label>
                      <FormInput name="childrenNum"  placeholder="0"/>
                 </div>
-                <Button className="search-form__send-btn button button--search-form-send" caption='show flights'/>
+                <Link to="/flight-booking" className="search-form__route-link">
+                    <Button className="search-form__send-btn button button--search-form-send" caption='show flights'/>
+              </Link>
             </div>
         </form>
       </div> 

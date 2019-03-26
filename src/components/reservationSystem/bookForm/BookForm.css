@@ -1,0 +1,110 @@
+.book-form {
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-form__title {
+    color: #fff;
+    font-size: 50px;
+}
+
+.book-form__flights {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0,0,0,.3);
+    box-shadow: 0 0 10px #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.flights__title {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(243,11,11,.7);
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.flight-info {
+    width: 100%;
+    padding: 15px;
+    background-color: rgba(0,0,0,.3);
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: 100px auto 200px;
+    grid-template-rows: auto;
+    grid-gap: 0 20px;
+}
+
+.flight-info__airline {
+    border: 1px solid #fff;
+    font-weight: lighter;
+    padding: 5px;
+    text-align: center;
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.flight-info__time {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+}
+
+.button--flight-info-btn {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+}
+
+@media screen and (max-width: 660px) {
+    .book-form-wrapper__title {
+        font-size: 44px;
+    }
+    .flight-info {
+        grid-template-columns: 100px auto 110px;
+        font-size: 16px;
+        grid-gap: 0 5px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .book-form-wrapper__title {
+        font-size: 38px;
+    }
+    .flight-info {
+        grid-template-columns: 1fr;
+        grid-gap: 10px 0;
+    }
+    
+    .flight-info__airline {
+        max-width: 100px;
+        justify-self: center;
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .flight-info__time {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .button--flight-info-btn {
+        grid-column: 1;
+        grid-row: 3;
+    }
+}

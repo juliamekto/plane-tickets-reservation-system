@@ -27,24 +27,20 @@
     height: 100%;
 }
 
-.registration-form  .button{
-    margin-top: 40px;
-}
-
-.privacy-policy-wrapper {
+.privacy-policy{
     margin: 20px 0; 
     display: flex;
     align-items: center; 
 }
 
-.privacy-policy-wrapper__caption{
+.privacy-policy__caption{
     color: #fff;
     margin-left: 10px;
 }
 
 /* CHECKBOX STYLING*/
 
-.privacy-policy-wrapper__container {
+.privacy-policy__container {
     display: block;
     position: relative;
     cursor: pointer;
@@ -60,6 +56,10 @@
     transition: background-color .2s linear;
 }
 
+.checkmark--modal {
+    box-shadow: 0 0 10px rgba(0,0,0,.7);
+}
+
 .checkmark--hovered {
     background-color: #ccc;
 }
@@ -67,6 +67,7 @@
 .checkmark--checked {
     transition: all .2s linear;
     background-color: #f30b0b;
+    box-shadow: none;
 }
 
 .checkmark:after {
@@ -93,7 +94,7 @@
 }
 
 @media screen and (max-width: 425px) {
-    .privacy-policy-wrapper__caption {
+    .privacy-policy__caption {
         font-size: 14px;
     }
 }

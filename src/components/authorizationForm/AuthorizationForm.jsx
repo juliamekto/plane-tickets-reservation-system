@@ -64,7 +64,7 @@ class AuthorizationForm extends Component {
     const { email, password } = this.state;
    return (
      <div className="authorization-form-wrapper">
-       <h2 className="authorization-form-wrapper__title"> Sign in </h2>
+       <h2 className="authorization-form__title"> Sign in </h2>
        <InlineError  formErrors={this.state.errors}/>
        <form className="authorization-form" onSubmit={this.handleFormSubmit}>
            <FormInput id="email"

@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import './Modal.css';
 
-const Modal = ({ handleClose, show, children }) => {
+const Modal = ({ show, children, modalMainClass }) => {
 
 const showHideClassName = classNames('modal',{
   'modal--show': show 
@@ -10,12 +11,18 @@ const showHideClassName = classNames('modal',{
 
     return (
       <div className={showHideClassName}>
-        <section className="modal-main">
+        <section className={modalMainClass}>
           {children}
         </section>
       </div>
     );
 
   };
+
+  Modal.propTypes  = {
+    show: PropTypes.bool.isRequired,
+    children: PropTypes.array.isRequired,
+    modalMainClass: PropTypes.string
+  }
 
 export default Modal;

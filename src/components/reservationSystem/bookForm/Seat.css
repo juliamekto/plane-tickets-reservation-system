@@ -1,0 +1,10 @@
+.seat {
+    width: 40px;
+    height: 40px;
+    background: gray;
+}
+
+.seat--available {
+    background: yellow;
+}
+

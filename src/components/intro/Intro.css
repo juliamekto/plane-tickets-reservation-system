@@ -1,4 +1,4 @@
-.intro-wrapper {
+.intro-page {
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -9,7 +9,7 @@
     transform: translate(-50%, -50%);
 }
 
-.intro-wrapper .intro-wrapper__title {
+.intro-page__title {
     color: #fff;
     font-size: 50px;
     text-transform: uppercase;
@@ -19,7 +19,7 @@
 }
 
 @media screen and (max-width:1200px) {
-    .intro-wrapper .intro-wrapper__title {
+    .intro-page__title  {
         font-size: calc( (100vw - 320px)/(1200 - 320) * (46 - 24) + 24px);
     }
 }  
