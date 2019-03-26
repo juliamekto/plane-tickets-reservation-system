@@ -32,8 +32,8 @@ h2 {
   margin-bottom: 10px;
 }
 
-.default-input--active {
-  box-shadow: 0 0 20px #3bdaa2;
+.default-input--invalid {
+  box-shadow: 0 0 20px #f30b0b;
 }
 
 .default-select {

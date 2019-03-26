@@ -92,11 +92,11 @@ class SearchForm extends Component {
                         <span className="seats-scheme__title">Choose a seat</span>
                         <div className="seats-scheme__wrapper">
                             <div className="seats-row">
-                                <span class='row-name'>A</span>
+                                <span className='row-name'>A</span>
                                 <div className="seats-wrapper">{seatsRowA}</div>
                             </div>
                             <div className="seats-row">
-                                <span class='row-name'>B</span>
+                                <span className='row-name'>B</span>
                                 <div className="seats-wrapper">{seatsRowB}</div>
                             </div>
                         </div>
