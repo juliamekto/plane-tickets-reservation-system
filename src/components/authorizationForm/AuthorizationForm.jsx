@@ -51,17 +51,9 @@ class AuthorizationForm extends Component {
     }
   }
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
-    let { email, password, errors, isPasswordValid, isEmailValid } = this.state;
+  validateForm = () => {
+    let { email, password, errors, isPasswordValid, isEmailValid, isFormValid } = this.state;
     
-    const userLogData = {
-        email: email,
-        password: password
-    };
-    
-    const userLogDataJson = JSON.stringify(userLogData);
-
     if (isPasswordValid === false && isEmailValid === false) {
       errors = 'email and password fields are invalid';
       this.setState ({ isFormValid: false, errors: errors});
@@ -78,6 +70,23 @@ class AuthorizationForm extends Component {
       errors = '';
       this.setState ({ isFormValid: true, errors: errors});
     }
+
+    return isFormValid;
+  }
+
+  handleFormSubmit = (e) => {
+    e.preventDefault();
+    let { email, password} = this.state;
+    let userLogData;
+    
+    if (this.validateForm() === true) {
+        userLogData = {
+          email: email,
+          password: password
+        };
+    }
+    
+    const userLogDataJson = JSON.stringify(userLogData);
     
     return userLogDataJson;
   }
