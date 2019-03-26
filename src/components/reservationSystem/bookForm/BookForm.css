@@ -35,7 +35,7 @@
     margin-bottom: 30px;
 }
 
-.flights__info {
+.flight-info {
     width: 100%;
     padding: 15px;
     background-color: rgba(0,0,0,.3);
@@ -48,7 +48,7 @@
     grid-gap: 0 20px;
 }
 
-.flights__airline-name {
+.flight-info__airline {
     border: 1px solid #fff;
     font-weight: lighter;
     padding: 5px;
@@ -57,30 +57,26 @@
     grid-row: 1;
 }
 
-.flights__time {
+.flight-info__time {
     grid-column: 2;
     grid-row: 1;
     align-self: center;
     justify-self: center;
 }
 
-.button--flights__btn {
+.button--flight-info-btn {
     grid-column: 3;
     grid-row: 1;
     align-self: center;
     justify-self: center;
 }
 
-
-
 @media screen and (max-width: 660px) {
     .book-form-wrapper__title {
         font-size: 44px;
     }
-    .flights__info {
+    .flight-info {
         grid-template-columns: 100px auto 110px;
-    }
-    .flights__info {
         font-size: 16px;
         grid-gap: 0 5px;
     }
@@ -90,24 +86,24 @@
     .book-form-wrapper__title {
         font-size: 38px;
     }
-    .flights__info {
+    .flight-info {
         grid-template-columns: 1fr;
         grid-gap: 10px 0;
     }
     
-    .flights__airline-name {
+    .flight-info__airline {
         max-width: 100px;
         justify-self: center;
         grid-column: 1;
         grid-row: 1;
     }
 
-    .flights__time {
+    .flight-info__time {
         grid-column: 1;
         grid-row: 2;
     }
 
-    .button--flights__btn {
+    .button--flight-info-btn {
         grid-column: 1;
         grid-row: 3;
     }

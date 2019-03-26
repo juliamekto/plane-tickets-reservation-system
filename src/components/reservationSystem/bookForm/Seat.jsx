@@ -3,14 +3,11 @@ import classNames from 'classnames/bind';
 import './Seat.css';
 
 class Seat extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            seatNum: props.item.num,
-            seatRow: props.item.row,
-            isSeatAvailable: props.item.available
-        }
-      }
+    state = {
+        seatNum: this.props.item.num,
+        seatRow: this.props.item.row,
+        isSeatAvailable: this.props.item.available
+    }
 
     render() {
         const seatClass = classNames('seat',{

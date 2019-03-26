@@ -96,7 +96,7 @@ h2 {
 }
 
 @media screen and (max-width: 660px) {
-  .button--flights__btn {
+  .button--flight-info-btn {
     width: 110px;
   }
 }
