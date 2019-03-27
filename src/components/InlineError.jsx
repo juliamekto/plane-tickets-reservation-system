@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
  
-const InlineError = ({formErrors}) => {
+const InlineError = ({formErrors, className}) => {
    return (
-      <div>an error: {formErrors}
-      </div>
+    <div className={className}>an error: {formErrors}
+    </div>
    );
  }
 
