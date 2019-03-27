@@ -32,7 +32,7 @@ class AuthorizationForm extends Component {
   validateEmail = () => {
     const regExpEmailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     const { email } = this.state;
-    (regExpEmailValidation.test(email) === true) ? this.setState({ isEmailValid: true}) : this.setState({ isEmailValid: false});
+    (regExpEmailValidation.test(email)) ? this.setState({ isEmailValid: true}) : this.setState({ isEmailValid: false});
   }
 
   validatePassword = () => {
@@ -80,10 +80,8 @@ class AuthorizationForm extends Component {
     if (this.validateForm() === true) {
         userLogData = { email, password };
     }
-    
-    const userLogDataJson = JSON.stringify(userLogData);
-    
-    return userLogDataJson;
+
+    return userLogData;
   }
 
   render() {
