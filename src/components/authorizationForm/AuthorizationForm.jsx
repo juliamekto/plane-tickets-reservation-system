@@ -13,12 +13,10 @@ class AuthorizationForm extends Component {
       isFormValid: false,
       isEmailValid: true,
       isPasswordValid: true,
-      errors: ''
+      error: ''
   }
 
-  handleInput = (e) => {
-    const name = e.target.name,
-          value = e.target.value;
+  handleInput = ({target: { name,value } }) => {
 
     if (name === 'email') {
       this.validateEmail();
@@ -32,43 +30,43 @@ class AuthorizationForm extends Component {
   }
 
   validateEmail = () => {
-    const regExpEmailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-          { email } = this.state;
+    const regExpEmailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    const { email } = this.state;
     (regExpEmailValidation.test(email) === true) ? this.setState({ isEmailValid: true}) : this.setState({ isEmailValid: false});
   }
 
   validatePassword = () => {
     //password must contain alphabetical character and be not longer than 10 characters
     const regExpPasswordValidation = /^[a-z]{0,10}$/;
-    let { password, errors } = this.state;
+    let { password, error } = this.state;
     
-    if(regExpPasswordValidation.test(password) === true) {
-      errors = "";
-      this.setState ({ isPasswordValid: true, errors: errors}); 
+    if(regExpPasswordValidation.test(password)) {
+      error = "";
+      this.setState ({ isPasswordValid: true, error}); 
     } else {
-      errors = "password mustn't be longer than 10 characters";
-      this.setState ({ isPasswordValid: false, errors: errors});
+      error = "password mustn't be longer than 10 characters";
+      this.setState ({ isPasswordValid: false, error});
     }
   }
 
   validateForm = () => {
-    let { email, password, errors, isPasswordValid, isEmailValid, isFormValid } = this.state;
+    let { email, password, error, isPasswordValid, isEmailValid, isFormValid } = this.state;
     
-    if (isPasswordValid === false && isEmailValid === false) {
-      errors = 'email and password fields are invalid';
-      this.setState ({ isFormValid: false, errors: errors});
+    if ( !isPasswordValid || !isEmailValid ) {
+      error = 'incorrect email or password';
+      this.setState ({ isFormValid: false, error});
     } else if (password !== '' && email === '' ) {
-      errors = 'email field cannot be empty';
-      this.setState ({ isFormValid: false, errors: errors});
+      error = 'email field cannot be empty';
+      this.setState ({ isFormValid: false, error});
     } else if (password === '' && email !== '' ){
-      errors = 'password field cannot be empty';
-      this.setState ({ isFormValid: false, errors: errors});
+      error = 'password field cannot be empty';
+      this.setState ({ isFormValid: false, error});
     } else if (email === '' && password === ''){
-        errors = 'email and password fields cannot be empty';
-        this.setState ({ isFormValid: false, errors: errors});
+      error = 'email and password fields cannot be empty';
+      this.setState ({ isFormValid: false, error});
     } else {
-      errors = '';
-      this.setState ({ isFormValid: true, errors: errors});
+      error = '';
+      this.setState ({ isFormValid: true, error});
     }
 
     return isFormValid;
@@ -80,10 +78,7 @@ class AuthorizationForm extends Component {
     let userLogData;
     
     if (this.validateForm() === true) {
-        userLogData = {
-          email: email,
-          password: password
-        };
+        userLogData = { email, password };
     }
     
     const userLogDataJson = JSON.stringify(userLogData);
@@ -92,10 +87,10 @@ class AuthorizationForm extends Component {
   }
 
   render() {
-    const { email, password, errors, isEmailValid, isPasswordValid } = this.state;
+    const { email, password, error, isEmailValid, isPasswordValid } = this.state;
 
     const errorClass = classNames('inline-error',{
-      'inline-error--show': errors !== ''
+      'inline-error--show': error !== ''
     }); 
 
     const inputClassEmail = classNames('default-input default-input--email',{
@@ -109,7 +104,7 @@ class AuthorizationForm extends Component {
     return (
      <div className="authorization-form-wrapper">
        <h2 className="authorization-form__title"> Sign in </h2>
-       <InlineError className={errorClass} formErrors={this.state.errors}/>
+       <InlineError className={errorClass} formErrors={this.state.error}/>
        <form className="authorization-form">
            <FormInput id="email"
                       name="email"
