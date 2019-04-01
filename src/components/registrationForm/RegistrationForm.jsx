@@ -113,8 +113,9 @@ class RegistrationForm extends Component {
   }
 
   validateForm = () => {
-    let { error, isEmailValid, isPasswordValid, isRepeatedPasswordValid, isUsernameValid, isFullNameValid, isFormValid, isPrivatePolicyChecked } = this.state;
-    let { email, password, repeatedPassword, fullName, username } = this.state;
+    let { error, isEmailValid, isPasswordValid, isRepeatedPasswordValid, 
+          isUsernameValid, isFullNameValid, isFormValid, isPrivatePolicyChecked,
+          email, password, repeatedPassword, fullName, username } = this.state;
     
     if ( !isPasswordValid || !isEmailValid || !isRepeatedPasswordValid || !isUsernameValid || !isFullNameValid) {
       error = 'Invalid form. Please,check the information once again';
@@ -138,7 +139,7 @@ class RegistrationForm extends Component {
     let {email, password, fullName, username} = this.state;
     let newUserLogData;
 
-    if (this.validateForm() === true) {
+    if (this.validateForm()) {
       newUserLogData = {email, password, fullName, username};
       //clear form fields and state
       this.setState ({ email: '', password: '', fullName: '', username: ''});
