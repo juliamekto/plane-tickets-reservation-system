@@ -142,13 +142,13 @@ class RegistrationForm extends Component {
       newUserLogData = {email, password, fullName, username};
       //clear form fields and state
       this.setState ({ email: '', password: '', fullName: '', username: ''});
+      this.showModal();
     } 
    
     return newUserLogData;
   }
 
-  showModal = (e) => {
-      e.preventDefault();
+  showModal = () => {
       this.setState ({ isModalShown: true});
   }
 

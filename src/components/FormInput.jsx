@@ -8,6 +8,7 @@ const AuthorizationForm = ({name, type, placeholder,action,customClassName}) => 
            type={type}
            placeholder={placeholder}
            onChange={action}
+           onKeyUp={action}
     />
   );
 }

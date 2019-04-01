@@ -36,15 +36,15 @@ class AuthorizationForm extends Component {
   }
 
   validatePassword = () => {
-    //password must contain alphabetical character and be not longer than 10 characters
-    const regExpPasswordValidation = /^[a-z]{0,10}$/;
+      //Minimum eight characters, at least one letter and one number:
+    const regExpPasswordValidation = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
     let { password, error } = this.state;
     
     if(regExpPasswordValidation.test(password)) {
       error = "";
       this.setState ({ isPasswordValid: true, error}); 
     } else {
-      error = "password mustn't be longer than 10 characters";
+      error = "password must be longer than 6 characters and contain at least 1 letter and 1 number";
       this.setState ({ isPasswordValid: false, error});
     }
   }
