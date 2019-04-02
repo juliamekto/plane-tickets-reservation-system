@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({type, name, action, caption,className}) => {
-  return (
-    <button className={className} 
-            type={type}  
-            name={name}
-            onClick={action}>
-            {caption}
-    </button>
-  );
-}
+const Button = ({ type, name, action, caption, className }) => (
+  <button className={className} 
+          type={type}  
+          name={name}
+          onClick={action}>
+          {caption}
+  </button>
+);
 
 Button.propTypes  = {
   type: PropTypes.string.isRequired,

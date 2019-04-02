@@ -1,10 +1,6 @@
 import React from 'react';
 import SearchForm from './SearchForm.jsx'
 
-const Search= () => {
-  return (
-    <SearchForm />
-  );
-}
+const Search= () => <SearchForm />;
 
 export default Search;
