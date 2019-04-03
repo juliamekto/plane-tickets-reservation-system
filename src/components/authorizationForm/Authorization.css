@@ -27,10 +27,6 @@
     height: 100%;
 }
 
-.authorization__form  .button{
-    margin-top: 40px;
-}
-
 .inline-error {
     color: #fff;
     background-color: rgba(243,11,11,0.5);

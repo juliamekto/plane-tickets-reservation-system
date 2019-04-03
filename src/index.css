@@ -55,6 +55,10 @@ h2 {
   transition: all .2s linear;
 }
 
+.button--auth-form-btn {
+  margin-top: 40px;
+}
+
 .button--search-form-send  {
   width: 100%;
 }

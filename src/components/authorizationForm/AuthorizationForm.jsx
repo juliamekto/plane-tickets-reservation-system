@@ -117,7 +117,8 @@ class AuthorizationForm extends Component {
                       value={password}
                       action={this.handleInput}   
             /> 
-            <Button type="submit" 
+            <Button className="button button--auth-form-btn"
+                    type="submit" 
                     caption="sign in" 
                     action={this.handleFormSubmit}
             />
