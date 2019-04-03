@@ -1,11 +1,11 @@
-.registration-form-wrapper__title {
+.registration__title {
     color: #fff;
 }
 
-.registration-form-wrapper {
+.registration {
     width: 90%;
     max-width: 500px;
-    height: 500px;
+    height: 550px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -20,7 +20,7 @@
     padding: 10px;
 }
 
-.registration-form {
+.registration___form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,7 +60,7 @@
     box-shadow: 0 0 10px rgba(0,0,0,.7);
 }
 
-.checkmark--hovered {
+.checkmark:hover {
     background-color: #ccc;
 }
 

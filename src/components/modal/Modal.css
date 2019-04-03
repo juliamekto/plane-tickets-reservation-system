@@ -232,16 +232,17 @@
     transition: .2s  background-color linear;
 }
 
-.modal__close-btn--hovered {
+.modal__close-btn:hover {
     background-color: #f30b0b;
     transition: .2s  background-color linear;
 }
 
-.modal__close-btn--hovered:after,
-.modal__close-btn--hovered:before {
+.modal__close-btn:hover:after,
+.modal__close-btn:hover:before {
     background-color: #fff;
     transition: .2s  background-color linear;
 }
+
 @media screen and (max-width: 425px) {
 /*REGISTRATION FORM STYLES*/
     .modal-greeting__text {

@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const OrderListItem = ({ route, date, price}) => {
-    return (
-        <li className="order-list__item">
-            <span className="order-list__item-route">{route}</span>
-            <span className="order-list__item-date">{date}</span>
-            <span className="order-list__item-price">{price}</span>
-        </li>
-    )
-}
+const OrderListItem = ({ route, date, price }) => (
+    <li className="order-list__item">
+        <span className="order-list__item-route">{route}</span>
+        <span className="order-list__item-date">{date}</span>
+        <span className="order-list__item-price">{price}</span>
+    </li>
+)
 
 OrderListItem.propTypes  = {
     route: PropTypes.string.isRequired,

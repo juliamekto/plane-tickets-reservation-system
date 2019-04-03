@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AuthorizationForm = ({name, type, placeholder,action,customClassName}) => {
-  return (
+const FormInput = ({ name, type, placeholder, action, customClassName }) => (
     <input className={customClassName} 
            name={name} 
            type={type}
            placeholder={placeholder}
            onChange={action}
-    />
-  );
-}
+           onKeyUp={action}/>
+);
 
-AuthorizationForm.propTypes  = {
+FormInput.propTypes  = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
@@ -20,11 +18,11 @@ AuthorizationForm.propTypes  = {
   customClassName: PropTypes.string
 }
 
-AuthorizationForm.defaultProps  = {
+FormInput.defaultProps  = {
   name: 'text',
   type: 'text',
   placeholder: '',
   customClassName: 'default-input'
 }
 
-export default AuthorizationForm;
+export default FormInput;

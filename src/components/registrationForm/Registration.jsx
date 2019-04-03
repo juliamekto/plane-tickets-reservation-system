@@ -2,10 +2,6 @@ import React from 'react';
 import RegistrationForm from './RegistrationForm.jsx';
 import './RegistrationForm.css';
 
-const Registration = () => {
-  return (
-    <RegistrationForm />
-  );
-}
+const Registration = () =>  <RegistrationForm />;
 
 export default Registration;

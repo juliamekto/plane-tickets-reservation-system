@@ -6,6 +6,9 @@ import FormInput from '../FormInput.jsx';
 import InlineError from '../InlineError.jsx';
 import './Authorization.css';
 
+const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+
 class AuthorizationForm extends Component {
     state = {
       email: '',
@@ -16,57 +19,50 @@ class AuthorizationForm extends Component {
       error: ''
   }
 
-  handleInput = ({target: { name,value } }) => {
-
+  handleInput = ({ target: { name, value } }) => {
     if (name === 'email') {
-      this.validateEmail();
+      this.validateEmail(value);
     } else {
-      this.validatePassword();
+      this.validatePassword(value);
     }
-
-    return this.setState({
-      [name]: value
-    });
   }
 
-  validateEmail = () => {
-    const regExpEmailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-    const { email } = this.state;
-    (regExpEmailValidation.test(email)) ? this.setState({ isEmailValid: true}) : this.setState({ isEmailValid: false});
+  validateEmail = (value) => {
+    (REG_EXP_EMAIL_VALIDATION.test(value)) ? this.setState({ isEmailValid: true, email: value}) : this.setState({ isEmailValid: false});
   }
 
-  validatePassword = () => {
-    //password must contain alphabetical character and be not longer than 10 characters
-    const regExpPasswordValidation = /^[a-z]{0,10}$/;
-    let { password, error } = this.state;
+  validatePassword = (value) => {
+    //Minimum eight characters, at least one letter and one number:
+    let { error } = this.state;
     
-    if(regExpPasswordValidation.test(password)) {
-      error = "";
-      this.setState ({ isPasswordValid: true, error}); 
-    } else {
-      error = "password mustn't be longer than 10 characters";
-      this.setState ({ isPasswordValid: false, error});
+    if(!REG_EXP_PASSWORD_VALIDATION.test(value)) {
+      error = "password must be longer than 6 characters and contain at least 1 letter and 1 number";
+      this.setState ({ isPasswordValid: false, error });
+      return;
     }
+
+    this.setState ({ isPasswordValid: true, password: value, error: '' }); 
   }
 
-  validateForm = () => {
+  isFormValid = () => {
     let { email, password, error, isPasswordValid, isEmailValid, isFormValid } = this.state;
     
-    if ( !isPasswordValid || !isEmailValid ) {
+    if (!isPasswordValid || !isEmailValid) {
       error = 'incorrect email or password';
-      this.setState ({ isFormValid: false, error});
-    } else if (password !== '' && email === '' ) {
+      this.setState ({ isFormValid: false, error });
+    } else if (password !== '' && email === '') {
       error = 'email field cannot be empty';
-      this.setState ({ isFormValid: false, error});
-    } else if (password === '' && email !== '' ){
+      this.setState ({ isFormValid: false, error });
+    } else if (password === '' && email !== '') {
       error = 'password field cannot be empty';
-      this.setState ({ isFormValid: false, error});
-    } else if (email === '' && password === ''){
+      this.setState ({ isFormValid: false, error });
+    } else if (email === '' && password === '') {
       error = 'email and password fields cannot be empty';
-      this.setState ({ isFormValid: false, error});
+      this.setState ({ isFormValid: false, error });
     } else {
+      isFormValid = true;
       error = '';
-      this.setState ({ isFormValid: true, error});
+      this.setState ({ isFormValid, error});
     }
 
     return isFormValid;
@@ -74,11 +70,12 @@ class AuthorizationForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    let { email, password} = this.state;
+    let { email, password } = this.state;
     let userLogData;
     
-    if (this.validateForm() === true) {
+    if (this.isFormValid()) {
         userLogData = { email, password };
+        window.location.href = 'flight-search';
     }
 
     return userLogData;
@@ -100,10 +97,10 @@ class AuthorizationForm extends Component {
     }); 
    
     return (
-     <div className="authorization-form-wrapper">
-       <h2 className="authorization-form__title"> Sign in </h2>
-       <InlineError className={errorClass} formErrors={this.state.error}/>
-       <form className="authorization-form">
+     <div className="authorization">
+       <h2 className="authorization__title">Sign in</h2>
+       <InlineError className={errorClass} formErrors={error}/>
+       <form className="authorization__form">
            <FormInput id="email"
                       name="email"
                       type="email" 
@@ -120,12 +117,11 @@ class AuthorizationForm extends Component {
                       value={password}
                       action={this.handleInput}   
             /> 
-            <Link to="/flight-search" >
-                <Button type="submit" 
-                  caption="sign in" 
-                  action={this.handleFormSubmit}
-                />
-          </Link>
+            <Button className="button button--auth-form-btn"
+                    type="submit" 
+                    caption="sign in" 
+                    action={this.handleFormSubmit}
+            />
        </form>
        <Link to="/registration" 
              className="form-link">
