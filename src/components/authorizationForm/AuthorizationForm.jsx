@@ -19,7 +19,7 @@ class AuthorizationForm extends Component {
       error: ''
   }
 
-  handleInput = ({ target: { name,value } }) => {
+  handleInput = ({ target: { name, value } }) => {
     if (name === 'email') {
       this.validateEmail(value);
     } else {
@@ -47,16 +47,16 @@ class AuthorizationForm extends Component {
   isFormValid = () => {
     let { email, password, error, isPasswordValid, isEmailValid, isFormValid } = this.state;
     
-    if ( !isPasswordValid || !isEmailValid ) {
+    if (!isPasswordValid || !isEmailValid) {
       error = 'incorrect email or password';
       this.setState ({ isFormValid: false, error });
-    } else if ( password !== '' && email === '' ) {
+    } else if (password !== '' && email === '') {
       error = 'email field cannot be empty';
       this.setState ({ isFormValid: false, error });
-    } else if ( password === '' && email !== '' ) {
+    } else if (password === '' && email !== '') {
       error = 'password field cannot be empty';
       this.setState ({ isFormValid: false, error });
-    } else if ( email === '' && password === '' ) {
+    } else if (email === '' && password === '') {
       error = 'email and password fields cannot be empty';
       this.setState ({ isFormValid: false, error });
     } else {
@@ -98,7 +98,7 @@ class AuthorizationForm extends Component {
    
     return (
      <div className="authorization">
-       <h2 className="authorization__title"> Sign in </h2>
+       <h2 className="authorization__title">Sign in</h2>
        <InlineError className={errorClass} formErrors={error}/>
        <form className="authorization__form">
            <FormInput id="email"

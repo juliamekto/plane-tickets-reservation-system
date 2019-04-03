@@ -12,27 +12,29 @@ class SearchForm extends Component {
           isRoundTicketChosen: false
      }
 
-  handleOneTicketBtn = () => this.setState(({ isOneWayTicketChosen, isRoundTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen, isRoundTicketChosen: false }));
+  handleOneTicketBtn = () => this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen, isRoundTicketChosen: false }));
 
-  handleRoundTicketBtn = () => this.setState(({ isRoundTicketChosen, isOneWayTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen, isOneWayTicketChosen: false }));
+  handleRoundTicketBtn = () => this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen, isOneWayTicketChosen: false }));
   
   render() {
+     const { isOneWayTicketChosen, isRoundTicketChosen } = this.state;
+
      const oneWayTicketClass = classNames('search-form__btn',{
-          'search-form__btn--active': this.state.isOneWayTicketChosen
+          'search-form__btn--active': isOneWayTicketChosen
      });
 
      const roundTicketClass = classNames('search-form__btn',{
-          'search-form__btn--active': this.state.isRoundTicketChosen
+          'search-form__btn--active': isRoundTicketChosen
      });
 
      const oneWayContent = classNames('search-form__content',{
-          'search-form__content--one-way': this.state.isOneWayTicketChosen
+          'search-form__content--one-way': isOneWayTicketChosen
      });
 
     return (
-      <div className="search-form-wrapper">
-        <h2 className="search-form__title">Find the flight</h2>
-        <form className="search-form">
+      <div className="search">
+        <h2 className="search__title">Find the flight</h2>
+        <form className="search__form">
             <div className="search-form__header">
                 <button className={oneWayTicketClass} type="button" onClick={this.handleOneTicketBtn}>one way</button>
                 <button className={roundTicketClass} type="button" onClick={this.handleRoundTicketBtn}>round ticket</button>

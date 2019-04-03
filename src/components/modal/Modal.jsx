@@ -4,12 +4,11 @@ import classNames from 'classnames/bind';
 import './Modal.css';
 
 const Modal = ({ show, children, modalMainClass }) => {
+  const showHideClassName = classNames('modal',{
+    'modal--show': show 
+  });
 
-const showHideClassName = classNames('modal',{
-  'modal--show': show 
-});
-
-    return (
+  return (
       <div className={showHideClassName}>
         <section className={modalMainClass}>
           {children}
@@ -17,12 +16,12 @@ const showHideClassName = classNames('modal',{
       </div>
     );
 
-  };
+};
 
-  Modal.propTypes  = {
-    show: PropTypes.bool.isRequired,
-    children: PropTypes.array.isRequired,
-    modalMainClass: PropTypes.string
-  }
+Modal.propTypes  = {
+  show: PropTypes.bool.isRequired,
+  children: PropTypes.array.isRequired,
+  modalMainClass: PropTypes.string
+}
 
 export default Modal;

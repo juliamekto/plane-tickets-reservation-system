@@ -30,7 +30,7 @@ class RegistrationForm extends Component {
     error: ''
   }
 
-  handleInput = ({ target: { name,value } }) => {
+  handleInput = ({ target: { name, value } }) => {
     if (name === 'fullName') {
       this.validateFullName(value);
     } else if (name === 'username') {
@@ -50,6 +50,7 @@ class RegistrationForm extends Component {
     if(!REG_EXP_EMAIL_VALIDATION.test(value)) {
       error = "Invalid email";
       this.setState ({ isEmailValid: false, error });
+      return;
     }
 
     this.setState ({ isEmailValid: true, email: value, error: '' }); 
@@ -62,16 +63,19 @@ class RegistrationForm extends Component {
     if(!REG_EXP_PASSWORD_VALIDATION.test(value)) {
       error = "password must be longer than 6 characters and contain at least 1 letter and 1 number";
       this.setState ({ isPasswordValid: false, error });
+      return;
     }
 
     this.setState ({ isPasswordValid: true, password: value, error: '' }); 
   }
 
   validateRepeatedPassword = (value) => {
-    let { password, repeatedPassword, error } = this.state;
-    if (password !== repeatedPassword) {
+    let { password, error } = this.state;
+   
+    if(password !== value) {
       error = "please, repeat password correctly";
       this.setState ({ isRepeatedPasswordValid: false, error });
+      return;
     }
 
     this.setState ({ isRepeatedPasswordValid: true, repeatedPassword: value, error: '' }); 
@@ -84,6 +88,7 @@ class RegistrationForm extends Component {
     if(!REG_EXP_USERNAME_VALIDATION.test(value)) {
       error = "username must be between 3 and 10 characters";
       this.setState ({ isUsernameValid: false, error });
+      return;
     }
 
     this.setState ({ isUsernameValid: true, username: value, error: '' }); 
@@ -96,6 +101,7 @@ class RegistrationForm extends Component {
     if(!REG_EXP_FULLNAME_VALIDATION.test(value)) {
       error = "only letters and spaces can be entered";
       this.setState ({ isFullNameValid: false, error });
+      return;
     }
 
     this.setState ({ isFullNameValid: true, fullName: value, error: '' }); 
@@ -106,13 +112,13 @@ class RegistrationForm extends Component {
           isUsernameValid, isFullNameValid, isFormValid, isCheckboxChecked,
           email, password, repeatedPassword, fullName, username } = this.state;
     
-    if ( !isPasswordValid || !isEmailValid || !isRepeatedPasswordValid || !isUsernameValid || !isFullNameValid ) {
+    if (!isPasswordValid || !isEmailValid || !isRepeatedPasswordValid || !isUsernameValid || !isFullNameValid) {
       error = 'Invalid form. Please, check the information once again';
       this.setState ({ isFormValid: false, error });
-    } else if (  email === '' || password === '' || repeatedPassword === '' || fullName === '' || username  === '' ) {
+    } else if (email === '' || password === '' || repeatedPassword === '' || fullName === '' || username  === '') {
       error = 'Form fields cannot be empty';
       this.setState ({ isFormValid: false, error });
-    } else if ( isCheckboxChecked === false ) {
+    } else if (isCheckboxChecked === false) {
       error = 'Do you agree to the terms and conditions?';
       this.setState ({ error });
     } else {
@@ -181,10 +187,10 @@ class RegistrationForm extends Component {
 
     return (
       <React.Fragment>
-         <div className="registration-form-wrapper">
-           <h2 className="registration-form-wrapper__title">Sign Up</h2>
+         <div className="registration">
+           <h2 className="registration__title">Sign Up</h2>
            <InlineError className={errorClass} formErrors={error}/>
-           <form className="registration-form">
+           <form className="registration___form">
                <FormInput  id="fullName" 
                            name="fullName" 
                            type="text" 

@@ -10,50 +10,39 @@ import FlightInfo from '../bookForm/FlightInfo.jsx';
 
 class SearchForm extends Component {
      state = {
-        isModalShown: true,
-        isModalBtnHovered: false,
-        isCheckboxHovered: false,
+        isModalShown: false,
         isCheckboxChecked: false
      }
    
     showModal = (e) => {
         e.preventDefault();
-        this.setState ({ isModalShown: true});
+        this.setState ({ isModalShown: true });
     }
     
-    hideModal = () => this.setState({isModalShown : false});
-
-    handleCheckboxHover = () => this.setState(({ isCheckboxHovered }) => ( { isCheckboxHovered: !isCheckboxHovered }));
+    hideModal = () => this.setState({ isModalShown : false });
 
     handleCheckboxClick= () => this.setState(({ isCheckboxChecked }) => ( { isCheckboxChecked: !isCheckboxChecked }));
 
-    handleModalBtnHover = () => this.setState(({ isModalBtnHovered }) => ( { isModalBtnHovered: !isModalBtnHovered }));
-
   render() {
-    const {isModalShown} = this.state;
+    const { isModalShown, isCheckboxChecked } = this.state;
 
     const checkBoxClass = classNames('checkmark checkmark--modal',{
-        'checkmark--hovered': this.state.isCheckboxHovered ,
-        'checkmark--checked': this.state.isCheckboxChecked
-    }); 
-
-    const modalCloseBtnClass = classNames('modal__close-btn',{
-        'modal__close-btn--hovered': this.state.isModalBtnHovered
-    }); 
+        'checkmark--checked': isCheckboxChecked
+    });
 
     const seatDataItemRowA = []; 
     const seatDataItemRowB = []; 
     
     seatData.forEach(function(el) {
-       if (el.row === "A") {
+       if ( el.row === "A" ) {
         seatDataItemRowA.push(el)
        } else {
         seatDataItemRowB.push(el)
        }
     });
 
-    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id} row={item.row}/>)
-    const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id}/>)
+    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id} row={item.row}/> )
+    const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id}/> )
 
     return (
       <div className="book-form">
@@ -105,8 +94,6 @@ class SearchForm extends Component {
                         <div className="luggage-availability">
                             <span className="luggage-availability__question">Do you have luggage?</span>
                             <div className="luggage-availability__answer"
-                                onMouseEnter={this.handleCheckboxHover} 
-                                onMouseLeave={this.handleCheckboxHover} 
                                 onClick={this.handleCheckboxClick}>
                                 <label className="luggage-availability__answer-text">Yes</label>
                                 <span className={checkBoxClass}
@@ -128,10 +115,8 @@ class SearchForm extends Component {
               <Link to="/success" className="modal__route-link--booking">
                     <Button caption="calculate" />
               </Link>
-              <button className={modalCloseBtnClass} 
-                      onClick={this.hideModal}
-                      onMouseEnter={this.handleModalBtnHover} 
-                      onMouseLeave={this.handleModalBtnHover} >
+              <button className="modal__close-btn"
+                      onClick={this.hideModal} >
                 <div className="close-btn__icon-wrapper"></div>
               </button>
         </Modal>
