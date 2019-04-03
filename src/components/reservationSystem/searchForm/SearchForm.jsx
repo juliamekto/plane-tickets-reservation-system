@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import classNames from 'classnames/bind';
 import FormInput from '../../FormInput.jsx';
 import FormInputDate from '../../FormInputDate.jsx';
@@ -14,7 +13,7 @@ const REG_EXP_CITY_VALIDATION = /^[a-zA-Z]+$/,
 class SearchForm extends Component {
      state = {
           isOneWayTicketChosen: false,
-          isRoundTicketChosen: false,
+          isRoundTicketChosen: true,
           departureCity: '',
           destinationCity: '',
           departureDate: '',
@@ -78,13 +77,13 @@ class SearchForm extends Component {
 
   validateDate = (value,fieldName) => {
        if (fieldName === 'depatureDate'){
-          this.setState ({ isDepartureDateValid: true, departureDate: value });
+          this.setState ({ departureDate: value });
        } else {
-          this.setState ({ isDestinationDateValid: true, destinationDate: value }); 
+          this.setState ({ destinationDate: value }); 
        }
   }
 
-  validatePassengerNum = (value,fieldName) =>{
+  validatePassengerNum = (value,fieldName) => {
      let { error } = this.state;
      if (fieldName === 'adultNum') {
           if(!REG_EXP_PASSENGER_NUM_VALIDATION.test(value)) {
@@ -106,18 +105,55 @@ class SearchForm extends Component {
   }
 
   validateClassType = (value) => {
-     let {error} = this.state;
+     let { error } = this.state;
      if( value === 'default') {
           error = "please, choose class seat";
-          this.setState ({ isClassTypeValid: true, classType: value, error }); 
+          this.setState ({ isClassTypeValid: false, error }); 
           return; 
      }
      this.setState ({ isClassTypeValid: true, classType: value, error: '' }); 
   }
 
   isFormValid = () => {
-       
+     let { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
+          isDepartureDateValid, isDestinationDateValid, isAdultNumValid, isChildNumValid,
+          error, isClassTypeValid, isFormValid, departureCity, destinationCity,
+          departureDate, destinationDate, classType, adultNum, childNum } = this.state;
+     
+     if(!isDepartureCityValid || !isDestinationCityValid || !isDepartureDateValid || !isDestinationDateValid || !isAdultNumValid || !isChildNumValid || !isClassTypeValid) {
+          error = 'Invalid form. Please, check the information once again';
+          this.setState ({ isFormValid: false, error });
+     } else if (departureCity === '' && destinationCity === '' && departureDate === '' && destinationDate === '' && classType === '' && adultNum === '' && childNum === '') {
+          error = 'Invalid form. Fields cannot be empty';
+          this.setState ({ isFormValid: false, error });
+     } else if (isOneWayTicketChosen === false && isRoundTicketChosen === false) {
+          error = 'Choose one way or round ticket option';
+          this.setState ({ isFormValid: false, error });
+     } else if (classType === '') {
+          error = "please, choose class seat";
+          this.setState ({ isClassTypeValid: false, error, isFormValid: false }); 
+     } else {
+          isFormValid = true;
+          error = '';
+          this.setState ({ isFormValid, error});
+     }
+
+     return isFormValid;
   }
+
+  handleFormSubmit = (e) => {
+     e.preventDefault();
+     let { departureCity, destinationCity, departureDate, destinationDate,
+           classType, adultNum, childNum } = this.state;
+     let flightSearchData;
+     
+     if (this.isFormValid()) {
+        flightSearchData = { departureCity, destinationCity, departureDate, destinationDate, classType, adultNum, childNum }
+        window.location.href = 'flight-booking';
+     }
+ 
+     return flightSearchData;
+   }
 
   render() {
      const { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
@@ -141,7 +177,7 @@ class SearchForm extends Component {
      });
 
      const inputClassDepartureCity = classNames('default-input default-input--departure-city',{
-          'default-input--invalid': !isDepartureCityValid
+          'default-input--invalid': !isDepartureCityValid 
      });
 
      const inputClassDestinationCity = classNames('default-input default-input--destination-city',{
@@ -224,9 +260,9 @@ class SearchForm extends Component {
                                 action={this.handleInput}
                                 customClassName={inputClassChildNum}/>
                 </div>
-                <Link to="/flight-booking" className="search-form__route-link">
-                    <Button className="search-form__send-btn button button--search-form-send" caption='show flights'/>
-              </Link>
+               <Button className="search-form__send-btn button button--search-form-send" 
+                         caption='show flights'
+                         action={this.handleFormSubmit}/>
             </div>
         </form>
         <InlineError className={errorClass} formErrors={error}/>

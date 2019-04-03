@@ -137,9 +137,6 @@
     grid-row: 2;
 }
 
-.search-form__route-link {
-    align-self: flex-end;
-}
 @media screen and (max-width: 992px) {
     .search__form {
         padding: 0 15px 15px;
