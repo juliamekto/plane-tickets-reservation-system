@@ -7,10 +7,10 @@ import Modal from '../modal/Modal.jsx';
 import InlineError from '../InlineError.jsx';
 import './RegistrationForm.css';
 
-const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-      REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-      REG_EXP_USERNAME_VALIDATION = /^[a-z0-9_-]{3,16}$/,
-      REG_EXP_FULLNAME_VALIDATION = /^([a-zA-Z' ]+)$/;
+const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+const REG_EXP_USERNAME_VALIDATION = /^[a-z0-9_-]{3,16}$/;
+const REG_EXP_FULLNAME_VALIDATION = /^([a-zA-Z' ]+)$/;
 
 class RegistrationForm extends Component {
   state = {

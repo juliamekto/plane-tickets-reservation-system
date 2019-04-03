@@ -13,12 +13,12 @@ const AppRouter = () => (
     <BrowserRouter>
             <div>
                 <Route path="/" exact component={Intro} />
-                <Route path="/authorization" exact component={Authorization} />
-                <Route path="/registration" exact component={Registration} />
-                <Route path="/flight-search" exact component={Search} />
-                <Route path="/flight-booking" exact component={Book} />
-                <Route path="/success" exact component={SuccessBooking} />
-                <Route path="/user-account" exact component={OrderList} />
+                <Route path="/authorization" component={Authorization} />
+                <Route path="/registration" component={Registration} />
+                <Route path="/flight-search" component={Search} />
+                <Route path="/flight-booking" component={Book} />
+                <Route path="/success" component={SuccessBooking} />
+                <Route path="/user-account" component={OrderList} />
             </div>
     </BrowserRouter>
 );
