@@ -11,7 +11,12 @@ import FlightInfo from '../bookForm/FlightInfo.jsx';
 class SearchForm extends Component {
      state = {
         isModalShown: false,
-        isCheckboxChecked: false
+        isCheckboxChecked: false,
+        isOneWayTicketChosen: false,
+        isRoundTicketChosen: true,
+        isLuggageNumShown: false,
+        luggageNum: '',
+        chosenSeats: []
      }
    
     showModal = (e) => {
@@ -21,13 +26,22 @@ class SearchForm extends Component {
     
     hideModal = () => this.setState({ isModalShown : false });
 
-    handleCheckboxClick= () => this.setState(({ isCheckboxChecked }) => ( { isCheckboxChecked: !isCheckboxChecked }));
+    handleCheckboxClick= () => this.setState(({ isCheckboxChecked, isLuggageNumShown }) => ( { isCheckboxChecked: !isCheckboxChecked, isLuggageNumShown: !isLuggageNumShown }));
 
   render() {
-    const { isModalShown, isCheckboxChecked } = this.state;
+    const { isModalShown, isCheckboxChecked, isOneWayTicketChosen, isRoundTicketChosen, isLuggageNumShown } = this.state;
 
     const checkBoxClass = classNames('checkmark checkmark--modal',{
         'checkmark--checked': isCheckboxChecked
+    });
+
+    const bookFormClass = classNames('book-form',{
+        'book-form--oneway': isOneWayTicketChosen,
+        'book-form--round-ticket': isRoundTicketChosen
+    });
+
+    const luggageNumClass = classNames('luggage-presence luggage-presence--num',{
+      'luggage-presence--shown': isLuggageNumShown
     });
 
     const seatDataItemRowA = []; 
@@ -45,7 +59,7 @@ class SearchForm extends Component {
     const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id}/> )
 
     return (
-      <div className="book-form">
+      <div className={bookFormClass}>
         <h2 className="book-form__title">Book the flight</h2>
         <div className="book-form__flights">
             <span className="flights__title">recommended flights</span>
@@ -89,13 +103,27 @@ class SearchForm extends Component {
                                 <div className="seats-wrapper">{seatsRowB}</div>
                             </div>
                         </div>
+                        <div className='seats-scheme__legend'>
+                         <div className="legend-item">
+                            <div className="legend-item__icon legend-item__icon--available"></div>
+                            <span className="legend-item__caption">available</span>
+                         </div>
+                         <div className="legend-item">
+                            <div className="legend-item__icon legend-item__icon--not-available"></div>
+                            <span className="legend-item__caption">not available</span>
+                         </div>
+                         <div className="legend-item">
+                            <div className="legend-item__icon legend-item__icon--booked"></div>
+                            <span className="legend-item__caption">booked</span>
+                         </div>
+                        </div>
                    </div>
                    <div className="modal-booking__luggage">
-                        <div className="luggage-availability">
-                            <span className="luggage-availability__question">Do you have luggage?</span>
-                            <div className="luggage-availability__answer"
+                        <div className="luggage-presence">
+                            <span className="luggage-presence__question">Do you have luggage?</span>
+                            <div className="luggage-presence__answer"
                                 onClick={this.handleCheckboxClick}>
-                                <label className="luggage-availability__answer-text">Yes</label>
+                                <label className="luggage-presence__answer-text">Yes</label>
                                 <span className={checkBoxClass}
                                       tabIndex="0" 
                                       role="checkbox" 
@@ -103,11 +131,11 @@ class SearchForm extends Component {
                                  </span>
                             </div>
                         </div>
-                        <div className="luggage-availability">
-                            <span className="luggage-availability__question">How many pieces of luggage do you have?</span>
-                            <div className="luggage-availability__answer">
-                                <label className="luggage-availability__answer-text">piece</label>
-                                <FormInput customClassName="luggage-availability__answer-input"/>
+                        <div className={luggageNumClass}>
+                            <span className="luggage-presence__question">How many pieces of luggage do you have?</span>
+                            <div className="luggage-presence__answer">
+                                <label className="luggage-presence__answer-text">piece</label>
+                                <FormInput customClassName="luggage-presence__answer-input"/>
                             </div>
                         </div>
                    </div>
