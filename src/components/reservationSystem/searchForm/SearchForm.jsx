@@ -7,8 +7,8 @@ import Button from '../../Button.jsx';
 import InlineError from '../../InlineError.jsx';
 import './SearchForm.css';
 
-const REG_EXP_CITY_VALIDATION = /^[a-zA-Z]+$/,
-      REG_EXP_PASSENGER_NUM_VALIDATION = /^\d+$/;
+const REG_EXP_CITY_VALIDATION = /^[a-zA-Z]+$/;
+const REG_EXP_PASSENGER_NUM_VALIDATION = /^\d+$/;
 
 class SearchForm extends Component {
      state = {
@@ -56,6 +56,7 @@ class SearchForm extends Component {
 
   validateCity = (value, fieldName) => {
      let { error } = this.state;
+    
      if (fieldName === 'depatureCity') {
           if(!REG_EXP_CITY_VALIDATION.test(value)) {
                error = "only letters are allowed";
@@ -63,7 +64,7 @@ class SearchForm extends Component {
                return;
           }
          
-          this.setState ({ isDepartureCityValid: true,  departureCity: value, error: '' }); 
+          this.setState ({ isDepartureCityValid: true, departureCity: value, error: '' }); 
      } else {
           if(!REG_EXP_CITY_VALIDATION.test(value)) {
                error = "only letters are allowed";
@@ -71,7 +72,7 @@ class SearchForm extends Component {
                return;
              }
              
-          this.setState ({ isDestinationCityValid: true,  destinationCity: value, error: '' }); 
+          this.setState ({ isDestinationCityValid: true, destinationCity: value, error: '' }); 
      }
   }
 
@@ -85,6 +86,7 @@ class SearchForm extends Component {
 
   validatePassengerNum = (value,fieldName) => {
      let { error } = this.state;
+     
      if (fieldName === 'adultNum') {
           if(!REG_EXP_PASSENGER_NUM_VALIDATION.test(value)) {
                error = "only numbers are allowed";
@@ -92,7 +94,7 @@ class SearchForm extends Component {
                return;
           }
          
-          this.setState ({ isAdultNumValid: true,  adultNum: value, error: '' }); 
+          this.setState ({ isAdultNumValid: true, adultNum: value, error: '' }); 
      } else {
           if(!REG_EXP_PASSENGER_NUM_VALIDATION.test(value)) {
                error = "only numbers are allowed";
@@ -106,11 +108,13 @@ class SearchForm extends Component {
 
   validateClassType = (value) => {
      let { error } = this.state;
-     if( value === 'default') {
+     
+     if(value === 'default') {
           error = "please, choose class seat";
           this.setState ({ isClassTypeValid: false, error }); 
           return; 
      }
+
      this.setState ({ isClassTypeValid: true, classType: value, error: '' }); 
   }
 
