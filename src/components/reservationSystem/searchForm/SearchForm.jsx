@@ -127,10 +127,10 @@ class SearchForm extends Component {
      if(!isDepartureCityValid || !isDestinationCityValid || !isDepartureDateValid || !isDestinationDateValid || !isAdultNumValid || !isChildNumValid || !isClassTypeValid) {
           error = 'Invalid form. Please, check the information once again';
           this.setState ({ isFormValid: false, error });
-     } else if (departureCity === '' && destinationCity === '' && departureDate === '' && destinationDate === '' && classType === '' && adultNum === '' && childNum === '') {
+     } else if (!departureCity && !destinationCity && !departureDate && !destinationDate && !classType && !adultNum && !childNum) {
           error = 'Invalid form. Fields cannot be empty';
           this.setState ({ isFormValid: false, error });
-     } else if (isOneWayTicketChosen === false && isRoundTicketChosen === false) {
+     } else if (!isOneWayTicketChosen && !isRoundTicketChosen) {
           error = 'Choose one way or round ticket option';
           this.setState ({ isFormValid: false, error });
      } else if (classType === '') {
@@ -147,8 +147,9 @@ class SearchForm extends Component {
 
   handleFormSubmit = (e) => {
      e.preventDefault();
-     let { departureCity, destinationCity, departureDate, destinationDate,
+     const { departureCity, destinationCity, departureDate, destinationDate,
            classType, adultNum, childNum } = this.state;
+     
      let flightSearchData;
      
      if (this.isFormValid()) {
@@ -165,7 +166,7 @@ class SearchForm extends Component {
              error, isClassTypeValid } = this.state;
      
      const errorClass = classNames('inline-error',{
-          'inline-error--show': error !== ''
+          'inline-error--show': error 
      }); 
 
      const oneWayTicketClass = classNames('search-form__btn',{

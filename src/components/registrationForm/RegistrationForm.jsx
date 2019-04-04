@@ -158,7 +158,7 @@ class RegistrationForm extends Component {
     const { isModalShown, isEmailValid, isPasswordValid, isRepeatedPasswordValid, error, isUsernameValid, isFullNameValid, isCheckboxChecked } = this.state;
 
     const errorClass = classNames('inline-error',{
-      'inline-error--show': error !== ''
+      'inline-error--show': error
     }); 
 
     const checkBoxClass = classNames('checkmark',{

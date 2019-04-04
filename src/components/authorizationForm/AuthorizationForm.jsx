@@ -85,7 +85,7 @@ class AuthorizationForm extends Component {
     const { email, password, error, isEmailValid, isPasswordValid } = this.state;
 
     const errorClass = classNames('inline-error',{
-      'inline-error--show': error !== ''
+      'inline-error--show': error
     }); 
 
     const inputClassEmail = classNames('default-input default-input--email',{
