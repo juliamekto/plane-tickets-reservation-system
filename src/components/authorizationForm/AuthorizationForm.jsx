@@ -6,8 +6,8 @@ import FormInput from '../FormInput.jsx';
 import InlineError from '../InlineError.jsx';
 import './Authorization.css';
 
-const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-      REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
 class AuthorizationForm extends Component {
     state = {
@@ -70,7 +70,7 @@ class AuthorizationForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    let { email, password } = this.state;
+    const { email, password } = this.state;
     let userLogData;
     
     if (this.isFormValid()) {
@@ -85,7 +85,7 @@ class AuthorizationForm extends Component {
     const { email, password, error, isEmailValid, isPasswordValid } = this.state;
 
     const errorClass = classNames('inline-error',{
-      'inline-error--show': error !== ''
+      'inline-error--show': error
     }); 
 
     const inputClassEmail = classNames('default-input default-input--email',{
