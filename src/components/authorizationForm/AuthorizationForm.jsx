@@ -70,7 +70,7 @@ class AuthorizationForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    let { email, password } = this.state;
+    const { email, password } = this.state;
     let userLogData;
     
     if (this.isFormValid()) {
@@ -85,7 +85,7 @@ class AuthorizationForm extends Component {
     const { email, password, error, isEmailValid, isPasswordValid } = this.state;
 
     const errorClass = classNames('inline-error',{
-      'inline-error--show': error !== ''
+      'inline-error--show': error
     }); 
 
     const inputClassEmail = classNames('default-input default-input--email',{

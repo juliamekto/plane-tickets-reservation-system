@@ -132,7 +132,7 @@ class RegistrationForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    let { email, password, fullName, username } = this.state;
+    const { email, password, fullName, username } = this.state;
     let newUserLogData;
 
     if (this.isFormValid()) {
@@ -158,7 +158,7 @@ class RegistrationForm extends Component {
     const { isModalShown, isEmailValid, isPasswordValid, isRepeatedPasswordValid, error, isUsernameValid, isFullNameValid, isCheckboxChecked } = this.state;
 
     const errorClass = classNames('inline-error',{
-      'inline-error--show': error !== ''
+      'inline-error--show': error
     }); 
 
     const checkBoxClass = classNames('checkmark',{
