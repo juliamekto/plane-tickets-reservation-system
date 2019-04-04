@@ -132,7 +132,7 @@ class RegistrationForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    let { email, password, fullName, username } = this.state;
+    const { email, password, fullName, username } = this.state;
     let newUserLogData;
 
     if (this.isFormValid()) {

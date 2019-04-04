@@ -70,7 +70,7 @@ class AuthorizationForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    let { email, password } = this.state;
+    const { email, password } = this.state;
     let userLogData;
     
     if (this.isFormValid()) {
