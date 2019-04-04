@@ -7,16 +7,19 @@ import Button from '../../Button.jsx';
 import Seat from '../bookForm/Seat.jsx';
 import seatData from '../bookForm/SeatsData';
 import FlightInfo from '../bookForm/FlightInfo.jsx';
+import InlineError from '../../InlineError.jsx';
+
+const REG_EXP_LUGGAGE_NUM_VALIDATION = /^\d+$/;
 
 class SearchForm extends Component {
      state = {
-        isModalShown: false,
+        isModalShown: true,
         isCheckboxChecked: false,
         isOneWayTicketChosen: false,
         isRoundTicketChosen: true,
         isLuggageNumShown: false,
         luggageNum: '',
-        chosenSeats: []
+        error: ''
      }
    
     showModal = (e) => {
@@ -28,8 +31,35 @@ class SearchForm extends Component {
 
     handleCheckboxClick= () => this.setState(({ isCheckboxChecked, isLuggageNumShown }) => ( { isCheckboxChecked: !isCheckboxChecked, isLuggageNumShown: !isLuggageNumShown }));
 
+    handleLuggageInput = (e) => {
+      let { error } = this.state;
+      if(!REG_EXP_LUGGAGE_NUM_VALIDATION.test(e.target.value)) {
+        error = "only numbers are allowed";
+        this.setState ({ luggageNum : '', error });
+        return;
+      }
+      this.setState({ luggageNum : e.target.value, error: '' });
+    }
+
+    handleFormSubmit = (e) => {
+      e.preventDefault();
+      let { luggageNum } = this.state;
+      let bookFormData;
+      
+      if (luggageNum !== '') {
+          bookFormData = { luggageNum };
+          window.location.href = 'success';
+      }
+  
+      return bookFormData;
+    }
+
   render() {
-    const { isModalShown, isCheckboxChecked, isOneWayTicketChosen, isRoundTicketChosen, isLuggageNumShown } = this.state;
+    const { isModalShown, isCheckboxChecked, isOneWayTicketChosen, isRoundTicketChosen, isLuggageNumShown, error } = this.state;
+
+    const errorClass = classNames('inline-error',{
+      'inline-error--show': error !== ''
+    }); 
 
     const checkBoxClass = classNames('checkmark checkmark--modal',{
         'checkmark--checked': isCheckboxChecked
@@ -55,8 +85,8 @@ class SearchForm extends Component {
        }
     });
 
-    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id} row={item.row}/> )
-    const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id}/> )
+    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id} row={item.row} seatNum={item.num}/> )
+    const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id} row={item.row} seatNum={item.num}/> )
 
     return (
       <div className={bookFormClass}>
@@ -114,7 +144,7 @@ class SearchForm extends Component {
                          </div>
                          <div className="legend-item">
                             <div className="legend-item__icon legend-item__icon--booked"></div>
-                            <span className="legend-item__caption">booked</span>
+                            <span className="legend-item__caption">booking</span>
                          </div>
                         </div>
                    </div>
@@ -135,14 +165,14 @@ class SearchForm extends Component {
                             <span className="luggage-presence__question">How many pieces of luggage do you have?</span>
                             <div className="luggage-presence__answer">
                                 <label className="luggage-presence__answer-text">piece</label>
-                                <FormInput customClassName="luggage-presence__answer-input"/>
+                                <FormInput customClassName="luggage-presence__answer-input" action={this.handleLuggageInput}/>
                             </div>
                         </div>
                    </div>
               </div>
-              <Link to="/success" className="modal__route-link--booking">
-                    <Button caption="calculate" />
-              </Link>
+              <InlineError className={errorClass} formErrors={error}/>
+              <Button caption="calculate"
+                      action={this.handleFormSubmit} />
               <button className="modal__close-btn"
                       onClick={this.hideModal} >
                 <div className="close-btn__icon-wrapper"></div>
