@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import classNames from 'classnames/bind';
 import FormInput from '../../FormInput.jsx';
 import Modal from '../../modal/Modal.jsx';
@@ -43,7 +42,7 @@ class SearchForm extends Component {
 
     handleFormSubmit = (e) => {
       e.preventDefault();
-      let { luggageNum } = this.state;
+      const { luggageNum } = this.state;
       let bookFormData;
       
       if (luggageNum !== '') {
@@ -58,7 +57,7 @@ class SearchForm extends Component {
     const { isModalShown, isCheckboxChecked, isOneWayTicketChosen, isRoundTicketChosen, isLuggageNumShown, error } = this.state;
 
     const errorClass = classNames('inline-error',{
-      'inline-error--show': error !== ''
+      'inline-error--show': error
     }); 
 
     const checkBoxClass = classNames('checkmark checkmark--modal',{
