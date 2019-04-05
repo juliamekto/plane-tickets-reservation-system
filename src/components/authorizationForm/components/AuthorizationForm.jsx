@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import classNames from 'classnames/bind';
-import Button from '../Button.jsx';
-import FormInput from '../FormInput.jsx';
-import InlineError from '../InlineError.jsx';
-import './Authorization.css';
+import Button from '../../Button.jsx';
+import FormInput from '../../FormInput.jsx';
+import InlineError from '../../InlineError.jsx';
 
 const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
