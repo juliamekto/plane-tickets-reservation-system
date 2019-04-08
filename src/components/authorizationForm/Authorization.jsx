@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthorizationForm from './components/AuthorizationForm.jsx';
+import AuthorizationForm from './container/AuthorizationForm.jsx';
 import './Authorization.css';
 
 const Authorization = () => <AuthorizationForm />

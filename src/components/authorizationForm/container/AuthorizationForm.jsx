@@ -4,14 +4,14 @@ import classNames from 'classnames/bind';
 import Button from '../../Button.jsx';
 import FormInput from '../../FormInput.jsx';
 import InlineError from '../../InlineError.jsx';
+import { signIn } from '../actions/AuthFormActions.js'
+import { connect } from 'react-redux';
 
 const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
 class AuthorizationForm extends Component {
     state = {
-      email: '',
-      password: '',
       isFormValid: false,
       isEmailValid: true,
       isPasswordValid: true,
@@ -27,7 +27,8 @@ class AuthorizationForm extends Component {
   }
 
   validateEmail = (value) => {
-    (REG_EXP_EMAIL_VALIDATION.test(value)) ? this.setState({ isEmailValid: true, email: value}) : this.setState({ isEmailValid: false});
+    (REG_EXP_EMAIL_VALIDATION.test(value)) ? this.setState({ isEmailValid: true}) : this.setState({ isEmailValid: false});
+    console.log(this.props)
   }
 
   validatePassword = (value) => {
@@ -69,13 +70,15 @@ class AuthorizationForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = this.state;
+    const { email, password } = this.props;
     let userLogData;
     
     if (this.isFormValid()) {
         userLogData = { email, password };
-        window.location.href = 'flight-search';
+        // window.location.href = 'flight-search';
     }
+
+    console.log(this.props(signIn))
 
     return userLogData;
   }
@@ -131,4 +134,17 @@ class AuthorizationForm extends Component {
  }
 }
 
-export default AuthorizationForm;
+const mapStateToProps = state => ({
+  email: state.authForm.email,
+  password: state.authForm.password,
+});
+
+const mapDistpatchToProps = dispatch => {
+  return {
+    signIn: () => dispatch({ type: 'SIGN_IN' }),
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDistpatchToProps)(AuthorizationForm);

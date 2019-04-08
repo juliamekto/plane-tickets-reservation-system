@@ -1,8 +1,5 @@
-let nextUser = 0
-
-export const addLogData = ( email, password ) => ({
-  type: 'ADD_LOG_DATA',
-  id: nextUser++,
-  email,
-  password
+export const signIn = ( email, password ) => ({
+  type: 'SIGN_IN',
+  email: email,
+  password: password
 })

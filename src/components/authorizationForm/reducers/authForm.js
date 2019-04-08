@@ -1,11 +1,11 @@
-const authForm = (state = [], action) => {
+const authForm = (state = {}, action) => {
     switch (action.type) {
-      case 'ADD_LOG_DATA':
-        return [
+      case 'SIGN_IN':
+        return  [
           ...state,
           {
-            email: action.id,
-            password: action.text,
+            email: action.email,
+            password: action.password,
           }
         ]
       default:
