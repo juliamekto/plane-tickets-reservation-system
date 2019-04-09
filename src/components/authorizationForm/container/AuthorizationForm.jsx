@@ -28,7 +28,8 @@ class AuthorizationForm extends Component {
 
   validateEmail = (value) => {
     (REG_EXP_EMAIL_VALIDATION.test(value)) ? this.setState({ isEmailValid: true}) : this.setState({ isEmailValid: false});
-    console.log(this.props)
+    this.props.onChangeEmail(value);
+    console.log(this.props.onChangeEmail(value))
   }
 
   validatePassword = (value) => {
@@ -40,23 +41,25 @@ class AuthorizationForm extends Component {
       this.setState ({ isPasswordValid: false, error });
       return;
     }
-
+    this.props.onChangePassword(value)
+    console.log( this.props.onChangePassword(value))
     this.setState ({ isPasswordValid: true, password: value, error: '' }); 
   }
 
   isFormValid = () => {
-    let { email, password, error, isPasswordValid, isEmailValid, isFormValid } = this.state;
+    let { error, isPasswordValid, isEmailValid, isFormValid } = this.state;
+    let { email, password } = this.props.authForm;
     
     if (!isPasswordValid || !isEmailValid) {
       error = 'incorrect email or password';
       this.setState ({ isFormValid: false, error });
-    } else if (password !== '' && email === '') {
+    } else if (password !== undefined && email === undefined) {
       error = 'email field cannot be empty';
       this.setState ({ isFormValid: false, error });
-    } else if (password === '' && email !== '') {
+    } else if (password === undefined && email !== undefined) {
       error = 'password field cannot be empty';
       this.setState ({ isFormValid: false, error });
-    } else if (email === '' && password === '') {
+    } else if (email === undefined && password === undefined) {
       error = 'email and password fields cannot be empty';
       this.setState ({ isFormValid: false, error });
     } else {
@@ -70,15 +73,15 @@ class AuthorizationForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = this.props;
+    const { email, password } = this.props.authForm;
     let userLogData;
     
     if (this.isFormValid()) {
         userLogData = { email, password };
-        // window.location.href = 'flight-search';
+        window.location.href = 'flight-search';
     }
 
-    console.log(this.props(signIn))
+    console.log(userLogData)
 
     return userLogData;
   }
@@ -134,17 +137,13 @@ class AuthorizationForm extends Component {
  }
 }
 
-const mapStateToProps = state => ({
-  email: state.authForm.email,
-  password: state.authForm.password,
-});
+const mapStateToProps = state => ({ authForm: state.authForm });
 
 const mapDistpatchToProps = dispatch => {
   return {
-    signIn: () => dispatch({ type: 'SIGN_IN' }),
+    onChangeEmail: (value) => dispatch(signIn('email',value)),
+    onChangePassword: (value) => dispatch(signIn('password',value))
   }
 };
 
-export default connect(
-  mapStateToProps,
-  mapDistpatchToProps)(AuthorizationForm);
+export default connect(mapStateToProps, mapDistpatchToProps)(AuthorizationForm);

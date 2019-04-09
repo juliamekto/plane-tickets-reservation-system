@@ -1,6 +1,6 @@
-const authForm = (state = {}, action) => {
+const registrationForm = (state = {}, action) => {
     switch (action.type) {
-      case 'UPDATE_FIELD_AUTH':
+      case 'UPDATE_FIELD_REGISTRATION':
         return  {
           ...state,
           [action.name]: action.value
@@ -10,4 +10,4 @@ const authForm = (state = {}, action) => {
     }
   }
   
-  export default authForm
+  export default registrationForm

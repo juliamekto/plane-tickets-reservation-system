@@ -1,5 +1,5 @@
-export const signIn = ( email, password ) => ({
-  type: 'SIGN_IN',
-  email: email,
-  password: password
-})
+export const signIn = (  name, value ) => ({
+  type: 'UPDATE_FIELD_AUTH',
+  name,
+  value
+});

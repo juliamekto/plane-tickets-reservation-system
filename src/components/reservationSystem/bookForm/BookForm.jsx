@@ -7,10 +7,11 @@ import Seat from '../bookForm/Seat.jsx';
 import seatData from '../bookForm/SeatsData';
 import FlightInfo from '../bookForm/FlightInfo.jsx';
 import InlineError from '../../InlineError.jsx';
+import { connect } from 'react-redux';
 
 const REG_EXP_LUGGAGE_NUM_VALIDATION = /^\d+$/;
 
-class SearchForm extends Component {
+class BookForm extends Component {
      state = {
         isModalShown: true,
         isCheckboxChecked: false,
@@ -24,6 +25,10 @@ class SearchForm extends Component {
     showModal = (e) => {
         e.preventDefault();
         this.setState ({ isModalShown: true });
+    }
+
+    componentWillReceiveProps() {
+      console.log('works',this.props.searchForm)
     }
     
     hideModal = () => this.setState({ isModalShown : false });
@@ -47,13 +52,16 @@ class SearchForm extends Component {
       
       if (luggageNum !== '') {
           bookFormData = { luggageNum };
-          window.location.href = 'success';
+          // window.location.href = 'success';
       }
+
+      console.log(this.props.searchForm)
   
       return bookFormData;
     }
 
   render() {
+
     const { isModalShown, isCheckboxChecked, isOneWayTicketChosen, isRoundTicketChosen, isLuggageNumShown, error } = this.state;
 
     const errorClass = classNames('inline-error',{
@@ -113,7 +121,7 @@ class SearchForm extends Component {
                 handleClose={this.hideModal}
                 modalMainClass="modal-main--booking">
               <div className="modal-booking">
-                   <span className="modal-booking__destination">Minsk - London</span>
+                   <span className="modal-booking__destination">{this.props.searchForm.departCity}Minsk - London</span>
                    <span className="modal-booking__info">
                         <span className="info__dates">12/03/19</span>
                         <span className="info__ticket-type">Round trip</span>
@@ -182,4 +190,6 @@ class SearchForm extends Component {
   }
 }
 
-export default SearchForm;
+const mapStateToProps = state => ({ searchForm: state.searchForm });
+
+export default connect(mapStateToProps, null)(BookForm);

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { Link } from "react-router-dom";
-import FormInput from '../FormInput.jsx';
-import Button from '../Button.jsx';
-import Modal from '../modal/Modal.jsx';
-import InlineError from '../InlineError.jsx';
-import './RegistrationForm.css';
+import FormInput from '../../FormInput.jsx';
+import Button from '../../Button.jsx';
+import Modal from '../../modal/Modal.jsx';
+import InlineError from '../../InlineError.jsx';
+import { signUp } from '../actions/RegistrationFormActions.js';
+import { connect } from 'react-redux'
 
 const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
@@ -22,10 +23,6 @@ class RegistrationForm extends Component {
     isPasswordValid: true,
     isUsernameValid: true,
     isFullNameValid: true,
-    fullName: '',
-    username: '',
-    email: '',
-    password: '',
     repeatedPassword: '',
     error: ''
   }
@@ -53,7 +50,8 @@ class RegistrationForm extends Component {
       return;
     }
 
-    this.setState ({ isEmailValid: true, email: value, error: '' }); 
+    this.props.onChangeEmail(value);
+    this.setState ({ isEmailValid: true, error: '' }); 
   }
 
   validatePassword = (value) => {
@@ -66,13 +64,15 @@ class RegistrationForm extends Component {
       return;
     }
 
-    this.setState ({ isPasswordValid: true, password: value, error: '' }); 
+    this.props.onChangePassword(value);
+    this.setState ({ isPasswordValid: true, error: '' }); 
   }
 
   validateRepeatedPassword = (value) => {
-    let { password, error } = this.state;
+    let { error } = this.state;
+    let { password } = this.props.registrationForm;
    
-    if(password !== value) {
+    if( password !== value) {
       error = "please, repeat password correctly";
       this.setState ({ isRepeatedPasswordValid: false, error });
       return;
@@ -91,7 +91,8 @@ class RegistrationForm extends Component {
       return;
     }
 
-    this.setState ({ isUsernameValid: true, username: value, error: '' }); 
+    this.props.onChangeUsername(value);
+    this.setState ({ isUsernameValid: true, error: '' }); 
   }
 
   validateFullName = (value) => {
@@ -104,18 +105,20 @@ class RegistrationForm extends Component {
       return;
     }
 
-    this.setState ({ isFullNameValid: true, fullName: value, error: '' }); 
+    this.props.onChangeFullName(value);
+    this.setState ({ isFullNameValid: true, error: '' }); 
   }
 
   isFormValid = () => {
     let { error, isEmailValid, isPasswordValid, isRepeatedPasswordValid, 
           isUsernameValid, isFullNameValid, isFormValid, isCheckboxChecked,
-          email, password, repeatedPassword, fullName, username } = this.state;
+          repeatedPassword } = this.state;
+    let { email, password, fullName, username } = this.props.registrationForm;  
     
     if (!isPasswordValid || !isEmailValid || !isRepeatedPasswordValid || !isUsernameValid || !isFullNameValid) {
       error = 'Invalid form. Please, check the information once again';
       this.setState ({ isFormValid: false, error });
-    } else if (email === '' || password === '' || repeatedPassword === '' || fullName === '' || username  === '') {
+    } else if (email === undefined || password === undefined || repeatedPassword === undefined || fullName === undefined || username  === undefined) {
       error = 'Form fields cannot be empty';
       this.setState ({ isFormValid: false, error });
     } else if (isCheckboxChecked === false) {
@@ -132,16 +135,14 @@ class RegistrationForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    const { email, password, fullName, username } = this.state;
+    const { email, password, fullName, username } = this.props.registrationForm;
     let newUserLogData;
 
     if (this.isFormValid()) {
       newUserLogData = { email, password, fullName, username };
-      //clear form fields and state
-      this.setState ({ email: '', password: '', fullName: '', username: '' });
       this.showModal();
     } 
-   
+    console.log(this.props)
     return newUserLogData;
   }
 
@@ -256,4 +257,15 @@ class RegistrationForm extends Component {
   }
 }
 
-export default RegistrationForm;
+const mapStateToProps = state => ({ registrationForm: state.registrationForm });
+
+const mapDistpatchToProps = dispatch => {
+  return {
+    onChangeEmail: (value) => dispatch(signUp('email',value)),
+    onChangePassword: (value) => dispatch(signUp('password',value)),
+    onChangeFullName: (value) => dispatch(signUp('fullName',value)),
+    onChangeUsername: (value) => dispatch(signUp('username',value))
+  }
+};
+
+export default connect(mapStateToProps, mapDistpatchToProps)(RegistrationForm);
