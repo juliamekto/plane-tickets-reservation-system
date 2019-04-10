@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
+import firebase from 'firebase';
+import config from '../../../firebase/firebase.js';
+import { connect } from 'react-redux';
 import FormInput from '../../../FormInput.jsx';
 import FormInputDate from '../../../FormInputDate.jsx';
 import FormSelect from '../../../FormSelect.jsx';
 import Button from '../../../Button.jsx';
 import InlineError from '../../../InlineError.jsx';
 import { getSearchFormData } from '../actions/SearchFormActions.js'
-import { connect } from 'react-redux';
 
 const REG_EXP_CITY_VALIDATION = /^[a-zA-Z]+$/;
 const REG_EXP_PASSENGER_NUM_VALIDATION = /^\d+$/;
 
 class SearchForm extends Component {
-     state = {
+     constructor(props){
+     super(props);
+     firebase.initializeApp(config);
+     
+     this.state = {
           isOneWayTicketChosen: false,
           isRoundTicketChosen: true,
           isDepartureCityValid: true,
@@ -25,6 +31,7 @@ class SearchForm extends Component {
           isFormValid: false,
           error: ''
      }
+}
 
   handleOneTicketBtn = () => this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen, isRoundTicketChosen: false }));
 
@@ -46,6 +53,7 @@ class SearchForm extends Component {
      } else {
           this.validateClassType(value);
      }
+
    }
 
   validateCity = (value, fieldName) => {
@@ -70,6 +78,7 @@ class SearchForm extends Component {
           this.props.onChangeDestinationCity(value);
           this.setState ({ isDestinationCityValid: true, destinationCity: value, error: '' }); 
      }
+
   }
 
   validateDate = (value,fieldName) => {
@@ -152,16 +161,22 @@ class SearchForm extends Component {
      e.preventDefault();
      const { departCity, destinationCity, departDate, destinationDate,
             classType, adultNum, childNum } = this.props.searchForm;
-     const { isRoundTicketChosen, isOneWayTikcetChosen } = this.state;
-     
-     let flightSearchData;
-     
+     const { isRoundTicketChosen, isOneWayTicketChosen } = this.state;
+         
      if (this.isFormValid()) {
-        flightSearchData = { departCity, destinationCity, departDate, destinationDate, classType, adultNum, childNum, isRoundTicketChosen, isOneWayTikcetChosen }
-        window.location.href = 'flight-booking';
+          firebase.database().ref('/ticket').set({
+               departCity,
+               destinationCity,
+               departDate,
+               destinationDate,
+               classType,
+               adultNum,
+               childNum,
+               isRoundTicketChosen,
+               isOneWayTicketChosen
+          });
+          window.location.href = 'flight-booking';
      }
-
-     return flightSearchData;
    }
 
   render() {
@@ -280,6 +295,9 @@ class SearchForm extends Component {
   }
 }
 
+
+const mapStateToProps = state => ({ searchForm: state.searchForm });
+
 const mapDistpatchToProps = dispatch => {
   return {
     onChangeDepartCity: value => dispatch(getSearchFormData( 'departCity', value )),
@@ -292,4 +310,4 @@ const mapDistpatchToProps = dispatch => {
   }
 };
 
-export default connect(null, mapDistpatchToProps)(SearchForm);
+export default connect(mapStateToProps, mapDistpatchToProps)(SearchForm);

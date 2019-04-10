@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
+import firebase from 'firebase';
+import config from '../../firebase/firebase.js';
 import FormInput from '../../FormInput.jsx';
 import Modal from '../../modal/Modal.jsx';
 import Button from '../../Button.jsx';
@@ -11,20 +13,39 @@ import InlineError from '../../InlineError.jsx';
 const REG_EXP_LUGGAGE_NUM_VALIDATION = /^\d+$/;
 
 class BookForm extends Component {
-     state = {
-        isModalShown: false,
-        isCheckboxChecked: false,
-        isOneWayTicketChosen: false,
-        isRoundTicketChosen: true,
-        isLuggageNumShown: false,
-        luggageNum: '',
-        error: ''
-     }
+  constructor(props){
+    super(props);
+    firebase.initializeApp(config);
+    
+    this.state = {
+      isModalShown: false,
+      isCheckboxChecked: false,
+      isOneWayTicketChosen: false,
+      isRoundTicketChosen: true,
+      isLuggageNumShown: false,
+      luggageNum: '',
+      error: ''
+    }
+  }
    
+  async componentDidMount() {
+      let a = firebase.database().ref('ticket');
+      let fetched_data = {};
+      await a.on('value', (snapshot) =>{
+         let data = snapshot.val();
+          for ( let key in data) {
+            fetched_data[key] = data[key];
+          } 
+      });
+    
+      this.setState ({ fetchedData: fetched_data });
+  }
+
     showModal = (e) => {
         e.preventDefault();
         this.setState ({ isModalShown: true });
     }
+
 
     hideModal = () => this.setState({ isModalShown : false });
 
@@ -54,6 +75,8 @@ class BookForm extends Component {
     }
 
   render() {
+    console.log(this.state)
+    
     const { isModalShown, isCheckboxChecked, isOneWayTicketChosen, isRoundTicketChosen, isLuggageNumShown, error } = this.state;
 
     const errorClass = classNames('inline-error',{
