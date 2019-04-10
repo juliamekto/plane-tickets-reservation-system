@@ -1,6 +1,5 @@
 import React from "react";
-import { BrowserRouter } from 'react-router-dom';
-import { Route } from "react-router-dom";
+import { BrowserRouter, Route } from 'react-router-dom'
 import Intro from './intro/Intro.jsx';
 import Authorization from './authorizationForm/Authorization.jsx';
 import Registration from './registrationForm/Registration.jsx';
@@ -21,6 +20,6 @@ const AppRouter = () => (
                 <Route path="/user-account" component={OrderList} />
             </div>
     </BrowserRouter>
-);
+); 
 
 export default AppRouter;

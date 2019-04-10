@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 import Button from '../../Button.jsx';
 import FormInput from '../../FormInput.jsx';
 import InlineError from '../../InlineError.jsx';
 import { signIn } from '../actions/AuthFormActions.js'
-import { connect } from 'react-redux';
 
 const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
@@ -29,7 +29,6 @@ class AuthorizationForm extends Component {
   validateEmail = (value) => {
     (REG_EXP_EMAIL_VALIDATION.test(value)) ? this.setState({ isEmailValid: true}) : this.setState({ isEmailValid: false});
     this.props.onChangeEmail(value);
-    console.log(this.props.onChangeEmail(value))
   }
 
   validatePassword = (value) => {
@@ -42,7 +41,6 @@ class AuthorizationForm extends Component {
       return;
     }
     this.props.onChangePassword(value)
-    console.log( this.props.onChangePassword(value))
     this.setState ({ isPasswordValid: true, password: value, error: '' }); 
   }
 
@@ -80,8 +78,6 @@ class AuthorizationForm extends Component {
         userLogData = { email, password };
         window.location.href = 'flight-search';
     }
-
-    console.log(userLogData)
 
     return userLogData;
   }
@@ -137,13 +133,11 @@ class AuthorizationForm extends Component {
  }
 }
 
-const mapStateToProps = state => ({ authForm: state.authForm });
-
 const mapDistpatchToProps = dispatch => {
   return {
-    onChangeEmail: (value) => dispatch(signIn('email',value)),
-    onChangePassword: (value) => dispatch(signIn('password',value))
+    onChangeEmail: value => dispatch(signIn( 'email', value )),
+    onChangePassword: value => dispatch(signIn( 'password', value ))
   }
 };
 
-export default connect(mapStateToProps, mapDistpatchToProps)(AuthorizationForm);
+export default connect(null, mapDistpatchToProps)(AuthorizationForm);

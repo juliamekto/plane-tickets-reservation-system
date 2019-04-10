@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 import FormInput from '../../FormInput.jsx';
 import Button from '../../Button.jsx';
 import Modal from '../../modal/Modal.jsx';
 import InlineError from '../../InlineError.jsx';
 import { signUp } from '../actions/RegistrationFormActions.js';
-import { connect } from 'react-redux'
 
 const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
@@ -142,7 +142,7 @@ class RegistrationForm extends Component {
       newUserLogData = { email, password, fullName, username };
       this.showModal();
     } 
-    console.log(this.props)
+
     return newUserLogData;
   }
 
@@ -257,15 +257,13 @@ class RegistrationForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({ registrationForm: state.registrationForm });
-
 const mapDistpatchToProps = dispatch => {
   return {
-    onChangeEmail: (value) => dispatch(signUp('email',value)),
-    onChangePassword: (value) => dispatch(signUp('password',value)),
-    onChangeFullName: (value) => dispatch(signUp('fullName',value)),
-    onChangeUsername: (value) => dispatch(signUp('username',value))
+    onChangeEmail: value => dispatch(signUp( 'email', value )),
+    onChangePassword: value => dispatch(signUp( 'password', value )),
+    onChangeFullName: value => dispatch(signUp( 'fullName', value )),
+    onChangeUsername: value => dispatch(signUp( 'username', value ))
   }
 };
 
-export default connect(mapStateToProps, mapDistpatchToProps)(RegistrationForm);
+export default connect(null, mapDistpatchToProps)(RegistrationForm);

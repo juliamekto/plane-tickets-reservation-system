@@ -158,9 +158,9 @@ class SearchForm extends Component {
      
      if (this.isFormValid()) {
         flightSearchData = { departCity, destinationCity, departDate, destinationDate, classType, adultNum, childNum, isRoundTicketChosen, isOneWayTikcetChosen }
-     //    window.location.href = 'flight-booking';
+        window.location.href = 'flight-booking';
      }
-     console.log(this.props)
+
      return flightSearchData;
    }
 
@@ -280,18 +280,16 @@ class SearchForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({ searchForm: state.searchForm,  authForm: state.authForm });
-
 const mapDistpatchToProps = dispatch => {
   return {
-    onChangeDepartCity: (value) => dispatch(getSearchFormData('departCity',value)),
-    onChangeDestinationCity: (value) => dispatch(getSearchFormData('destinationCity',value)),
-    onChangeDepartDate: (value) => dispatch(getSearchFormData('departDate',value)),
-    onChangeDestinationDate: (value) => dispatch(getSearchFormData('destinationDate',value)),
-    onChangeAdultNum: (value) => dispatch(getSearchFormData('adultNum',value)),
-    onChangeChildNum: (value) => dispatch(getSearchFormData('childNum',value)),
-    onChangeClassType: (value) => dispatch(getSearchFormData('classType',value))
+    onChangeDepartCity: value => dispatch(getSearchFormData( 'departCity', value )),
+    onChangeDestinationCity: value => dispatch(getSearchFormData( 'destinationCity', value )),
+    onChangeDepartDate: value => dispatch(getSearchFormData( 'departDate', value )),
+    onChangeDestinationDate: value => dispatch(getSearchFormData( 'destinationDate', value )),
+    onChangeAdultNum: value => dispatch(getSearchFormData( 'adultNum', value )),
+    onChangeChildNum: value => dispatch(getSearchFormData( 'childNum', value )),
+    onChangeClassType: value => dispatch(getSearchFormData( 'classType', value ))
   }
 };
 
-export default connect(mapStateToProps, mapDistpatchToProps)(SearchForm);
+export default connect(null, mapDistpatchToProps)(SearchForm);
