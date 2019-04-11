@@ -27,23 +27,24 @@ class BookForm extends Component {
       error: ''
     }
   }
-   
-  async componentDidMount() {
-      let a = firebase.database().ref('ticket');
-      let fetched_data = {};
-      await a.on('value', (snapshot) =>{
-         let data = snapshot.val();
-          for ( let key in data) {
-            fetched_data[key] = data[key];
-          } 
-      });
-    
-      this.setState ({ fetchedData: fetched_data });
+
+  componentDidMount() {
+    let a =  firebase.database().ref('ticket');
+    let fetched_data = {};
+     a.on('value', (snapshot) =>{
+       let data = snapshot.val();
+        for ( let key in data) {
+          fetched_data[key] = data[key];
+        } 
+    });
+
+    this.setState ({ fetchedData: fetched_data });
   }
 
     showModal = (e) => {
         e.preventDefault();
         this.setState ({ isModalShown: true });
+        this.getTicketInfo()
     }
 
 
@@ -74,10 +75,21 @@ class BookForm extends Component {
       return bookFormData;
     }
 
+    getTicketInfo = () => {
+      const { departCity, destinationCity, adultNum, childNum, classType, isRoundTicketChosen, departDate, destinationDate } = this.state.fetchedData;
+     
+      const route = `${departCity} - ${destinationCity}`,
+            passNum =  (Number(adultNum) + Number(childNum) >= 1) ? `${Number(adultNum) + Number(childNum)} travelers` : `${Number(adultNum) + Number(childNum)} traveler`,
+            ticketType  = classType.replace(/Class/g,''),
+            tripType = (isRoundTicketChosen) ? 'Round trip' : 'One way',
+            date = `${departDate} - ${destinationDate}`;
+      
+      this.setState ({ route, passNum, ticketType, tripType, date });
+    }
+
   render() {
-    console.log(this.state)
-    
-    const { isModalShown, isCheckboxChecked, isOneWayTicketChosen, isRoundTicketChosen, isLuggageNumShown, error } = this.state;
+    const { isModalShown, isCheckboxChecked, isOneWayTicketChosen, isRoundTicketChosen, isLuggageNumShown, error,
+            route, passNum, ticketType, tripType, date } = this.state;
 
     const errorClass = classNames('inline-error',{
       'inline-error--show': error
@@ -136,12 +148,12 @@ class BookForm extends Component {
                 handleClose={this.hideModal}
                 modalMainClass="modal-main--booking">
               <div className="modal-booking">
-                   <span className="modal-booking__destination">Minsk - London</span>
+                   <span className="modal-booking__destination">{route}</span>
                    <span className="modal-booking__info">
-                        <span className="info__dates">12/03/19</span>
-                        <span className="info__ticket-type">Round trip</span>
-                        <span className="info__people-num">1 traveler</span>
-                        <span className="info__class-type">Economy</span>
+                        <span className="info__dates">{date}</span>
+                        <span className="info__ticket-type">{tripType}</span>
+                        <span className="info__people-num">{passNum}</span>
+                        <span className="info__class-type">{ticketType}</span>
                    </span>
                    <div className="seats-scheme">
                         <span className="seats-scheme__title">Choose a seat</span>

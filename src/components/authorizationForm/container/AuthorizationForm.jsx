@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import firebase from 'firebase';
+import config from '../../firebase/firebase.js';
 import classNames from 'classnames/bind';
 import Button from '../../Button.jsx';
 import FormInput from '../../FormInput.jsx';
@@ -11,11 +13,17 @@ const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'
 const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
 class AuthorizationForm extends Component {
-    state = {
+  constructor(props){
+    super(props);
+    firebase.initializeApp(config);
+    
+    this.state = {
       isFormValid: false,
       isEmailValid: true,
       isPasswordValid: true,
-      error: ''
+      error: '',
+      sss: ''
+    }
   }
 
   handleInput = ({ target: { name, value } }) => {
@@ -72,14 +80,18 @@ class AuthorizationForm extends Component {
   handleFormSubmit = (e) => {
     e.preventDefault();
     const { email, password } = this.props.authForm;
-    let userLogData;
+  
+  
     
     if (this.isFormValid()) {
-        userLogData = { email, password };
-        window.location.href = 'flight-search';
+       
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+            console.log(error.message);
+          // window.location.href = 'flight-search';
+        });
+       
     }
 
-    return userLogData;
   }
 
   render() {
@@ -133,6 +145,9 @@ class AuthorizationForm extends Component {
  }
 }
 
+
+const mapStateToProps = state => ({ authForm: state.authForm });
+
 const mapDistpatchToProps = dispatch => {
   return {
     onChangeEmail: value => dispatch(signIn( 'email', value )),
@@ -140,4 +155,4 @@ const mapDistpatchToProps = dispatch => {
   }
 };
 
-export default connect(null, mapDistpatchToProps)(AuthorizationForm);
+export default connect(mapStateToProps, mapDistpatchToProps)(AuthorizationForm);
