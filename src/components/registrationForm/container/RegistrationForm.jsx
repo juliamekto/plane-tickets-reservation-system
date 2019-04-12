@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import firebase from 'firebase';
+import config from '../../firebase/firebase.js';
 import FormInput from '../../FormInput.jsx';
 import Button from '../../Button.jsx';
 import Modal from '../../modal/Modal.jsx';
@@ -14,17 +16,22 @@ const REG_EXP_USERNAME_VALIDATION = /^[a-z0-9_-]{3,16}$/;
 const REG_EXP_FULLNAME_VALIDATION = /^([a-zA-Z' ]+)$/;
 
 class RegistrationForm extends Component {
-  state = {
-    isModalShown: false,
-    isCheckboxChecked: false,
-    isFormValid: false,
-    isEmailValid: true,
-    isRepeatedPasswordValid: true,
-    isPasswordValid: true,
-    isUsernameValid: true,
-    isFullNameValid: true,
-    repeatedPassword: '',
-    error: ''
+  constructor(props){
+    super(props);
+    firebase.initializeApp(config);
+    
+    this.state = {
+        isModalShown: false,
+        isCheckboxChecked: false,
+        isFormValid: false,
+        isEmailValid: true,
+        isRepeatedPasswordValid: true,
+        isPasswordValid: true,
+        isUsernameValid: true,
+        isFullNameValid: true,
+        repeatedPassword: '',
+        error: ''
+    }
   }
 
   handleInput = ({ target: { name, value } }) => {
@@ -136,14 +143,12 @@ class RegistrationForm extends Component {
   handleFormSubmit = (e) => {
     e.preventDefault();
     const { email, password, fullName, username } = this.props.registrationForm;
-    let newUserLogData;
-
     if (this.isFormValid()) {
-      newUserLogData = { email, password, fullName, username };
-      this.showModal();
+      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        console.log(error.message)
+      });
+      // this.showModal();
     } 
-
-    return newUserLogData;
   }
 
   showModal = () => {
@@ -257,6 +262,8 @@ class RegistrationForm extends Component {
   }
 }
 
+const mapStateToProps = state => ({ registrationForm: state.registrationForm });
+
 const mapDistpatchToProps = dispatch => {
   return {
     onChangeEmail: value => dispatch(signUp( 'email', value )),
@@ -266,4 +273,4 @@ const mapDistpatchToProps = dispatch => {
   }
 };
 
-export default connect(null, mapDistpatchToProps)(RegistrationForm);
+export default connect(mapStateToProps, mapDistpatchToProps)(RegistrationForm);

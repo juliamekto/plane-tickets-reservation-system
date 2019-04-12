@@ -21,9 +21,9 @@ class AuthorizationForm extends Component {
       isFormValid: false,
       isEmailValid: true,
       isPasswordValid: true,
-      error: '',
-      sss: ''
+      error: ''
     }
+
   }
 
   handleInput = ({ target: { name, value } }) => {
@@ -80,16 +80,15 @@ class AuthorizationForm extends Component {
   handleFormSubmit = (e) => {
     e.preventDefault();
     const { email, password } = this.props.authForm;
-  
-  
     
     if (this.isFormValid()) {
        
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-            console.log(error.message);
-          // window.location.href = 'flight-search';
+        firebase.auth().signInWithEmailAndPassword(email, password).catch( (error) => {
+            this.setState ({ error: error.message });
+            window.location.href = 'authorization';
         });
-       
+
+        window.location.href = 'flight-search';
     }
 
   }
