@@ -1,10 +1,24 @@
-import React  from 'react';
+import React, { Component }  from 'react';
 import { Link } from "react-router-dom";
+import firebaseConfig from '../../firebase/firebase.js';
 import Button from '../../Button.jsx';
 import OrderListItem from '../orderList/OrderListItem.jsx';
 import './OrderList.css';
 
-const OrderList = () => (
+class OrderList extends Component {
+
+logout = () => {
+    firebaseConfig.auth().signOut()
+        .then(() => {
+        this.setState({
+            user: null
+        });
+        this.props.history.push("/");
+    });
+}
+
+render () {
+    return(
         <div className="user-account">
             <header className="user-account__header">
                 <span className="user-account__title">My account</span>
@@ -13,10 +27,10 @@ const OrderList = () => (
                         <Button className="button button--user-account-header-btn user-account-header-btn--search-btn"
                                 caption="find tickets" />
                     </Link>
-                    <Link to="/">
-                        <Button caption="log out"
-                                className="button button--user-account-header-btn"/>
-                    </Link>
+              
+                    <Button caption="log out"
+                            className="button button--user-account-header-btn"
+                            action={this.logout}/>
                 </div>
             </header>
             <div className="user-orders">
@@ -38,5 +52,8 @@ const OrderList = () => (
             </div>
         </div>
     )
+}
+} 
+
     
 export default OrderList;

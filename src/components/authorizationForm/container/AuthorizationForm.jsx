@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter  } from "react-router-dom";
 import { connect } from 'react-redux';
-import firebase from 'firebase';
-import config from '../../firebase/firebase.js';
+import firebaseConfig from '../../firebase/firebase.js';
 import classNames from 'classnames/bind';
 import Button from '../../Button.jsx';
 import FormInput from '../../FormInput.jsx';
@@ -15,7 +14,6 @@ const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 class AuthorizationForm extends Component {
   constructor(props){
     super(props);
-    firebase.initializeApp(config);
     
     this.state = {
       isFormValid: false,
@@ -23,7 +21,6 @@ class AuthorizationForm extends Component {
       isPasswordValid: true,
       error: ''
     }
-
   }
 
   handleInput = ({ target: { name, value } }) => {
@@ -77,20 +74,20 @@ class AuthorizationForm extends Component {
     return isFormValid;
   }
 
-  handleFormSubmit = (e) => {
+  handleFormSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = this.props.authForm;
     
     if (this.isFormValid()) {
-       
-        firebase.auth().signInWithEmailAndPassword(email, password).catch( (error) => {
-            this.setState ({ error: error.message });
-            window.location.href = 'authorization';
-        });
-
-        window.location.href = 'flight-search';
+        try {
+          const user = await firebaseConfig
+            .auth()
+            .signInWithEmailAndPassword(email, password);
+          this.props.history.push("flight-search");
+        } catch (error) {
+          this.setState ({ error: error.message });
+        }
     }
-
   }
 
   render() {
@@ -135,7 +132,7 @@ class AuthorizationForm extends Component {
                     action={this.handleFormSubmit}
             />
        </form>
-       <Link to="/registration" 
+       <Link to="registration" 
              className="form-link">
               or sign up
         </Link>
@@ -154,4 +151,4 @@ const mapDistpatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDistpatchToProps)(AuthorizationForm);
+export default connect(mapStateToProps, mapDistpatchToProps)(withRouter(AuthorizationForm));

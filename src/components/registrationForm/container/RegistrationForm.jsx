@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import firebase from 'firebase';
-import config from '../../firebase/firebase.js';
+import firebaseConfig from '../../firebase/firebase.js';
 import FormInput from '../../FormInput.jsx';
 import Button from '../../Button.jsx';
 import Modal from '../../modal/Modal.jsx';
@@ -18,7 +17,6 @@ const REG_EXP_FULLNAME_VALIDATION = /^([a-zA-Z' ]+)$/;
 class RegistrationForm extends Component {
   constructor(props){
     super(props);
-    firebase.initializeApp(config);
     
     this.state = {
         isModalShown: false,
@@ -48,7 +46,7 @@ class RegistrationForm extends Component {
     }  
   }
 
-  validateEmail = (value) => {
+  validateEmail = value => {
     let { error } = this.state;
 
     if(!REG_EXP_EMAIL_VALIDATION.test(value)) {
@@ -61,7 +59,7 @@ class RegistrationForm extends Component {
     this.setState ({ isEmailValid: true, error: '' }); 
   }
 
-  validatePassword = (value) => {
+  validatePassword = value => {
     //Minimum eight characters, at least one letter and one number:
     let { error } = this.state;
     
@@ -75,7 +73,7 @@ class RegistrationForm extends Component {
     this.setState ({ isPasswordValid: true, error: '' }); 
   }
 
-  validateRepeatedPassword = (value) => {
+  validateRepeatedPassword = value => {
     let { error } = this.state;
     let { password } = this.props.registrationForm;
    
@@ -88,7 +86,7 @@ class RegistrationForm extends Component {
     this.setState ({ isRepeatedPasswordValid: true, repeatedPassword: value, error: '' }); 
   }
 
-  validateUsername = (value) => {
+  validateUsername = value => {
     //Alphanumeric string that may include _ and – having a length of 3 to 16 characters
     let { error } = this.state;
 
@@ -102,7 +100,7 @@ class RegistrationForm extends Component {
     this.setState ({ isUsernameValid: true, error: '' }); 
   }
 
-  validateFullName = (value) => {
+  validateFullName = value => {
     // string that may include only letters and spaces
     let { error } = this.state;
 
@@ -140,14 +138,18 @@ class RegistrationForm extends Component {
     return isFormValid;
   }
 
-  handleFormSubmit = (e) => {
+  handleFormSubmit = async e => {
     e.preventDefault();
-    const { email, password, fullName, username } = this.props.registrationForm;
+    const { email, password } = this.props.registrationForm;
     if (this.isFormValid()) {
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-        console.log(error.message)
-      });
-      // this.showModal();
+      try {
+        const user = await firebaseConfig
+          .auth()
+          .createUserWithEmailAndPassword(email, password);
+          this.showModal();
+      } catch (error) {
+        this.setState ({ error: error.message });
+      }
     } 
   }
 

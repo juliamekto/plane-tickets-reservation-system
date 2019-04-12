@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import firebase from 'firebase';
-import config from '../../../firebase/firebase.js';
+import firebaseConfig from '../../../firebase/firebase.js';
 import { connect } from 'react-redux';
 import FormInput from '../../../FormInput.jsx';
 import FormInputDate from '../../../FormInputDate.jsx';
@@ -16,7 +16,6 @@ const REG_EXP_PASSENGER_NUM_VALIDATION = /^\d+$/;
 class SearchForm extends Component {
      constructor(props){
      super(props);
-     firebase.initializeApp(config);
      
      this.state = {
           isOneWayTicketChosen: false,
@@ -115,7 +114,7 @@ class SearchForm extends Component {
      }
   }
 
-  validateClassType = (value) => {
+  validateClassType = value => {
      let { error } = this.state;
      
      if(value === 'default') {
@@ -157,7 +156,7 @@ class SearchForm extends Component {
      return isFormValid;
   }
 
-  handleFormSubmit = (e) => {
+  handleFormSubmit = e => {
      e.preventDefault();
      const { departCity, destinationCity, departDate, destinationDate,
             classType, adultNum, childNum } = this.props.searchForm;
