@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from 'react-router-dom';
 import firebaseConfig from './firebase/firebase.js';
+import ReactLoading from 'react-loading';
 import Intro from './intro/Intro.jsx';
 import Authorization from './authorizationForm/Authorization.jsx';
 import Registration from './registrationForm/Registration.jsx';
@@ -39,21 +40,21 @@ class AppRouter  extends Component  {
         const { authenticated, loading } = this.state;
 
         if (loading) {
-          return <p>Loading..</p>;
+            return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
         }
-        return (
-            <BrowserRouter>
-                <div>
-                    <Route path="/" exact component={Intro} />
-                    <Route path="/authorization" component={Authorization} />
-                    <Route path="/registration" component={Registration} />
-                    <PrivateRoute path="/flight-search" component={Search} authenticated={authenticated}/>
-                    <PrivateRoute path="/flight-booking" component={Book} authenticated={authenticated}/>
-                    <PrivateRoute path="/success" component={SuccessBooking} authenticated={authenticated}/>
-                    <PrivateRoute path="/user-account" component={OrderList} authenticated={authenticated}/>
-                </div>
-            </BrowserRouter>
-        )
+            return (
+                <BrowserRouter>
+                    <div>
+                        <Route path="/" exact component={Intro} />
+                        <Route path="/authorization" component={Authorization} />
+                        <Route path="/registration" component={Registration} />
+                        <PrivateRoute path="/flight-search" component={Search} authenticated={authenticated}/>
+                        <PrivateRoute path="/flight-booking" component={Book} authenticated={authenticated}/>
+                        <PrivateRoute path="/success" component={SuccessBooking} authenticated={authenticated}/>
+                        <PrivateRoute path="/user-account" component={OrderList} authenticated={authenticated}/>
+                    </div>
+                </BrowserRouter>
+            )
     }
 }; 
 
