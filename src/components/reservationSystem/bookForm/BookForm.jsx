@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
+import { withRouter  } from "react-router-dom";
 import firebase from 'firebase';
-import config from '../../firebase/firebase.js';
+import firebaseConfig from '../../firebase/firebase.js';
 import FormInput from '../../FormInput.jsx';
 import Modal from '../../modal/Modal.jsx';
 import Button from '../../Button.jsx';
@@ -15,7 +16,6 @@ const REG_EXP_LUGGAGE_NUM_VALIDATION = /^\d+$/;
 class BookForm extends Component {
   constructor(props){
     super(props);
-    firebase.initializeApp(config);
     
     this.state = {
       isModalShown: false,
@@ -27,18 +27,33 @@ class BookForm extends Component {
       error: ''
     }
   }
+  
+  componentDidMount = async () => {
+    let userId;
+    await firebaseConfig.auth().onAuthStateChanged(user => {
+      (user) ? userId = user.uid : console.log('cannot get user ID');
+    });
 
-  componentDidMount() {
-    let a =  firebase.database().ref('ticket');
-    let fetched_data = {};
-     a.on('value', (snapshot) =>{
+    const ticketId = this.getTicketId();
+ 
+    let a =  firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`);
+      let fetched_data = {};
+      a.on('value', (snapshot) =>{
        let data = snapshot.val();
         for ( let key in data) {
           fetched_data[key] = data[key];
         } 
-    });
+        this.setState ({ fetchedData: fetched_data });
+     });
+  }
 
-    this.setState ({ fetchedData: fetched_data });
+  getTicketId = () => {
+    let ticketId = this.props.location.pathname,
+        ticketIdPart = ticketId.lastIndexOf('/') + 1;
+    
+    ticketId = ticketId.substr(ticketIdPart)
+   
+    return ticketId;
   }
 
     showModal = (e) => {
@@ -217,4 +232,4 @@ class BookForm extends Component {
   }
 }
 
-export default BookForm;
+export default (withRouter(BookForm));

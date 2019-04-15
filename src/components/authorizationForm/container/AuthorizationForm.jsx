@@ -83,6 +83,10 @@ class AuthorizationForm extends Component {
           const user = await firebaseConfig
             .auth()
             .signInWithEmailAndPassword(email, password);
+            const userId =   user.user.uid;
+            firebaseConfig.database().ref(`/users/${userId}/data`).set({
+              "id": userId
+         });
           this.props.history.push("flight-search");
         } catch (error) {
           this.setState ({ error: error.message });

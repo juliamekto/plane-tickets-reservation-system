@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
+import { withRouter  } from "react-router-dom";
 import firebase from 'firebase';
 import firebaseConfig from '../../../firebase/firebase.js';
 import { connect } from 'react-redux';
@@ -31,7 +32,7 @@ class SearchForm extends Component {
           error: ''
      }
 }
-
+ 
   handleOneTicketBtn = () => this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen, isRoundTicketChosen: false }));
 
   handleRoundTicketBtn = () => this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen, isOneWayTicketChosen: false }));
@@ -156,14 +157,21 @@ class SearchForm extends Component {
      return isFormValid;
   }
 
-  handleFormSubmit = e => {
+  handleFormSubmit = async (e) => {
      e.preventDefault();
      const { departCity, destinationCity, departDate, destinationDate,
             classType, adultNum, childNum } = this.props.searchForm;
      const { isRoundTicketChosen, isOneWayTicketChosen } = this.state;
-         
+     let userId;
+     const ticketId = '_' + Math.random().toString(36).substr(2, 9); 
      if (this.isFormValid()) {
-          firebase.database().ref('/ticket').set({
+          try {
+            await firebaseConfig
+           .auth()
+           .onAuthStateChanged((user) => {
+               (user) ? userId = user.uid :  console.log('cannot get user ID');
+          });
+          firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).set({
                departCity,
                destinationCity,
                departDate,
@@ -173,11 +181,13 @@ class SearchForm extends Component {
                childNum,
                isRoundTicketChosen,
                isOneWayTicketChosen
-          });
-          window.location.href = 'flight-booking';
+         });
+         this.props.history.push(`flight-booking/${ticketId}`);
+          } catch (error) {
+               this.setState ({ error: error.message });
+          }
      }
-   }
-
+  }
   render() {
      const { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
              isDepartureDateValid, isDestinationDateValid, isAdultNumValid, isChildNumValid,
@@ -309,4 +319,4 @@ const mapDistpatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDistpatchToProps)(SearchForm);
+export default connect(mapStateToProps, mapDistpatchToProps)(withRouter(SearchForm)); 
