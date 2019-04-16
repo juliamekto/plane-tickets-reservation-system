@@ -36,13 +36,16 @@ class BookForm extends Component {
 
     const ticketId = this.getTicketId();
  
-    let a =  firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`);
+    let ticketData =  firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`);
       let fetched_data = {};
-      a.on('value', (snapshot) =>{
-       let data = snapshot.val();
+      
+      ticketData.on('value', (snapshot) =>{
+        let data = snapshot.val();
+        
         for ( let key in data) {
-          fetched_data[key] = data[key];
-        } 
+            fetched_data[key] = data[key];
+        }
+
         this.setState ({ fetchedData: fetched_data });
      });
   }
@@ -77,17 +80,29 @@ class BookForm extends Component {
       this.setState({ luggageNum : e.target.value, error: '' });
     }
 
-    handleFormSubmit = (e) => {
+    handleFormSubmit = async e => {
       e.preventDefault();
       const { luggageNum } = this.state;
-      let bookFormData;
+      const ticketId =  this.getTicketId();
+      let userId;
       
       if (luggageNum !== '') {
-          bookFormData = { luggageNum };
-          window.location.href = 'success';
-      }
+        try {
+          await firebaseConfig.auth().onAuthStateChanged((user) => {
+             (user) ? userId = user.uid :  console.log('cannot get user ID');
+        });
 
-      return bookFormData;
+        firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
+          luggageNum
+        });
+
+       this.props.history.push(`/success/${ticketId}`);
+
+        } catch (error) {
+             this.setState ({ error: error.message });
+        }
+   }
+      
     }
 
     getTicketInfo = () => {

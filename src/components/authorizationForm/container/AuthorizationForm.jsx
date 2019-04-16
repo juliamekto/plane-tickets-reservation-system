@@ -12,16 +12,12 @@ const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'
 const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
 class AuthorizationForm extends Component {
-  constructor(props){
-    super(props);
-    
-    this.state = {
+  state = {
       isFormValid: false,
       isEmailValid: true,
       isPasswordValid: true,
       error: ''
     }
-  }
 
   handleInput = ({ target: { name, value } }) => {
     if (name === 'email') {
@@ -51,7 +47,7 @@ class AuthorizationForm extends Component {
 
   isFormValid = () => {
     let { error, isPasswordValid, isEmailValid, isFormValid } = this.state;
-    let { email, password } = this.props.authForm;
+    const { email, password } = this.props.authForm;
     
     if (!isPasswordValid || !isEmailValid) {
       error = 'incorrect email or password';
@@ -74,20 +70,21 @@ class AuthorizationForm extends Component {
     return isFormValid;
   }
 
-  handleFormSubmit = async (e) => {
+  handleFormSubmit = async e => {
     e.preventDefault();
     const { email, password } = this.props.authForm;
     
     if (this.isFormValid()) {
         try {
-          const user = await firebaseConfig
-            .auth()
-            .signInWithEmailAndPassword(email, password);
-            const userId =   user.user.uid;
-            firebaseConfig.database().ref(`/users/${userId}/data`).set({
+          const user = await firebaseConfig.auth().signInWithEmailAndPassword(email, password);
+          const userId =  user.user.uid;
+            
+          firebaseConfig.database().ref(`/users/${userId}/data`).set({
               "id": userId
-         });
+          });
+          
           this.props.history.push("flight-search");
+          
         } catch (error) {
           this.setState ({ error: error.message });
         }

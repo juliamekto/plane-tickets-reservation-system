@@ -15,10 +15,7 @@ const REG_EXP_USERNAME_VALIDATION = /^[a-z0-9_-]{3,16}$/;
 const REG_EXP_FULLNAME_VALIDATION = /^([a-zA-Z' ]+)$/;
 
 class RegistrationForm extends Component {
-  constructor(props){
-    super(props);
-    
-    this.state = {
+  state = {
         isModalShown: false,
         isCheckboxChecked: false,
         isFormValid: false,
@@ -30,7 +27,6 @@ class RegistrationForm extends Component {
         repeatedPassword: '',
         error: ''
     }
-  }
 
   handleInput = ({ target: { name, value } }) => {
     if (name === 'fullName') {
@@ -118,7 +114,7 @@ class RegistrationForm extends Component {
     let { error, isEmailValid, isPasswordValid, isRepeatedPasswordValid, 
           isUsernameValid, isFullNameValid, isFormValid, isCheckboxChecked,
           repeatedPassword } = this.state;
-    let { email, password, fullName, username } = this.props.registrationForm;  
+    const { email, password, fullName, username } = this.props.registrationForm;  
     
     if (!isPasswordValid || !isEmailValid || !isRepeatedPasswordValid || !isUsernameValid || !isFullNameValid) {
       error = 'Invalid form. Please, check the information once again';
@@ -141,16 +137,22 @@ class RegistrationForm extends Component {
   handleFormSubmit = async e => {
     e.preventDefault();
     const { email, password } = this.props.registrationForm;
+   
     if (this.isFormValid()) {
       try {
-        const user = await firebaseConfig
-          .auth()
-          .createUserWithEmailAndPassword(email, password);
-          this.showModal();
+        const user = await firebaseConfig.auth().createUserWithEmailAndPassword(email, password);
+        const userId =  user.user.uid;
+            
+        firebaseConfig.database().ref(`/users/${userId}/data`).set({
+            "id": userId
+        });
+
+        this.showModal();
       } catch (error) {
         this.setState ({ error: error.message });
       }
     } 
+
   }
 
   showModal = () => {

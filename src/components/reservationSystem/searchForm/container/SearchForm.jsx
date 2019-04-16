@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { withRouter  } from "react-router-dom";
-import firebase from 'firebase';
 import firebaseConfig from '../../../firebase/firebase.js';
 import { connect } from 'react-redux';
 import FormInput from '../../../FormInput.jsx';
@@ -15,10 +14,7 @@ const REG_EXP_CITY_VALIDATION = /^[a-zA-Z]+$/;
 const REG_EXP_PASSENGER_NUM_VALIDATION = /^\d+$/;
 
 class SearchForm extends Component {
-     constructor(props){
-     super(props);
-     
-     this.state = {
+     state = {
           isOneWayTicketChosen: false,
           isRoundTicketChosen: true,
           isDepartureCityValid: true,
@@ -31,7 +27,6 @@ class SearchForm extends Component {
           isFormValid: false,
           error: ''
      }
-}
  
   handleOneTicketBtn = () => this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen, isRoundTicketChosen: false }));
 
@@ -53,7 +48,6 @@ class SearchForm extends Component {
      } else {
           this.validateClassType(value);
      }
-
    }
 
   validateCity = (value, fieldName) => {
@@ -133,7 +127,7 @@ class SearchForm extends Component {
           isDepartureDateValid, isDestinationDateValid, isAdultNumValid, isChildNumValid,
           error, isClassTypeValid, isFormValid } = this.state;
      
-     let { departCity, destinationCity, departDate, destinationDate,
+     const { departCity, destinationCity, departDate, destinationDate,
            classType, adultNum, childNum } = this.props.searchForm;
      
      if(!isDepartureCityValid || !isDestinationCityValid || !isDepartureDateValid || !isDestinationDateValid || !isAdultNumValid || !isChildNumValid || !isClassTypeValid) {
@@ -157,37 +151,43 @@ class SearchForm extends Component {
      return isFormValid;
   }
 
-  handleFormSubmit = async (e) => {
+  handleFormSubmit = async e => {
      e.preventDefault();
      const { departCity, destinationCity, departDate, destinationDate,
             classType, adultNum, childNum } = this.props.searchForm;
+    
      const { isRoundTicketChosen, isOneWayTicketChosen } = this.state;
-     let userId;
+
      const ticketId = '_' + Math.random().toString(36).substr(2, 9); 
+     
+     let userId;
+       
      if (this.isFormValid()) {
           try {
-            await firebaseConfig
-           .auth()
-           .onAuthStateChanged((user) => {
-               (user) ? userId = user.uid :  console.log('cannot get user ID');
-          });
-          firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).set({
-               departCity,
-               destinationCity,
-               departDate,
-               destinationDate,
-               classType,
-               adultNum,
-               childNum,
-               isRoundTicketChosen,
-               isOneWayTicketChosen
-         });
-         this.props.history.push(`flight-booking/${ticketId}`);
+               await firebaseConfig.auth().onAuthStateChanged((user) => {
+                    (user) ? userId = user.uid : console.log('cannot get user ID');
+               });
+
+               firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
+                    departCity,
+                    destinationCity,
+                    departDate,
+                    destinationDate,
+                    classType,
+                    adultNum,
+                    childNum,
+                    isRoundTicketChosen,
+                    isOneWayTicketChosen
+               });
+
+               this.props.history.push(`flight-booking/${ticketId}`);
+          
           } catch (error) {
                this.setState ({ error: error.message });
           }
      }
   }
+
   render() {
      const { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
              isDepartureDateValid, isDestinationDateValid, isAdultNumValid, isChildNumValid,
@@ -303,7 +303,6 @@ class SearchForm extends Component {
     );
   }
 }
-
 
 const mapStateToProps = state => ({ searchForm: state.searchForm });
 
