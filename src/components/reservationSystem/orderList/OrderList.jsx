@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import firebaseConfig from '../../firebase/firebase.js';
 import Button from '../../Button.jsx';
 import OrderListItem from '../orderList/OrderListItem.jsx';
+import MainHeader from '../../MainHeader.jsx';
 import './OrderList.css';
 
 class OrderList extends Component {
@@ -56,33 +57,10 @@ class OrderList extends Component {
             this.setState ({ route, ticketType, tripType, date });
         }
 
-    logOut = () => {
-        firebaseConfig.auth().signOut()
-            .then(() => {
-            this.setState({
-                user: null
-            });
-
-            this.props.history.push("/");
-        });
-    }
-
 render () {
     return (
             <div className="user-account">
-                <header className="user-account__header">
-                    <span className="user-account__title">My account</span>
-                    <div className="user-account__header-btn-wrapper">
-                        <Link to="/flight-search">
-                            <Button className="button button--user-account-header-btn user-account-header-btn--search-btn"
-                                    caption="find tickets" />
-                        </Link>
-                  
-                        <Button caption="log out"
-                                className="button button--user-account-header-btn"
-                                action={this.logOut}/>
-                    </div>
-                </header>
+               <MainHeader />
                 <div className="user-orders">
                     <span className="user-orders__title">My orders</span>
                     <div className="user-orders__main">

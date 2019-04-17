@@ -10,6 +10,7 @@ import Seat from '../bookForm/Seat.jsx';
 import seatData from '../bookForm/SeatsData';
 import FlightInfo from '../bookForm/FlightInfo.jsx';
 import InlineError from '../../InlineError.jsx';
+import MainHeader from '../../MainHeader.jsx'
 
 const REG_EXP_LUGGAGE_NUM_VALIDATION = /^\d+$/;
 
@@ -24,7 +25,9 @@ class BookForm extends Component {
       isRoundTicketChosen: true,
       isLuggageNumShown: false,
       luggageNum: '',
-      error: ''
+      error: '',
+      chosenSeats: [],
+      chosenSeatsNum: 0
     }
   }
   
@@ -50,6 +53,46 @@ class BookForm extends Component {
      });
   }
 
+  handleSeatClick= (e) => {
+    let { chosenSeats, passNumTotal, chosenSeatsNum, error } = this.state; 
+    const newChosenSeats = [...chosenSeats],
+          seatNum = e.target.getAttribute('data-num'),
+          seatRow = e.target.getAttribute('data-row'),
+          chosenSeatData = seatNum + seatRow;
+
+    if (e.target.classList.contains('seat--available')) {
+      e.target.classList.toggle('seat--booked');
+      
+      if (newChosenSeats.indexOf(chosenSeatData) === -1) {
+        newChosenSeats.push(chosenSeatData);
+        this.increment();
+      } else {
+        newChosenSeats.pop(chosenSeatData);
+        this.decrement();
+      }
+
+      if (chosenSeatsNum >= passNumTotal ) {
+        error = "You cannot choose more tickets than the number of travelers"; 
+      } else {
+        error = '';
+      }
+
+      this.setState({  chosenSeats: newChosenSeats, error }); 
+    }
+  }
+
+  increment = () => {
+    this.setState({
+      chosenSeatsNum: this.state.chosenSeatsNum + 1
+    });
+  };
+
+  decrement = () => {
+    this.setState({
+      chosenSeatsNum: this.state.chosenSeatsNum - 1
+    });
+  };
+
   getTicketId = () => {
     let ticketId = this.props.location.pathname,
         ticketIdPart = ticketId.lastIndexOf('/') + 1;
@@ -59,67 +102,69 @@ class BookForm extends Component {
     return ticketId;
   }
 
-    showModal = (e) => {
-        e.preventDefault();
-        this.setState ({ isModalShown: true });
-        this.getTicketInfo()
-    }
-
-
-    hideModal = () => this.setState({ isModalShown : false });
-
-    handleCheckboxClick= () => this.setState(({ isCheckboxChecked, isLuggageNumShown }) => ( { isCheckboxChecked: !isCheckboxChecked, isLuggageNumShown: !isLuggageNumShown }));
-
-    handleLuggageInput = (e) => {
-      let { error } = this.state;
-      if(!REG_EXP_LUGGAGE_NUM_VALIDATION.test(e.target.value)) {
-        error = "only numbers are allowed";
-        this.setState ({ luggageNum : '', error });
-        return;
-      }
-      this.setState({ luggageNum : e.target.value, error: '' });
-    }
-
-    handleFormSubmit = async e => {
+  showModal = (e) => {
       e.preventDefault();
-      const { luggageNum } = this.state;
-      const ticketId =  this.getTicketId();
-      let userId;
-      
-      if (luggageNum !== '') {
-        try {
-          await firebaseConfig.auth().onAuthStateChanged((user) => {
-             (user) ? userId = user.uid :  console.log('cannot get user ID');
-        });
+      this.setState ({ isModalShown: true });
+      this.getTicketInfo()
+  }
 
-        firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
-          luggageNum
-        });
 
-       this.props.history.push(`/success/${ticketId}`);
+  hideModal = () => this.setState({ isModalShown : false });
 
-        } catch (error) {
-             this.setState ({ error: error.message });
-        }
-   }
-      
+  handleCheckboxClick= () => this.setState(({ isCheckboxChecked, isLuggageNumShown }) => ( { isCheckboxChecked: !isCheckboxChecked, isLuggageNumShown: !isLuggageNumShown }));
+
+  handleLuggageInput = (e) => {
+    let { error } = this.state;
+    if(!REG_EXP_LUGGAGE_NUM_VALIDATION.test(e.target.value)) {
+      error = "only numbers are allowed";
+      this.setState ({ luggageNum : '', error });
+      return;
     }
+    this.setState({ luggageNum : e.target.value, error: '' });
+  }
 
-    getTicketInfo = () => {
-      const { departCity, destinationCity, adultNum, childNum, classType, isRoundTicketChosen, departDate, destinationDate } = this.state.fetchedData;
-     
-      const route = `${departCity} - ${destinationCity}`,
-            passNum =  (Number(adultNum) + Number(childNum) >= 1) ? `${Number(adultNum) + Number(childNum)} travelers` : `${Number(adultNum) + Number(childNum)} traveler`,
-            ticketType  = classType.replace(/Class/g,''),
-            tripType = (isRoundTicketChosen) ? 'Round trip' : 'One way',
-            date = `${departDate} - ${destinationDate}`;
-      
-      this.setState ({ route, passNum, ticketType, tripType, date });
-    }
+  handleFormSubmit = async e => {
+    e.preventDefault();
+    const { luggageNum, chosenSeats } = this.state;
+    const ticketId =  this.getTicketId();
+    let userId;
+    
+    if (luggageNum !== '') {
+      try {
+        await firebaseConfig.auth().onAuthStateChanged((user) => {
+            (user) ? userId = user.uid :  console.log('cannot get user ID');
+      });
+
+      firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
+          luggageNum,
+          chosenSeats
+      });
+
+      this.props.history.push(`/success/${ticketId}`);
+
+      } catch (error) {
+            this.setState ({ error: error.message });
+      }
+  }
+    
+  }
+
+  getTicketInfo = () => {
+    const { departCity, destinationCity, adultNum, childNum, classType, isRoundTicketChosen, departDate, destinationDate } = this.state.fetchedData;
+    
+    const route = `${departCity} - ${destinationCity}`,
+          passNumTotal = Number(adultNum) + Number(childNum),
+          passNum =  (Number(adultNum) + Number(childNum) >= 1) ? `${Number(adultNum) + Number(childNum)} travelers` : `${Number(adultNum) + Number(childNum)} traveler`,
+          ticketType  = classType.replace(/Class/g,''),
+          tripType = (isRoundTicketChosen) ? 'Round trip' : 'One way',
+          date = `${departDate} - ${destinationDate}`;
+    
+    this.setState ({ route, passNum, passNumTotal, ticketType, tripType, date });
+  }
 
   render() {
     const { isModalShown, isCheckboxChecked, isOneWayTicketChosen, isRoundTicketChosen, isLuggageNumShown, error,
-            route, passNum, ticketType, tripType, date } = this.state;
+            route, passNum, ticketType, tripType, date, chosenSeats, chosenSeatsNum } = this.state;
 
     const errorClass = classNames('inline-error',{
       'inline-error--show': error
@@ -139,21 +184,35 @@ class BookForm extends Component {
     });
 
     const seatDataItemRowA = []; 
-    const seatDataItemRowB = []; 
+    const seatDataItemRowB = [];
+    const seatDataItemRowC = []; 
+    const seatDataItemRowD = []; 
+    const seatDataItemRowE = []; 
     
     seatData.forEach(function(el) {
        if ( el.row === "A" ) {
         seatDataItemRowA.push(el)
-       } else {
+       } else if ( el.row === "B" ) {
         seatDataItemRowB.push(el)
+       } else if ( el.row === "C" ) {
+        seatDataItemRowC.push(el)
+       } else if ( el.row === "D" ) {
+        seatDataItemRowD.push(el)
+       } else {
+        seatDataItemRowE.push(el)
        }
     });
 
-    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id} row={item.row} seatNum={item.num}/> )
-    const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id} row={item.row} seatNum={item.num}/> )
-
+    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id} row={item.row} /> )
+    const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id} row={item.row} /> )
+    const seatsRowC = seatDataItemRowC.map( item => <Seat item={item} key={item.id} row={item.row} /> )
+    const seatsRowD = seatDataItemRowD.map( item => <Seat item={item} key={item.id} row={item.row} /> )
+    const seatsRowE = seatDataItemRowE.map( item => <Seat item={item} key={item.id} row={item.row} /> )
+    
     return (
-      <div className={bookFormClass}>
+      <React.Fragment>
+        <MainHeader />
+        <div className={bookFormClass}>
         <h2 className="book-form__title">Book the flight</h2>
         <div className="book-form__flights">
             <span className="flights__title">recommended flights</span>
@@ -190,11 +249,28 @@ class BookForm extends Component {
                         <div className="seats-scheme__wrapper">
                             <div className="seats-row">
                                 <span className='row-name'>A</span>
-                                <div className="seats-wrapper">{seatsRowA}</div>
+                                <div className="seats-wrapper"
+                                     onClick={this.handleSeatClick}>{seatsRowA}</div>
                             </div>
                             <div className="seats-row">
                                 <span className='row-name'>B</span>
-                                <div className="seats-wrapper">{seatsRowB}</div>
+                                <div className="seats-wrapper"
+                                     onClick={this.handleSeatClick}>{seatsRowB}</div>
+                            </div>
+                            <div className="seats-row">
+                                <span className='row-name'>C</span>
+                                <div className="seats-wrapper"
+                                     onClick={this.handleSeatClick}>{seatsRowC}</div>
+                            </div>
+                            <div className="seats-row">
+                                <span className='row-name'>D</span>
+                                <div className="seats-wrapper"
+                                     onClick={this.handleSeatClick}>{seatsRowD}</div>
+                            </div>
+                            <div className="seats-row">
+                                <span className='row-name'>E</span>
+                                <div className="seats-wrapper"
+                                     onClick={this.handleSeatClick}>{seatsRowE}</div>
                             </div>
                         </div>
                         <div className='seats-scheme__legend'>
@@ -211,6 +287,7 @@ class BookForm extends Component {
                             <span className="legend-item__caption">booking</span>
                          </div>
                         </div>
+                        <p className='seats-scheme__caption'>Your seats ({chosenSeatsNum}): {chosenSeats} </p>
                    </div>
                    <div className="modal-booking__luggage">
                         <div className="luggage-presence">
@@ -243,6 +320,7 @@ class BookForm extends Component {
               </button>
         </Modal>
       </div> 
+      </React.Fragment>
     );
   }
 }

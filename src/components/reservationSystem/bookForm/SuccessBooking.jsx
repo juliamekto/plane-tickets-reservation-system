@@ -4,20 +4,9 @@ import Button from '../../Button.jsx';
 import './SuccessBooking.css';
 
 class SuccessBooking extends Component {  
-    
-  getTicketId = () => {
-    let ticketId = this.props.location.pathname,
-        ticketIdPart = ticketId.lastIndexOf('/') + 1;
-    
-    ticketId = ticketId.substr(ticketIdPart)
-   
-    return ticketId;
-  }
-
   handleConfirmBtn = e => {
     e.preventDefault();
-    const ticketId = this.getTicketId();
-    this.props.history.push(`/user-account/${ticketId}`);
+    this.props.history.push(`/user-account`);
   }
 
     render() {

@@ -132,6 +132,7 @@
     width: 100%;
     max-width: 600px;
     display: flex;
+    margin: 10px 0 20px 0;
 }
 
 .seats-scheme {
@@ -142,9 +143,24 @@
 
 .seats-wrapper {
     display: flex;
-    height: 250px;
     flex-direction: column;
     flex-wrap: wrap;
+}
+
+.row-name {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.seats-row {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.seats-row:last-of-type {
+    margin-right: 0;
 }
 
 .modal-booking__luggage {
@@ -266,25 +282,43 @@
 .legend-item__icon {
     width: 20px;
     height: 20px;
+    border-radius: 5px;
     margin-right: 5px;
 }
 
 .legend-item__icon--available {
-    background-color: #31e84e;
+    background-color: #10c2fd;
 }
 
 .legend-item__icon--not-available {
-    background-color: #80f092;
+    background-color: #b0e8f9;
 }
 
 .legend-item__icon--booked {
-    background-color: #ea1d1d;
+    background-color: #306d86;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
 }
+
+.legend-item__caption {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.seats-scheme__caption {
+    width: 100%;
+    max-width: 300px;
+    font-size: 22px;
+    color: #000;
+    font-weight: bold;
+    border-bottom: 1px solid #306d86;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 @media screen and (max-width: 425px) {
 /*REGISTRATION FORM STYLES*/
     .modal-greeting__text {

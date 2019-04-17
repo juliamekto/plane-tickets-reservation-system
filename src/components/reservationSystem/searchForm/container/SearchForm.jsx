@@ -8,6 +8,7 @@ import FormInputDate from '../../../FormInputDate.jsx';
 import FormSelect from '../../../FormSelect.jsx';
 import Button from '../../../Button.jsx';
 import InlineError from '../../../InlineError.jsx';
+import MainHeader from '../../../MainHeader.jsx';
 import { getSearchFormData } from '../actions/SearchFormActions.js'
 
 const REG_EXP_CITY_VALIDATION = /^[a-zA-Z]+$/;
@@ -237,6 +238,8 @@ class SearchForm extends Component {
      });
 
     return (
+         <React.Fragment>
+              <MainHeader />
       <div className="search">
         <h2 className="search__title">Find the flight</h2>
         <form className="search__form">
@@ -300,6 +303,8 @@ class SearchForm extends Component {
         </form>
         <InlineError className={errorClass} formErrors={error}/>
       </div> 
+         </React.Fragment>
+      
     );
   }
 }
