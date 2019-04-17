@@ -10,11 +10,11 @@
 }
 
 .intro-page__title {
-    color: #fff;
+    color: #306d86;
     font-size: 50px;
+    font-weight: lighter;
     text-transform: uppercase;
     text-align: center;
-    background-color: rgba(0,0,0,.3);
     padding: 10px;
 }
 

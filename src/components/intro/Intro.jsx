@@ -7,8 +7,9 @@ const Intro = () => (
   <section className="intro-page">
       <h1 className="intro-page__title">Welcome to a plane ticket reservation system</h1>
       <Link to="/authorization"> 
-            <Button type='button' 
-                    caption="Let's start"
+            <Button className='button button--intro-btn'
+                    type='button' 
+                    caption="search flights"
             /> 
       </Link>
   </section>

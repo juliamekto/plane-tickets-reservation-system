@@ -6,7 +6,7 @@
 
 .user-account__header {
     width: 100%;
-    background-color: #f30b0b;
+    background-color:  #63a8c5;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,7 +26,7 @@
 
 .user-orders {
     width: 100%;
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.1);
     color: #fff;
     font-size: 20px;
     margin-top: 50px;
@@ -35,10 +35,14 @@
 }
 
 .user-orders__title {
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.1);
+    color: #fff;
     padding: 15px;
     font-size: 20px;
-    font-weight: lighter;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
 }
 
 .user-orders__filters {
@@ -52,7 +56,7 @@
 }
 
 .user-orders__list {
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.1);
     margin: 30px 0 0 0;
     padding: 20px 0;
 }
@@ -64,10 +68,10 @@
 
 .order-list__item:nth-of-type(even) {
     background-color: rgba(255,255,255,.3);
+    color: #306d86;;
 }
 
 .order-list__item:hover {
-    color: #f30b0b;
     transition: color .2s linear;
     cursor: default;
 }

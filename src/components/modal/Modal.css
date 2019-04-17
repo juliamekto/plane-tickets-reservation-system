@@ -56,7 +56,6 @@
     width: 100%;
     background-color: #2ba87c;
     border-radius: 0;
-    padding: 20px 10px;
 }
 
 .modal-main--greeting .button:hover {
@@ -111,7 +110,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    border-bottom: 1px solid #f30b0b;
+    border-bottom: 1px solid #306d86;
 }
 
 .modal-booking__seats-scheme {
@@ -125,7 +124,7 @@
 .seats-scheme__title {
     font-size: 26px;
     font-weight: bold;
-    border-bottom: 1px solid #f30b0b;
+    border-bottom: 1px solid #306d86;
     align-self: center;
 }
 
@@ -186,7 +185,7 @@
 
 .luggage-presence__answer-input {
     margin: 0;
-    width: 50px;
+    width:25px;
     padding: 5px;
     border-radius: 10px;
     border: none;
@@ -202,7 +201,7 @@
     height: 40px;
     border-radius: 50%;
     padding: 0;
-    border: 2px solid #f30b0b;
+    border: 2px solid #306d86;
     background-color: #fff;
     position: absolute;
     top: -10px;
@@ -226,7 +225,7 @@
     display: block;
 	width: 20px;
 	height: 2px;
-    background-color: #f30b0b;
+    background-color: #306d86;
     position: absolute;
 	top: 50%;
 	left: 50%;
@@ -239,7 +238,7 @@
     display: block;
 	width: 20px;
 	height: 2px;
-    background-color: #f30b0b;
+    background-color: #306d86;
     position: absolute;
 	top: 50%;
 	left: 50%;
@@ -248,7 +247,7 @@
 }
 
 .modal__close-btn:hover {
-    background-color: #f30b0b;
+    background-color: #306d86;
     transition: .2s  background-color linear;
 }
 
