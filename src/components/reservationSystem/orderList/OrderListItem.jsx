@@ -14,9 +14,7 @@ const OrderListItem = ({ route, date, price, ticketType, tripType }) => (
 OrderListItem.propTypes  = {
     route: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
-    ticketType: PropTypes.string.isRequired,
-    tripType: PropTypes.string.isRequired
+    price: PropTypes.string.isRequired
 }
 
 export default OrderListItem;

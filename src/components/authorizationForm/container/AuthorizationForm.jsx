@@ -79,7 +79,7 @@ class AuthorizationForm extends Component {
           const user = await firebaseConfig.auth().signInWithEmailAndPassword(email, password);
           const userId =  user.user.uid;
             
-          firebaseConfig.database().ref(`/users/${userId}/data`).set({
+          firebaseConfig.database().ref(`/users/${userId}/data`).update({
               "id": userId
           });
           

@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import { withRouter  } from "react-router-dom";
 import firebaseConfig from '../../../firebase/firebase.js';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import FormInput from '../../../FormInput.jsx';
 import FormInputDate from '../../../FormInputDate.jsx';
 import FormSelect from '../../../FormSelect.jsx';
@@ -155,7 +156,7 @@ class SearchForm extends Component {
   handleFormSubmit = async e => {
      e.preventDefault();
      const { departCity, destinationCity, departDate, destinationDate,
-            classType, adultNum, childNum } = this.props.searchForm;
+            classType, adultNum, childNum } = this.props.searchForm ;
     
      const { isRoundTicketChosen, isOneWayTicketChosen } = this.state;
 
@@ -173,7 +174,7 @@ class SearchForm extends Component {
                     departCity,
                     destinationCity,
                     departDate,
-                    destinationDate,
+                    destinationDate: destinationDate || null,
                     classType,
                     adultNum,
                     childNum,
@@ -322,5 +323,17 @@ const mapDistpatchToProps = dispatch => {
     onChangeClassType: value => dispatch(getSearchFormData( 'classType', value ))
   }
 };
+
+// SearchForm.defaultProps  = {
+//     searchForm: {
+//      departCity: null,
+//      destinationCity: null,
+//      departDate: null, 
+//      destinationDate: null,
+//      classType: null, 
+//      adultNum: null, 
+//      childNum: null
+//     }
+// }
 
 export default connect(mapStateToProps, mapDistpatchToProps)(withRouter(SearchForm)); 

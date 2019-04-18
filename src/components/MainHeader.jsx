@@ -20,7 +20,7 @@ import './reservationSystem/orderList/OrderList.css';
     }
 
     redirectToUserAccount = () => {
-        window.location.href = 'user-account'
+        window.location.href = '/user-account'
     }
 
      render () {

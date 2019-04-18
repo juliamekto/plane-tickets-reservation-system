@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
-import { Link } from "react-router-dom";
 import firebaseConfig from '../../firebase/firebase.js';
+import _ from 'lodash';
+import ReactLoading from 'react-loading';
 import Button from '../../Button.jsx';
 import OrderListItem from '../orderList/OrderListItem.jsx';
 import MainHeader from '../../MainHeader.jsx';
@@ -8,23 +9,18 @@ import './OrderList.css';
 
 class OrderList extends Component {
     state = {
-        loading: true
+        isLoading: false
     }
 
-    componentDidMount =   () => {
-        this.fetchData();
-    }
-
-    fetchData = async () => {
+    componentDidMount =  async () => {
         let userId;
         
         await firebaseConfig.auth().onAuthStateChanged(user => {
             (user) ? userId = user.uid : console.log('cannot get user ID');
         });
     
-        const ticketId = this.getTicketId();
        
-        let ticketData =  await firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`);
+        let ticketData =  await firebaseConfig.database().ref(`/users/${userId}/data/ticket`);
         
         ticketData.on('value', (snapshot) =>{
             let data = snapshot.val();
@@ -32,33 +28,40 @@ class OrderList extends Component {
              for ( let key in data) {
                 fetched_data[key] = data[key];
             }
-            this.setState ({ fetchedData: fetched_data, loading: false });
-        });
-         
+      
+        let keys = _(fetched_data).map().uniq().value();
+        console.log(keys)
+        this.setState ({ fetchedData: keys, isLoading: false });
+
+        console.log(this.state.fetchedData)
+        // for (let i=0; i<keys.length; i++ ) {
+        //     this.setState ({ fetchedData: keys[i], isLoading: false });
+        // }
+        // console.log(this.state)
+        // this.setState ({ fetchedData: fetched_data, isLoading: false });
+        // this.getTicketData();
+      });
     }
 
-    getTicketId = () => {
-            let ticketId = this.props.location.pathname,
-                ticketIdPart = ticketId.lastIndexOf('/') + 1;
-            
-            ticketId = ticketId.substr(ticketIdPart)
-            
-            return ticketId;
-        }
 
     getTicketData = () => {
             const { departCity, destinationCity, classType, isRoundTicketChosen, departDate, destinationDate } = this.state.fetchedData;
         
             const route = `${departCity} - ${destinationCity}`,
-                ticketType  = classType.replace(/Class/g,''),
-                tripType = (isRoundTicketChosen) ? 'Round trip' : 'One way',
-                date = `${departDate} - ${destinationDate}`;
+                 date = `${departDate} - ${destinationDate}`;
             
-            this.setState ({ route, ticketType, tripType, date });
+            this.setState ({ route, date });
         }
 
 render () {
-    return (
+    const { route, date, fetchedData } = this.state;
+
+    console.log('render', fetchedData)
+    // const orders = fetchedData.map( item => <OrderListItem item={item} key={item.id} row={item.row} /> )
+    if (this.state.isLoading) {
+        return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
+    } else {
+        return (
             <div className="user-account">
                <MainHeader />
                 <div className="user-orders">
@@ -69,17 +72,13 @@ render () {
                             <Button className="button orders-filters-btn--current" caption="Current orders" />
                         </div>
                         <ul className="user-orders__list">
-                            <OrderListItem route="Minsk - Moscow"
-                                            date='15/03/19'
-                                            price='100$'  />
-                            <OrderListItem route="Minsk - London"
-                                            date='12/03/19'
-                                            price='230$'  />
+                            {/* {orders} */}
                         </ul>
                     </div>
                 </div>
             </div>
         )
+    }
     }
     
 }

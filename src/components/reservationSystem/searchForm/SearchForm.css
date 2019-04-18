@@ -118,7 +118,8 @@
 }
 
 .search-form__label {
-    color: #fff;
+    color: #003b54;
+    font-weight: bold;
     font-size: 16px;
     margin: 0 0 10px 10px;
 }
