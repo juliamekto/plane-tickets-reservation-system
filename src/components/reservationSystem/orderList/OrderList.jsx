@@ -9,7 +9,8 @@ import './OrderList.css';
 
 class OrderList extends Component {
     state = {
-        isLoading: false
+        isLoading: true,
+        fetchedData: [ { id: 1, default: 'default'}]
     }
 
     componentDidMount =  async () => {
@@ -20,7 +21,7 @@ class OrderList extends Component {
         });
     
        
-        let ticketData =  await firebaseConfig.database().ref(`/users/${userId}/data/ticket`);
+        let ticketData = firebaseConfig.database().ref(`/users/${userId}/data/ticket`);
         
         ticketData.on('value', (snapshot) =>{
             let data = snapshot.val();
@@ -30,19 +31,11 @@ class OrderList extends Component {
             }
       
         let keys = _(fetched_data).map().uniq().value();
-        console.log(keys)
-        this.setState ({ fetchedData: keys, isLoading: false });
+        this.setState({ fetchedData: keys, isLoading: false });
 
-        console.log(this.state.fetchedData)
-        // for (let i=0; i<keys.length; i++ ) {
-        //     this.setState ({ fetchedData: keys[i], isLoading: false });
-        // }
-        // console.log(this.state)
-        // this.setState ({ fetchedData: fetched_data, isLoading: false });
-        // this.getTicketData();
+        console.log('1', this.state.fetchedData)
       });
     }
-
 
     getTicketData = () => {
             const { departCity, destinationCity, classType, isRoundTicketChosen, departDate, destinationDate } = this.state.fetchedData;
@@ -51,13 +44,14 @@ class OrderList extends Component {
                  date = `${departDate} - ${destinationDate}`;
             
             this.setState ({ route, date });
-        }
+    }
 
 render () {
     const { route, date, fetchedData } = this.state;
-
-    console.log('render', fetchedData)
-    // const orders = fetchedData.map( item => <OrderListItem item={item} key={item.id} row={item.row} /> )
+   
+    const userOrders =  fetchedData.map( item => <OrderListItem  item={item} key={item.ticketId} /> ); 
+    // const userOrders =  'wqd'; 
+ 
     if (this.state.isLoading) {
         return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
     } else {
@@ -72,7 +66,7 @@ render () {
                             <Button className="button orders-filters-btn--current" caption="Current orders" />
                         </div>
                         <ul className="user-orders__list">
-                            {/* {orders} */}
+                            {userOrders}
                         </ul>
                     </div>
                 </div>

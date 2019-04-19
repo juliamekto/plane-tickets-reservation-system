@@ -171,6 +171,7 @@ class SearchForm extends Component {
                });
 
                firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
+                    ticketId,
                     departCity,
                     destinationCity,
                     departDate,

@@ -62,7 +62,10 @@
 }
 
 .order-list__item-route,
-.order-list__item-date {
+.order-list__item-date,
+.order-list__item-price,
+.order-list__item-ticketType,
+.order-list__item-tripType {
     margin-right: 10px;
 }
 
