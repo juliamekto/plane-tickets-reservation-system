@@ -15,15 +15,14 @@ class OrderList extends Component {
 
     componentDidMount =  async () => {
         let userId;
-        
+
         await firebaseConfig.auth().onAuthStateChanged(user => {
             (user) ? userId = user.uid : console.log('cannot get user ID');
         });
-    
        
         let ticketData = firebaseConfig.database().ref(`/users/${userId}/data/ticket`);
         
-        ticketData.on('value', (snapshot) =>{
+        ticketData.on('value', (snapshot) => {
             let data = snapshot.val();
             let fetched_data = {};
              for ( let key in data) {
@@ -32,25 +31,13 @@ class OrderList extends Component {
       
         let keys = _(fetched_data).map().uniq().value();
         this.setState({ fetchedData: keys, isLoading: false });
-
-        console.log('1', this.state.fetchedData)
       });
     }
 
-    getTicketData = () => {
-            const { departCity, destinationCity, classType, isRoundTicketChosen, departDate, destinationDate } = this.state.fetchedData;
-        
-            const route = `${departCity} - ${destinationCity}`,
-                 date = `${departDate} - ${destinationDate}`;
-            
-            this.setState ({ route, date });
-    }
-
 render () {
-    const { route, date, fetchedData } = this.state;
+    const { fetchedData } = this.state;
    
     const userOrders =  fetchedData.map( item => <OrderListItem  item={item} key={item.ticketId} /> ); 
-    // const userOrders =  'wqd'; 
  
     if (this.state.isLoading) {
         return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
@@ -72,9 +59,8 @@ render () {
                 </div>
             </div>
         )
-    }
-    }
-    
+      }
+    } 
 }
     
 export default OrderList;

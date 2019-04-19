@@ -36,6 +36,12 @@
     margin-bottom: 30px;
 }
 
+.flights__wrapper {
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+
 .flight-info {
     width: 100%;
     padding: 15px;

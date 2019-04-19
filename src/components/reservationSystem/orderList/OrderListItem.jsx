@@ -22,7 +22,7 @@ class OrderListItem extends Component {
     
         const route = `${departCity} - ${destinationCity}`,
               passNumTotal = Number(adultNum) + Number(childNum),
-              passNum =  (passNumTotal >= 1) ? `${passNumTotal} travelers` : `${passNumTotal} traveler`,
+              passNum =  (passNumTotal >= 1) ? `${passNumTotal} traveler` : `${passNumTotal} travelers`,
               ticketType = classType.replace(/Class/g,''),
               tripType = (isRoundTicketChosen) ? 'Round trip' : 'One way',
               date = (isRoundTicketChosen) ? `${departDate} - ${destinationDate}` : `${departDate}`;
@@ -49,7 +49,19 @@ class OrderListItem extends Component {
 OrderListItem.propTypes  = {
     route: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired
+    price: PropTypes.string.isRequired,
+    passNum: PropTypes.string.isRequired,
+    ticketType: PropTypes.string.isRequired,
+    tripType: PropTypes.string.isRequired
+}
+
+OrderListItem.defaultProps  = {
+    route: 'route',
+    date: 'date',
+    price: 'price',
+    passNum:'passNum',
+    ticketType: 'ticketType',
+    tripType: 'tripType'
 }
 
 export default OrderListItem;

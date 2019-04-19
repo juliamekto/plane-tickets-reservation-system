@@ -11,6 +11,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .user-account__title {
@@ -83,6 +86,7 @@
     list-style: none;
     padding-left: 10px;
 }
+
 @media screen and (max-width: 425px) {
     .user-account__title {
         font-size: 17px;

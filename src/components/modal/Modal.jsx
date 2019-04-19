@@ -24,4 +24,8 @@ Modal.propTypes  = {
   modalMainClass: PropTypes.string
 }
 
+Modal.defaultProps = {
+  show: false
+}
+
 export default Modal;
