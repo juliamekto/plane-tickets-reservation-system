@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 
 class OrderListItem extends Component {
     state = {
@@ -10,7 +11,9 @@ class OrderListItem extends Component {
         departDate: this.props.item.departDate,
         destinationDate: this.props.item.destinationDate,
         adultNum: this.props.item.adultNum,
-        childNum: this.props.item.childNum
+        childNum: this.props.item.childNum,
+        pastOrder: this.props.item.pastOrder,
+        currentOrder: this.props.item.currentOrder
     }
 
     componentDidMount =  () => {
@@ -31,9 +34,15 @@ class OrderListItem extends Component {
     }
 
     render() {
-        const { route, passNum, date, ticketType, tripType } = this.state
+        const { route, passNum, date, ticketType, tripType, pastOrder, currentOrder } = this.state
+       
+        const orderListItemClass = classNames('order-list__item',{
+            'order-list__item--past': pastOrder,
+            'order-list__item--current': currentOrder
+        });
+        
         return (
-            <li className="order-list__item">
+            <li className={orderListItemClass}>
                 <span className="order-list__item-route">{route}</span>
                 <span className="order-list__item-date">{date}</span>
                 <span className="order-list__item-price">230$</span>
