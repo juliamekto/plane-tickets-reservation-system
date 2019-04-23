@@ -22,7 +22,7 @@ class OrderListItem extends Component {
     
         const route = `${departCity} - ${destinationCity}`,
               passNumTotal = Number(adultNum) + Number(childNum),
-              passNum =  (passNumTotal >= 1) ? `${passNumTotal} traveler` : `${passNumTotal} travelers`,
+              passNum =  (passNumTotal < 2) ? `${passNumTotal} traveler` : `${passNumTotal} travelers`,
               ticketType = classType.replace(/Class/g,''),
               tripType = (isRoundTicketChosen) ? 'Round trip' : 'One way',
               date = (isRoundTicketChosen) ? `${departDate} - ${destinationDate}` : `${departDate}`;
@@ -32,8 +32,7 @@ class OrderListItem extends Component {
 
     render() {
         const { route, passNum, date, ticketType, tripType } = this.state
-       
-        return(
+        return (
             <li className="order-list__item">
                 <span className="order-list__item-route">{route}</span>
                 <span className="order-list__item-date">{date}</span>

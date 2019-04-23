@@ -62,7 +62,7 @@ h2 {
   width: 100%;
 }
 
-.button--user-account-header-btn  {
+.button--account-header-btn  {
   width: auto;
   text-transform: uppercase;
   font-weight: bold;
@@ -90,7 +90,7 @@ h2 {
 }
 
 
-.button--user-account-header-btn:hover {
+.button--account-header-btn:hover {
   background-color: transparent;
   color: rgba(0,0,0,.3);
 }
@@ -123,7 +123,7 @@ h2 {
       font-size: 14px;
   }
 
-  .button--user-account-header-btn {
+  .button--account-header-btn {
     font-size: 14px;
   }
 

@@ -29,22 +29,22 @@ class OrderList extends Component {
                 fetched_data[key] = data[key];
             }
       
-        let keys = _(fetched_data).map().uniq().value();
-        this.setState({ fetchedData: keys, isLoading: false });
+        const ticketDataKeys = _(fetched_data).map().uniq().value();
+        this.setState({ fetchedData: ticketDataKeys, isLoading: false });
       });
     }
 
 render () {
-    const { fetchedData } = this.state;
+    const { fetchedData, isLoading } = this.state;
    
     const userOrders =  fetchedData.map( item => <OrderListItem  item={item} key={item.ticketId} /> ); 
  
-    if (this.state.isLoading) {
+    if (isLoading) {
         return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
     } else {
         return (
             <div className="user-account">
-               <MainHeader />
+                <MainHeader />
                 <div className="user-orders">
                     <span className="user-orders__title">My orders</span>
                     <div className="user-orders__main">

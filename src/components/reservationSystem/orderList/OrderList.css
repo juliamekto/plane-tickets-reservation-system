@@ -1,10 +1,4 @@
-.user-account   {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.user-account__header {
+.account-header {
     width: 100%;
     background-color:  #63a8c5;
     display: flex;
@@ -16,14 +10,14 @@
     top: 0;
 }
 
-.user-account__title {
+.account-header__title {
     font-size: 24px;
     font-weight: bold;
     text-transform: uppercase;
     color: #fff;
 }
 
-.user-account-header-btn--search-btn {
+.account-header-btn--search-btn {
     margin-right: 20px;
 }
 
@@ -32,9 +26,11 @@
     background-color: rgba(0,0,0,.1);
     color: #fff;
     font-size: 20px;
-    margin-top: 50px;
     display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 10%;
+    left: 0;
 }
 
 .user-orders__title {
@@ -88,11 +84,11 @@
 }
 
 @media screen and (max-width: 425px) {
-    .user-account__title {
+    .account-header__title {
         font-size: 17px;
     }
     
-    .user-account-header-btn--search-btn {
+    .account-header-btn--search-btn {
         margin-right: 10px;
     }
 }

@@ -4,7 +4,8 @@ import Button from '../../Button.jsx';
 import './SuccessBooking.css';
 
 class SuccessBooking extends Component {  
-  handleConfirmBtn = e => {
+ 
+    handleConfirmBtn = e => {
     e.preventDefault();
     this.props.history.push(`/user-account`);
   }
