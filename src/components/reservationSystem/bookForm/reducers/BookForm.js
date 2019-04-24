@@ -20,6 +20,16 @@ const bookForm = (state = {}, action) => {
           ...state,
           isOneWayTicketChosen: action.isOneWayTicketChosen
         }
+        case 'CHECKING_TICKET_INFO':
+        return  {
+          ...state,
+          isTicketInfoAvailable: action.isTicketInfoAvailable
+        }
+        case 'START_TIMER':
+        return  {
+          ...state,
+          isTimerStarted: action.isTimerStarted
+        }
       default:
         return state
     }

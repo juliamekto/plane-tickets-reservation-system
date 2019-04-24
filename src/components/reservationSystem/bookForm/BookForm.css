@@ -94,14 +94,54 @@
     font-weight: bold;
     background-color: #306d86;
 }
+
+/* NOTIFICATION STYLES */
+.notification {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    padding: 10px;
+    background-color: rgba(255,255,255,.5);
+    border-radius: 10px;
+    color: #000;
+    box-shadow: 0 0 10px #63a8c5;
+}
+
+.notification__text {
+    text-align: center;
+    font-weight: lighter;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+/* TIMER STYLES */
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 660px) {
     .book-form-wrapper__title {
         font-size: 44px;
     }
+
     .flight-info {
         grid-template-columns: 100px auto 110px;
         font-size: 16px;
         grid-gap: 0 5px;
+    }
+
+    .notification__text {
+        font-size: 18px;
     }
 }
 
@@ -109,6 +149,7 @@
     .book-form-wrapper__title {
         font-size: 38px;
     }
+
     .flight-info {
         grid-template-columns: 1fr;
         grid-gap: 10px 0;

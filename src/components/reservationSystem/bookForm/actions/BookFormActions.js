@@ -17,3 +17,13 @@ export const isOneWayTicketChosen = value => ({
   type: 'ONEWAY_TICKET_CHOSEN',
   isOneWayTicketChosen: value
 });
+
+export const isTicketInfoAvailable = value => ({
+  type: 'CHECKING_TICKET_INFO',
+  isTicketInfoAvailable: value
+});
+
+export const isTimerStarted = value => ({
+  type: 'START_TIMER',
+  isTimerStarted: value
+});

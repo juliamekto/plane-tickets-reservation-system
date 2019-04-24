@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 import { withRouter  } from "react-router-dom";
-import { hideModal, isRoundTicketChosen, isOneWayTicketChosen } from '../actions/BookFormActions.js';
+import { hideModal, isRoundTicketChosen, isOneWayTicketChosen, isTicketInfoAvailable, isTimerStarted } from '../actions/BookFormActions.js';
 import firebaseConfig from '../../../firebase/firebase.js';
 import ReactLoading from 'react-loading';
 import FormInput from '../../../FormInput.jsx';
@@ -12,6 +12,7 @@ import Seat from '../Seat.jsx';
 import seatData from '../SeatsData';
 import InlineError from '../../../InlineError.jsx';
 import SeatRow from '../SeatRow.jsx';
+import Timer from '../Timer.jsx'
 
 const REG_EXP_LUGGAGE_NUM_VALIDATION = /^\d+$/;
 
@@ -23,7 +24,8 @@ class ModalBooking extends Component {
       error: '',
       chosenSeats: [],
       chosenSeatsNum: 0,
-      isLoading: true
+      isLoading: true,
+      isFormValid: false
   }
   
   componentDidMount = async () => {
@@ -33,20 +35,25 @@ class ModalBooking extends Component {
     });
 
     const ticketId = this.getTicketId();
- 
-    const ticketData =  firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`);
-    const fetched_data = {};
+
+    if(ticketId === 'flight-booking') {
+      this.props.checkTicketInfo(false);
+    } else {
+      const ticketData =  firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`);
+      const fetched_data = {};
+
       
-    ticketData.on('value', (snapshot) => {
-        const data = snapshot.val();
-        
-        for ( let key in data) {
-            fetched_data[key] = data[key];
-        }
-        
-        this.setState ({ fetchedData: fetched_data, isLoading: false });
-        this.getTicketInfo();
-     });
+      ticketData.on('value', (snapshot) => {
+          const data = snapshot.val();
+          
+          for ( let key in data) {
+              fetched_data[key] = data[key];
+          }
+          
+          this.setState ({ fetchedData: fetched_data, isLoading: false });
+          this.getTicketInfo();
+      });
+    }
   }
 
   handleSeatClick= e => {
@@ -75,6 +82,8 @@ class ModalBooking extends Component {
 
         this.setState({  chosenSeats: newChosenSeats, error }); 
     }
+
+    this.props.startTimer(true);
   }
 
   increment = () =>  this.setState({ chosenSeatsNum: this.state.chosenSeatsNum + 1 });
@@ -104,12 +113,36 @@ class ModalBooking extends Component {
     this.setState({ luggageNum : e.target.value, error: '' });
   }
 
+  isFormValid = () => {
+    const { chosenSeats, isLuggageNumShown, luggageNum, passNumTotal } = this.state
+    let { error, isFormValid } = this.state;
+
+   if (chosenSeats.length === 0) {
+      error = 'please, choose the seats'
+      this.setState ({ error, isFormValid: false })
+   } else if ( isLuggageNumShown && luggageNum === null) {
+      error = 'please, enter the amount of your luggage'
+      this.setState ({ error, isFormValid: false })
+   } else if (chosenSeats.length < passNumTotal){
+      error= 'the number of chosen seats does not match the number of travelers'
+      this.setState ({ error, isFormValid: false })
+   } else {
+      error = ''
+      isFormValid = true;
+      this.setState ({ error, isFormValid })
+   }
+
+   return isFormValid;
+  
+  }
+
   handleFormSubmit = async e => {
     e.preventDefault();
     const { luggageNum, chosenSeats } = this.state;
     const ticketId =  this.getTicketId();
     let userId;
     
+    if (this.isFormValid()) {
       try {
         await firebaseConfig.auth().onAuthStateChanged((user) => {
             (user) ? userId = user.uid :  console.log('cannot get user ID');
@@ -118,20 +151,21 @@ class ModalBooking extends Component {
         firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
             luggageNum,
             chosenSeats
-        });
+        }); 
 
         this.props.history.push(`/success/${ticketId}`);
 
       } catch (error) {
         this.setState ({ error: error.message });
       }
+    }
   }
 
   getTicketInfo = () => {
     const { departCity, destinationCity, adultNum, childNum, classType, isRoundTicketChosen, isOneWayTicketChosen,  departDate, destinationDate } = this.state.fetchedData;
     const route = `${departCity} - ${destinationCity}`,
           passNumTotal = Number(adultNum) + Number(childNum),
-          passNum =  (passNumTotal >= 1) ? `${passNumTotal} traveler` : `${passNumTotal} travelers`,
+          passNum =  (passNumTotal < 2) ? `${passNumTotal} traveler` : `${passNumTotal} travelers`,
           ticketType = classType.replace(/Class/g,''),
           tripType = (isRoundTicketChosen) ? 'Round trip' : 'One way',
           date = (isRoundTicketChosen) ? `${departDate} - ${destinationDate}` : `${departDate}`;
@@ -245,6 +279,7 @@ class ModalBooking extends Component {
                                   <FormInput customClassName="luggage-presence__answer-input" action={this.handleLuggageInput}/>
                               </div>
                           </div>
+                          <Timer />
                      </div>
                 </div>
                 <InlineError className={errorClass} formErrors={error}/>
@@ -257,18 +292,18 @@ class ModalBooking extends Component {
           </Modal>
       );
     }
-   
   }
 }
 
 const mapStateToProps = state => ({ bookForm: state.bookForm });
 
-  const mapDistpatchToProps = dispatch => {
-    return {
-      hideModal: () => dispatch(hideModal()),
-      chooseRoundTicket: value => dispatch(isRoundTicketChosen( value )),
-      chooseOnewayTicket: value => dispatch(isOneWayTicketChosen( value ))
-    }
-  };
-
+const mapDistpatchToProps = dispatch => {
+  return {
+    hideModal: () => dispatch(hideModal()),
+    chooseRoundTicket: value => dispatch(isRoundTicketChosen( value )),
+    chooseOnewayTicket: value => dispatch(isOneWayTicketChosen( value )),
+    checkTicketInfo: value => dispatch(isTicketInfoAvailable( value )),
+    startTimer: value => dispatch(isTimerStarted( value ))
+  }
+};
 export default connect(mapStateToProps, mapDistpatchToProps)(withRouter(ModalBooking));
