@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 import { withRouter  } from "react-router-dom";
-import { hideModal, isRoundTicketChosen, isOneWayTicketChosen, isTicketInfoAvailable, isTimerStarted } from '../actions/BookFormActions.js';
+import { hideModal, isRoundTicketChosen, isOneWayTicketChosen, isTimerStarted } from '../actions/BookFormActions.js';
 import firebaseConfig from '../../../firebase/firebase.js';
 import ReactLoading from 'react-loading';
 import FormInput from '../../../FormInput.jsx';
@@ -27,33 +27,49 @@ class ModalBooking extends Component {
       isLoading: true,
       isFormValid: false
   }
+    
+  componentDidMount = () => {
+    if(this.props.bookForm.isTicketInfoAvailable) {
+      this.fetchData();
+    } else {
+      this.setState ({ isLoading: false });
+    }
+  }
+    
+   componentDidUpdate = (prevProps) => {
+     if(this.props.bookForm.isTicketInfoAvailable !== prevProps.bookForm.isTicketInfoAvailable) {
+       this.fetchData();
+     }
+   }
   
-  componentDidMount = async () => {
-   let userId;
+  fetchData = async () => {
+    let userId;
    await firebaseConfig.auth().onAuthStateChanged(user => {
       (user) ? userId = user.uid : console.log('cannot get user ID');
     });
 
     const ticketId = this.getTicketId();
 
-    if(ticketId === 'flight-booking') {
-      this.props.checkTicketInfo(false);
-    } else {
-      const ticketData =  firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`);
-      const fetched_data = {};
+    const ticketData =  firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`);
+    const fetched_data = {};
 
-      
-      ticketData.on('value', (snapshot) => {
-          const data = snapshot.val();
-          
-          for ( let key in data) {
-              fetched_data[key] = data[key];
-          }
-          
-          this.setState ({ fetchedData: fetched_data, isLoading: false });
-          this.getTicketInfo();
-      });
-    }
+    
+    ticketData.on('value', (snapshot) => {
+        const data = snapshot.val();
+        
+        for ( let key in data) {
+            fetched_data[key] = data[key];
+        }
+        
+        this.setState ({ fetchedData: fetched_data, isLoading: false });
+        this.getTicketInfo();
+    });
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if(this.props.bookForm.isTimerOver !== prevProps.bookForm.isTimerOver) {
+      console.log('timer is over')
+    }	
   }
 
   handleSeatClick= e => {
@@ -70,7 +86,10 @@ class ModalBooking extends Component {
           newChosenSeats.push(chosenSeatData);
           this.increment();
         } else {
-          newChosenSeats.pop(chosenSeatData);
+          let deletedSeatIndex = newChosenSeats.indexOf(chosenSeatData);
+          if ( deletedSeatIndex >= 0 ) {
+            newChosenSeats.splice(deletedSeatIndex, 1);
+          }
           this.decrement();
         }
 
@@ -82,7 +101,6 @@ class ModalBooking extends Component {
 
         this.setState({  chosenSeats: newChosenSeats, error }); 
     }
-
     this.props.startTimer(true);
   }
 
@@ -133,7 +151,6 @@ class ModalBooking extends Component {
    }
 
    return isFormValid;
-  
   }
 
   handleFormSubmit = async e => {
@@ -235,13 +252,14 @@ class ModalBooking extends Component {
                           <span className="info__class-type">{ticketType}</span>
                      </span>
                      <div className="seats-scheme">
-                          <span className="seats-scheme__title">Choose a seat</span>
-                          <div className="seats-scheme__wrapper">
-                              <SeatRow  action={this.handleSeatClick} seatRow={seatsRowA} rowName='A'/>
-                              <SeatRow  action={this.handleSeatClick} seatRow={seatsRowB} rowName='B'/>
-                              <SeatRow  action={this.handleSeatClick} seatRow={seatsRowC} rowName='C'/>
-                              <SeatRow  action={this.handleSeatClick} seatRow={seatsRowD} rowName='D'/>
-                              <SeatRow  action={this.handleSeatClick} seatRow={seatsRowE} rowName='E'/>
+                          <span className="seats-scheme__title">Choose a seat</span>    
+                          <Timer />
+                          <div className="seats-scheme__wrapper" onClick={this.handleSeatClick}>
+                              <SeatRow  seatRow={seatsRowA} rowName='A'/>
+                              <SeatRow  seatRow={seatsRowB} rowName='B'/>
+                              <SeatRow  seatRow={seatsRowC} rowName='C'/>
+                              <SeatRow  seatRow={seatsRowD} rowName='D'/>
+                              <SeatRow  seatRow={seatsRowE} rowName='E'/>
                           </div>
                           <div className='seats-scheme__legend'>
                            <div className="legend-item">
@@ -279,7 +297,6 @@ class ModalBooking extends Component {
                                   <FormInput customClassName="luggage-presence__answer-input" action={this.handleLuggageInput}/>
                               </div>
                           </div>
-                          <Timer />
                      </div>
                 </div>
                 <InlineError className={errorClass} formErrors={error}/>
@@ -302,7 +319,6 @@ const mapDistpatchToProps = dispatch => {
     hideModal: () => dispatch(hideModal()),
     chooseRoundTicket: value => dispatch(isRoundTicketChosen( value )),
     chooseOnewayTicket: value => dispatch(isOneWayTicketChosen( value )),
-    checkTicketInfo: value => dispatch(isTicketInfoAvailable( value )),
     startTimer: value => dispatch(isTimerStarted( value ))
   }
 };

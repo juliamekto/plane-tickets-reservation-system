@@ -2,14 +2,34 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { withRouter, Link  } from "react-router-dom";
 import { connect } from 'react-redux';
-import { showModal } from '../actions/BookFormActions.js';
+import { showModal, isTicketInfoAvailable } from '../actions/BookFormActions.js';
 import FlightInfo from '../FlightInfo.jsx';
 import MainHeader from '../../../MainHeader.jsx';
 import ModalBooking from './ModalBooking.jsx';
 
 class BookForm extends Component {
+
+  componentDidMount = async () => {
+     const ticketId = this.getTicketId();
+ 
+     if(ticketId === 'flight-booking') {
+       this.props.checkTicketInfo(false);
+     } else {
+      this.props.checkTicketInfo(true);
+     }
+   }
+   
   showModal = () => {
     this.props.showModal();
+  }
+
+  getTicketId = () => {
+    let ticketId = this.props.location.pathname,
+        ticketIdPart = ticketId.lastIndexOf('/') + 1;
+    
+    ticketId = ticketId.substr(ticketIdPart)
+   
+    return ticketId;
   }
  
   render() {
@@ -57,7 +77,8 @@ class BookForm extends Component {
 
   const mapDistpatchToProps = dispatch => {
     return {
-      showModal: () => dispatch(showModal())
+      showModal: () => dispatch(showModal()),
+      checkTicketInfo: value => dispatch(isTicketInfoAvailable( value ))
     }
   };
   

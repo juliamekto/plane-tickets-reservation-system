@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { isTimerOver } from './actions/BookFormActions.js';
 
 class Timer extends Component {
   state = {
     time: {},
-    seconds: 10
+    seconds: 5,
+    isTimerOver: false
   }
   timer = 0;
 
@@ -50,6 +52,7 @@ class Timer extends Component {
     
     if (seconds === 0) { 
       clearInterval(this.timer);
+      this.props.endTimer(true);
     }
   }
 
@@ -69,5 +72,11 @@ class Timer extends Component {
     }
 
   const mapStateToProps = state => ({ bookForm: state.bookForm });
+
+  const mapDistpatchToProps = dispatch => {
+    return {
+      endTimer: value => dispatch(isTimerOver( value ))
+    }
+  };
   
-  export default connect(mapStateToProps, null)(Timer);
+  export default connect(mapStateToProps, mapDistpatchToProps)(Timer);

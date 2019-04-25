@@ -146,7 +146,7 @@
 }
 
 @media screen and (max-width: 425px) {
-    .book-form-wrapper__title {
+    .book-form__title {
         font-size: 38px;
     }
 

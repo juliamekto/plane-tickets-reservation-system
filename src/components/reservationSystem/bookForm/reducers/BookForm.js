@@ -30,6 +30,11 @@ const bookForm = (state = {}, action) => {
           ...state,
           isTimerStarted: action.isTimerStarted
         }
+        case 'END_TIMER':
+        return  {
+          ...state,
+          isTimerOver: action.isTimerOver
+        }
       default:
         return state
     }

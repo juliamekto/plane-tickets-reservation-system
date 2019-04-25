@@ -28,3 +28,10 @@
 .seat--booked {
     background-color: #306d86;
 }
+
+@media screen and (max-width: 425px) {
+    .seat {
+        width: 40px;
+        height: 30px;
+    }
+}

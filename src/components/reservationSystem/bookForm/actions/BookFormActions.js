@@ -27,3 +27,8 @@ export const isTimerStarted = value => ({
   type: 'START_TIMER',
   isTimerStarted: value
 });
+
+export const isTimerOver = value => ({
+  type: 'END_TIMER',
+  isTimerOver: value
+});

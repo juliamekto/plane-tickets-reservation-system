@@ -132,6 +132,7 @@
     width: 100%;
     max-width: 600px;
     display: flex;
+    justify-content: center;
     margin: 10px 0 20px 0;
 }
 
@@ -274,7 +275,9 @@
 }
 
 .seats-scheme__legend {
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
+    min-width: 270px;
     display: flex;
     justify-content: space-between;
 }
@@ -338,7 +341,21 @@
         margin-top: 10px;
     }
     
-    .modal-booking__info {
-        justify-content: space-around;
+    .modal-booking__info { 
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .legend-item__icon {
+        width: 10px;
+        height: 10px;
+    }
+
+    .seats-scheme__title {
+        font-size: 22px;
+    }
+
+    .seats-scheme__caption {
+        font-size: 18px;
     }
 }
