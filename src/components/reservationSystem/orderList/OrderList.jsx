@@ -18,11 +18,10 @@ class OrderList extends Component {
 
 componentDidMount = async () => {
     let userId;
-
     await firebaseConfig.auth().onAuthStateChanged(user => {
         (user) ? userId = user.uid : console.log('cannot get user ID');
     });
-    
+
     let ticketData = firebaseConfig.database().ref(`/users/${userId}/data/ticket`);
     
     ticketData.on('value', (snapshot) => {
@@ -40,7 +39,8 @@ componentDidMount = async () => {
 }
 
 componentDidUpdate = (prevProps) => {
-    if(this.props.orderList.fetchedOrders !== prevProps.orderList.fetchedOrders) {
+    const { fetchedOrders } = this.props.orderList;
+    if(fetchedOrders !== prevProps.orderList.fetchedOrders) {
         this.filterOrders()
     }
 }
@@ -70,7 +70,7 @@ render () {
 
     const { fetchedOrders, isOrdersDataLoading } = this.props.orderList;
    
-    const allUserOrders = fetchedOrders.map( item => <OrderListItem item={item} key={item.ticketId} /> ); 
+    const allUserOrders = fetchedOrders.map( item => <OrderListItem item={item} key={item.ticketId} />); 
  
     if (isOrdersDataLoading) {
         return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;

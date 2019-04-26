@@ -16,9 +16,7 @@ class OrderListItem extends Component {
         currentOrder: this.props.item.currentOrder
     }
 
-    componentDidMount =  () => {
-        this.getTicketData();
-    }
+    componentDidMount =  () => this.getTicketData();
 
     getTicketData = () => {
         const { departCity, destinationCity, classType, isRoundTicketChosen, departDate, destinationDate, adultNum, childNum } = this.state;
