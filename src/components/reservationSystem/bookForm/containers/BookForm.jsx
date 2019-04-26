@@ -8,20 +8,13 @@ import MainHeader from '../../../MainHeader.jsx';
 import ModalBooking from './ModalBooking.jsx';
 
 class BookForm extends Component {
-
   componentDidMount = async () => {
      const ticketId = this.getTicketId();
  
-     if(ticketId === 'flight-booking') {
-       this.props.checkTicketInfo(false);
-     } else {
-      this.props.checkTicketInfo(true);
-     }
-   }
-   
-  showModal = () => {
-    this.props.showModal();
+     (ticketId === 'flight-booking') ? this.props.checkTicketInfo(false) : this.props.checkTicketInfo(true);
   }
+   
+  showModal = () =>  this.props.showModal();
 
   getTicketId = () => {
     let ticketId = this.props.location.pathname,
@@ -33,20 +26,20 @@ class BookForm extends Component {
   }
  
   render() {
-      const { isOneWayTicketChosen, isRoundTicketChosen, isTicketInfoAvailable } = this.props.bookForm;
+    const { isOneWayTicketChosen, isRoundTicketChosen, isTicketInfoAvailable } = this.props.bookForm;
 
-      const bookFormClass = classNames('book-form',{
-          'book-form--oneway': isOneWayTicketChosen,
-          'book-form--round-ticket': isRoundTicketChosen
-      });
-      
-      if (isTicketInfoAvailable === false) {
-        return (
-          <div className="notification">
-              <span className="notification__text">Oops.. It seems like you haven't given us any information about your preference in flight. If you want to book the flight,  please, back to the flight search form</span>
-              <Link className="button button--notification-link" to="/flight-search">back to the search form</Link>
-          </div>)
-        } else { 
+    const bookFormClass = classNames('book-form',{
+        'book-form--oneway': isOneWayTicketChosen,
+        'book-form--round-ticket': isRoundTicketChosen
+    });
+    
+    if (isTicketInfoAvailable === false) {
+      return (
+        <div className="notification">
+            <span className="notification__text">Oops.. It seems like you haven't given us any information about your preference in flight. If you want to book the flight,  please, back to the flight search form</span>
+            <Link className="button button--notification-link" to="/flight-search">back to the search form</Link>
+        </div>)
+      } else {
         return (
           <React.Fragment>
             <MainHeader />
@@ -69,7 +62,7 @@ class BookForm extends Component {
           <ModalBooking />
           </React.Fragment>
         );
-      }
+      } 
     }
   }
 

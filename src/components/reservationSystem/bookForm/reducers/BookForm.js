@@ -1,4 +1,4 @@
-const bookForm = (state = {}, action) => {
+const bookForm = (state = {chosenSeats:[], chosenSeatsNum: 0},action) => {
     switch (action.type) {
       case 'SHOW_MODAL':
         return  {
@@ -34,6 +34,26 @@ const bookForm = (state = {}, action) => {
         return  {
           ...state,
           isTimerOver: action.isTimerOver
+        }
+        case 'ADD_CHOSEN_SEATS':
+        return  {
+          ...state,
+          chosenSeats: action.chosenSeats
+        }
+        case 'CHANGE_SEATS_AMOUNT':
+        return  {
+          ...state,
+          chosenSeatsNum: action.chosenSeatsNum
+        }
+        case 'GET_PASSENGERS_NUM':
+        return  {
+          ...state,
+          totalPassengersNum: action.totalPassengersNum
+        }
+        case 'GET_PASSENGERS_NUM_ERROR':
+        return  {
+          ...state,
+          getPassengersNumError: action.getPassengersNumError
         }
       default:
         return state

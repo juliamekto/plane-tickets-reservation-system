@@ -32,3 +32,23 @@ export const isTimerOver = value => ({
   type: 'END_TIMER',
   isTimerOver: value
 });
+
+export const addChosenSeats = value => ({
+  type: 'ADD_CHOSEN_SEATS',
+  chosenSeats: value
+});
+
+export const changeChosenSeatNumber = value => ({
+  type: 'CHANGE_SEATS_AMOUNT',
+  chosenSeatsNum: value
+});
+
+export const getPassengersNum = value => ({
+  type: 'GET_PASSENGERS_NUM',
+  totalPassengersNum: value
+});
+
+export const getPassengersNumError = value => ({
+  type: 'GET_PASSENGERS_NUM_ERROR',
+  getPassengersNumError: value
+});

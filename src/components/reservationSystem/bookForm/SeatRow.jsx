@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const SeatRow = ({ rowName, seatRow }) =>  (
     <div className="seats-row">
-    <span className='row-name'>{rowName}</span>
-    <div className="seats-wrapper">{seatRow}</div>
+        <span className='row-name'>{rowName}</span>
+        <div className="seats-wrapper">{seatRow}</div>
     </div>
 );
 
