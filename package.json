@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
+    "i": "^0.3.6",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-router": "^5.0.0",
