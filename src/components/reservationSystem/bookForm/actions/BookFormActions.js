@@ -52,3 +52,8 @@ export const getPassengersNumError = value => ({
   type: 'GET_PASSENGERS_NUM_ERROR',
   getPassengersNumError: value
 });
+
+export const getUserId = value => ({
+  type: 'GET_USER_ID',
+  getUserId: value
+});

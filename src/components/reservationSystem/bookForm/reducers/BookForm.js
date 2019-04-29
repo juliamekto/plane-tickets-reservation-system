@@ -55,6 +55,11 @@ const bookForm = (state = {chosenSeats:[], chosenSeatsNum: 0},action) => {
           ...state,
           getPassengersNumError: action.getPassengersNumError
         }
+        case 'GET_USER_ID':
+        return  {
+          ...state,
+          userId: action.getUserId
+        }
       default:
         return state
     }

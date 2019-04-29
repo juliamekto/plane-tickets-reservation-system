@@ -4,6 +4,7 @@ import { withRouter, Link  } from "react-router-dom";
 import { connect } from 'react-redux';
 import { showModal, isTicketInfoAvailable } from '../actions/BookFormActions.js';
 import FlightInfo from '../FlightInfo.jsx';
+import UserNotification from '../../../userNotification/UserNotification.jsx';
 import MainHeader from '../../../MainHeader.jsx';
 import ModalBooking from './ModalBooking.jsx';
 
@@ -24,6 +25,11 @@ class BookForm extends Component {
    
     return ticketId;
   }
+
+  handleNotificationBtn = () => {
+    const { userId } = this.props.bookForm;
+    this.props.history.push(`/flight-search/${userId}`);
+  }
  
   render() {
     const { isOneWayTicketChosen, isRoundTicketChosen, isTicketInfoAvailable } = this.props.bookForm;
@@ -35,10 +41,9 @@ class BookForm extends Component {
     
     if (isTicketInfoAvailable === false) {
       return (
-        <div className="notification">
-            <span className="notification__text">Oops.. It seems like you haven't given us any information about your preference in flight. If you want to book the flight,  please, back to the flight search form</span>
-            <Link className="button button--notification-link" to="/flight-search">back to the search form</Link>
-        </div>)
+        <UserNotification mainText="Oops.. It seems like you haven't given us any information about your preference in flight. If you want to book the flight,  please, back to the flight search form"
+                          btnCaption="back to the search form" 
+                          btnAction={this.handleNotificationBtn}/>)
       } else {
         return (
           <React.Fragment>

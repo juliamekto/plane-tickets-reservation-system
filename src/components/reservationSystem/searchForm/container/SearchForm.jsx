@@ -182,7 +182,7 @@ class SearchForm extends Component {
                     isOneWayTicketChosen
                });
 
-               this.props.history.push(`flight-booking/${ticketId}`);
+               this.props.history.push(`/flight-booking/${userId}/${ticketId}`);
           
           } catch (error) {
                this.setState ({ error: error.message });

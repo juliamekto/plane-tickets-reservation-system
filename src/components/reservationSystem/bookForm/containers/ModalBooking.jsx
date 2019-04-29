@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 import { withRouter  } from "react-router-dom";
-import { hideModal, isRoundTicketChosen, isOneWayTicketChosen, getPassengersNum } from '../actions/BookFormActions.js';
+import { hideModal, isRoundTicketChosen, isOneWayTicketChosen, getPassengersNum, getUserId } from '../actions/BookFormActions.js';
 import firebaseConfig from '../../../firebase/firebase.js';
 import ReactLoading from 'react-loading';
 import FormInput from '../../../FormInput.jsx';
@@ -28,6 +28,13 @@ class ModalBooking extends Component {
     
   componentDidMount = () => {
     (this.props.bookForm.isTicketInfoAvailable) ? this.fetchData() : this.setState ({ isLoading: false });
+
+    firebaseConfig.auth().onAuthStateChanged(user => {
+      if (user) {
+         const userId = user.uid;
+         this.props.getUserId(userId)
+      } 
+    });
   }
     
   componentDidUpdate = prevProps => {
@@ -282,6 +289,7 @@ const mapDistpatchToProps = dispatch => {
     chooseRoundTicket: value => dispatch(isRoundTicketChosen( value )),
     chooseOnewayTicket: value => dispatch(isOneWayTicketChosen( value )),
     getPassengersNum: value => dispatch(getPassengersNum( value )),
+    getUserId: value => dispatch(getUserId( value ))
   }
 };
 
