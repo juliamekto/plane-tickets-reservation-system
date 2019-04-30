@@ -57,3 +57,13 @@ export const getUserId = value => ({
   type: 'GET_USER_ID',
   getUserId: value
 });
+
+export const getTicketDate = value => ({
+  type: 'GET_TICKET_DATE',
+  getTicketDate: value
+});
+
+export const getAvailableFlights = value => ({
+  type: 'GET_AVAILABLE_FLIGHTS',
+  availableFlights: value
+});

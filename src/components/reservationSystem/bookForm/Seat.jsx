@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 import { isTimerStarted, addChosenSeats, changeChosenSeatNumber, getPassengersNumError } from './actions/BookFormActions.js';
@@ -13,7 +13,7 @@ class Seat extends Component {
         isSeatBooked: false
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = prevProps => {
         const { isTimerOver } = this.props.bookForm;
         if(isTimerOver !== prevProps.bookForm.isTimerOver) {
             this.setState ({ isSeatBooked: false, isSeatNotAvailable: false })

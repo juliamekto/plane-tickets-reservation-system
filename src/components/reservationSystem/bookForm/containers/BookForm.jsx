@@ -1,21 +1,44 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
-import { withRouter, Link  } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { showModal, isTicketInfoAvailable } from '../actions/BookFormActions.js';
+import { showModal, isTicketInfoAvailable, getAvailableFlights } from '../actions/BookFormActions.js';
+import _ from 'lodash';
+import firebaseConfig from '../../../firebase/firebase.js';
 import FlightInfo from '../FlightInfo.jsx';
 import UserNotification from '../../../userNotification/UserNotification.jsx';
 import MainHeader from '../../../MainHeader.jsx';
 import ModalBooking from './ModalBooking.jsx';
 
 class BookForm extends Component {
-  componentDidMount = async () => {
-     const ticketId = this.getTicketId();
- 
-     (ticketId === 'flight-booking') ? this.props.checkTicketInfo(false) : this.props.checkTicketInfo(true);
+  componentDidMount = () => {
+  const ticketId = this.getTicketId();
+  (ticketId === 'flight-booking') ? this.props.checkTicketInfo(false) : this.props.checkTicketInfo(true);
+  } 
+
+  componentDidUpdate = async (prevProps, prevState) => {
+    const { ticketDate } = this.props.bookForm;
+    if( ticketDate !== prevProps.bookForm.ticketDate) {
+      await this.getTicketDate(ticketDate)
+      this.findAvailableFlights()
+    }
   }
+
+  findAvailableFlights = () => {
+    const { ticketDate } = this.state;
+    const flightsData =  firebaseConfig.database().ref('flights/date').orderByChild("date").equalTo(ticketDate);
    
-  showModal = () =>  this.props.showModal();
+    flightsData.on('value', (snapshot) => {
+    const fetchedFlights = snapshot.val();
+
+    const availableFlights = _(fetchedFlights).map().uniq().value();
+    this.props.getAvailableFlights(availableFlights)
+    });
+  }
+
+  getTicketDate = date => {
+    this.setState ({ ticketDate: date })
+  }
 
   getTicketId = () => {
     let ticketId = this.props.location.pathname,
@@ -32,42 +55,36 @@ class BookForm extends Component {
   }
  
   render() {
-    const { isOneWayTicketChosen, isRoundTicketChosen, isTicketInfoAvailable } = this.props.bookForm;
-
+    const { isOneWayTicketChosen, isRoundTicketChosen, isTicketInfoAvailable, availableFlights } = this.props.bookForm;
+   
     const bookFormClass = classNames('book-form',{
         'book-form--oneway': isOneWayTicketChosen,
         'book-form--round-ticket': isRoundTicketChosen
     });
-    
-    if (isTicketInfoAvailable === false) {
-      return (
-        <UserNotification mainText="Oops.. It seems like you haven't given us any information about your preference in flight. If you want to book the flight,  please, back to the flight search form"
-                          btnCaption="back to the search form" 
-                          btnAction={this.handleNotificationBtn}/>)
-      } else {
+
+     const flightsInfo = availableFlights.map( item => <FlightInfo item={item} key={item.id} company={item.company}/> )
+      
+     if (isTicketInfoAvailable === false) {
+        return (
+          <UserNotification mainText="Oops.. It seems like you haven't given us any information about your preference in flight. If you want to book the flight,  please, back to the flight search form"
+                            btnCaption="back to the search form" 
+                            btnAction={this.handleNotificationBtn}/>
+        )
+        } else {
         return (
           <React.Fragment>
             <MainHeader />
             <div className={bookFormClass}>
             <h2 className="book-form__title">Book the flight</h2>
             <div className="book-form__flights">
-                <span className="flights__title">recommended flights</span>
-                <div className="flights__wrapper">
-                    <FlightInfo companyName='s7'
-                                departTime='5:50 AM'
-                                returnTime="8:30 AM"
-                                action={this.showModal} />
-                    <FlightInfo companyName='Lufthansa'
-                                departTime='5:50 AM'
-                                returnTime="8:30 AM"
-                                action={this.showModal} />
-                </div>
+                {(flightsInfo.length === 0) ? (<span className="flight__notification">There aren't available flights</span>) :  (<span className="flights__title">recommended flights</span>)}
+                <div className="flights__wrapper">{flightsInfo}</div>
             </div>
           </div> 
           <ModalBooking />
           </React.Fragment>
         );
-      } 
+      }
     }
   }
 
@@ -76,7 +93,8 @@ class BookForm extends Component {
   const mapDistpatchToProps = dispatch => {
     return {
       showModal: () => dispatch(showModal()),
-      checkTicketInfo: value => dispatch(isTicketInfoAvailable( value ))
+      checkTicketInfo: value => dispatch(isTicketInfoAvailable( value )),
+      getAvailableFlights: value => dispatch(getAvailableFlights( value ))
     }
   };
   

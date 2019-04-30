@@ -1,4 +1,4 @@
-const bookForm = (state = {chosenSeats:[], chosenSeatsNum: 0},action) => {
+const bookForm = (state = {chosenSeats:[], chosenSeatsNum: 0,availableFlights:[{default:'default'}] }, action) => {
     switch (action.type) {
       case 'SHOW_MODAL':
         return  {
@@ -59,6 +59,16 @@ const bookForm = (state = {chosenSeats:[], chosenSeatsNum: 0},action) => {
         return  {
           ...state,
           userId: action.getUserId
+        }
+        case 'GET_TICKET_DATE':
+        return  {
+          ...state,
+          ticketDate: action.getTicketDate
+        }
+        case 'GET_AVAILABLE_FLIGHTS':
+        return  {
+          ...state,
+          availableFlights: action.availableFlights
         }
       default:
         return state

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 import { withRouter  } from "react-router-dom";
-import { hideModal, isRoundTicketChosen, isOneWayTicketChosen, getPassengersNum, getUserId } from '../actions/BookFormActions.js';
+import _ from 'lodash';
+import { hideModal, isRoundTicketChosen, isOneWayTicketChosen, getPassengersNum, getUserId, getTicketDate } from '../actions/BookFormActions.js';
 import firebaseConfig from '../../../firebase/firebase.js';
 import ReactLoading from 'react-loading';
 import FormInput from '../../../FormInput.jsx';
@@ -37,10 +38,11 @@ class ModalBooking extends Component {
     });
   }
     
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps, prevState)=> {
     const { isTicketInfoAvailable, chosenSeats, getPassengersNumError, } = this.props.bookForm;
-    if( isTicketInfoAvailable !== prevProps.bookForm.isTicketInfoAvailable) {
-        this.fetchData();
+
+    if (isTicketInfoAvailable !== prevProps.bookForm.isTicketInfoAvailable) {
+       this.fetchData();
     }
 
     if(chosenSeats !== prevProps.bookForm.chosenSeats) {
@@ -159,6 +161,7 @@ class ModalBooking extends Component {
     (isOneWayTicketChosen) ? this.props.chooseOnewayTicket(true) : this.props.chooseOnewayTicket(false);
 
     this.props.getPassengersNum(passNumTotal);
+    this.props.getTicketDate(departDate);
     this.setState ({ route, passNum, ticketType, tripType, date });
   }
 
@@ -183,7 +186,7 @@ class ModalBooking extends Component {
     const seatDataItemRowB = [];
     const seatDataItemRowC = []; 
     const seatDataItemRowD = []; 
-    const seatDataItemRowE = []; 
+    const seatDataItemRowE = [];
     
     seatData.forEach(function(el) {
        if ( el.row === "A" ) {
@@ -289,7 +292,8 @@ const mapDistpatchToProps = dispatch => {
     chooseRoundTicket: value => dispatch(isRoundTicketChosen( value )),
     chooseOnewayTicket: value => dispatch(isOneWayTicketChosen( value )),
     getPassengersNum: value => dispatch(getPassengersNum( value )),
-    getUserId: value => dispatch(getUserId( value ))
+    getUserId: value => dispatch(getUserId( value )),
+    getTicketDate: value => dispatch(getTicketDate( value))
   }
 };
 
