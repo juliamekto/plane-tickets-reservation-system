@@ -9,6 +9,7 @@ class Seat extends Component {
         seatNum: this.props.item.num,
         seatRow: this.props.item.row,
         id: this.props.item.id,
+        price: this.props.item.price,
         isSeatAvailable: this.props.item.available,
         isSeatBooked: false
     }
@@ -26,11 +27,14 @@ class Seat extends Component {
     handleSeatClick = e => {
         const { chosenSeats, totalPassengersNum } =  this.props.bookForm;
         const chosenSeat = this.state.seatRow + this.state.seatNum;
+        const { id, price} = this.state;
+        const seatData = { chosenSeat, id, price }
+
         let { isSeatBooked } = this.state;
         let newChosenSeats = [...chosenSeats];
           
         if(e.target.classList.contains('seat--available')) {
-            this.validateArray(newChosenSeats,chosenSeat);
+            this.validateArray(newChosenSeats,seatData);
             this.setState ({isSeatBooked: !isSeatBooked })
             this.props.addChosenSeats(newChosenSeats)
             this.props.startTimer(true);
@@ -44,16 +48,16 @@ class Seat extends Component {
     }
 
     validateArray = (arr,item) => {
+        item = JSON.stringify(item)
+        
         if (arr.indexOf(item) === -1) {
-            arr.push(item);
+            arr.push(item); 
             this.increment();
         } else {
             let deletedSeatIndex = arr.indexOf(item);
-            
-            if (deletedSeatIndex >= 0) {
+            if (deletedSeatIndex >= 0) { 
                 arr.splice(deletedSeatIndex, 1);
             }
-            
             this.decrement();
         }
     }

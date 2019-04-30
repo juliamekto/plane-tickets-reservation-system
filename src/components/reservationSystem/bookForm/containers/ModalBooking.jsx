@@ -10,7 +10,6 @@ import FormInput from '../../../FormInput.jsx';
 import Modal from '../../../modal/Modal.jsx';
 import Button from '../../../Button.jsx';
 import Seat from '../Seat.jsx';
-import seatData from '../SeatsData';
 import InlineError from '../../../InlineError.jsx';
 import SeatRow from '../SeatRow.jsx';
 import Timer from '../Timer.jsx'
@@ -24,7 +23,9 @@ class ModalBooking extends Component {
       luggageNum: null,
       error: '',
       isLoading: true,
-      isFormValid: false
+      isFormValid: false,
+      seats: [{default:'default'}],
+      chosenSeats: ['{"seat":"A1","chosenSeatId":1}']
   }
     
   componentDidMount = () => {
@@ -38,11 +39,12 @@ class ModalBooking extends Component {
     });
   }
     
-  componentDidUpdate = (prevProps, prevState)=> {
+  componentDidUpdate = prevProps => {
     const { isTicketInfoAvailable, chosenSeats, getPassengersNumError, } = this.props.bookForm;
 
     if (isTicketInfoAvailable !== prevProps.bookForm.isTicketInfoAvailable) {
        this.fetchData();
+       this.fetchSeatsData();
     }
 
     if(chosenSeats !== prevProps.bookForm.chosenSeats) {
@@ -74,6 +76,17 @@ class ModalBooking extends Component {
         
         this.setState ({ fetchedData: fetched_data, isLoading: false });
         this.getTicketInfo();
+    });
+  }
+
+  fetchSeatsData = () => {
+    const seatsData =  firebaseConfig.database().ref('seats');
+
+    seatsData.on('value', (snapshot) => {
+      const fetchedSeatsData = snapshot.val(); 
+    
+      const seats = _(fetchedSeatsData).map().uniq().value();
+      this.setState({ seats })
     });
   }
 
@@ -128,6 +141,11 @@ class ModalBooking extends Component {
     const { luggageNum, chosenSeats } = this.state;
     const ticketId = this.getTicketId();
     let userId;
+    let choseanSeatsId = [],
+        chosenSeatsParsed = [];
+
+    chosenSeats.map( item => chosenSeatsParsed.push(JSON.parse(item)))
+    chosenSeatsParsed.map( item => choseanSeatsId.push(item.chosenSeatId)) 
     
     if (this.isFormValid()) {
       try {
@@ -137,8 +155,16 @@ class ModalBooking extends Component {
 
         firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
             luggageNum,
-            chosenSeats
+            chosenSeats: chosenSeatsParsed
         }); 
+
+        choseanSeatsId.forEach( item => {
+          firebaseConfig.database().ref('seats').orderByChild("id").equalTo(item).once('value', function (snapshot) {
+            snapshot.forEach(function(child) {
+              child.ref.update({available: false});
+            });
+          });
+        })
 
         this.props.history.push(`/success/${ticketId}`);
 
@@ -167,7 +193,14 @@ class ModalBooking extends Component {
 
   render() {
     const { isCheckboxChecked, isLuggageNumShown, error, route, passNum, 
-           ticketType, tripType, date, chosenSeats, isLoading } = this.state;
+           ticketType, tripType, date, chosenSeats, isLoading, seats } = this.state;
+    let chosenSeatsData = [];
+    let chosenSeatsParsed =[]
+    
+    chosenSeats.map( item => chosenSeatsParsed.push(JSON.parse(item)))
+
+    chosenSeatsParsed.map( item => chosenSeatsData.push(item.chosenSeat))
+
     const { isModalShown, chosenSeatsNum } = this.props.bookForm;
 
     const errorClass = classNames('inline-error',{
@@ -188,7 +221,7 @@ class ModalBooking extends Component {
     const seatDataItemRowD = []; 
     const seatDataItemRowE = [];
     
-    seatData.forEach(function(el) {
+    seats.forEach(function(el) {
        if ( el.row === "A" ) {
         seatDataItemRowA.push(el)
        } else if ( el.row === "B" ) {
@@ -202,11 +235,11 @@ class ModalBooking extends Component {
        }
     });
 
-    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id} row={item.row} /> )
-    const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id} row={item.row} /> )
-    const seatsRowC = seatDataItemRowC.map( item => <Seat item={item} key={item.id} row={item.row} /> )
-    const seatsRowD = seatDataItemRowD.map( item => <Seat item={item} key={item.id} row={item.row} /> )
-    const seatsRowE = seatDataItemRowE.map( item => <Seat item={item} key={item.id} row={item.row} /> )
+    const seatsRowA = seatDataItemRowA.map( item => <Seat item={item} key={item.id} row={item.row} price={item.price}/> )
+    const seatsRowB = seatDataItemRowB.map( item => <Seat item={item} key={item.id} row={item.row} price={item.price}/> )
+    const seatsRowC = seatDataItemRowC.map( item => <Seat item={item} key={item.id} row={item.row} price={item.price}/> )
+    const seatsRowD = seatDataItemRowD.map( item => <Seat item={item} key={item.id} row={item.row} price={item.price}/> )
+    const seatsRowE = seatDataItemRowE.map( item => <Seat item={item} key={item.id} row={item.row} price={item.price}/> )
    
     if (isLoading === true) {
       return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
@@ -247,7 +280,7 @@ class ModalBooking extends Component {
                             <span className="legend-item__caption">booking</span>
                           </div>
                         </div>
-                        <p className='seats-scheme__caption'>Your seats ({chosenSeatsNum}): {chosenSeats} </p>
+                        <p className='seats-scheme__caption'>Your seats ({chosenSeatsNum}): {chosenSeatsData} </p>
                     </div>
                     <div className="modal-booking__luggage">
                         <div className="luggage-presence">
