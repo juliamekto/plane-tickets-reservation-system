@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
-    "firebase": "^5.9.3",
+    "firebase": "^5.11.1",
     "history": "^4.9.0",
     "npm-install-all": "^1.1.21",
     "react": "^16.8.3",
