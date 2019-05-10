@@ -21,6 +21,12 @@
     margin-right: 20px;
 }
 
+.user-account {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
 .user-orders {
     width: 100%;
     background-color: rgba(0,0,0,.1);
@@ -29,7 +35,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 10%;
+    top: 100px;
     left: 0;
 }
 
@@ -55,9 +61,19 @@
 }
 
 .user-orders__list {
-    background-color: rgba(0,0,0,.1);
+    background-color: rgba(0,0,0,.2);
     margin: 30px 0 0 0;
     padding: 20px 0;
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+
+.user-orders__list--past .order-list__item--current{
+    display: none;
+}
+
+.user-orders__list--current .order-list__item--past{
+    display: none;
 }
 
 .order-list__item-route,
@@ -66,10 +82,11 @@
 .order-list__item-ticketType,
 .order-list__item-tripType {
     margin-right: 10px;
+    grid-row: 1;
 }
 
 .order-list__item:nth-of-type(even) {
-    background-color: rgba(255,255,255,.3);
+    background-color: rgba(255,255,255,.6);
     color: #306d86;;
 }
 
@@ -79,8 +96,110 @@
 }
 
 .order-list__item {
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
     list-style: none;
     padding-left: 10px;
+    font-size: 22px;
+}
+
+.order-list__item-route {
+    grid-column: 1;
+}
+
+.order-list__item-date{
+    grid-column: 2;
+}
+
+.order-list__item-price{
+    grid-column: 3;
+}
+
+.order-list__item-ticketType{
+    grid-column: 4;
+}
+
+.order-list__item-tripType{
+    grid-column: 5;
+}
+
+.order-list__item-passNum {
+    grid-column: 6; 
+}
+.order-list__item--past,
+.order-list__item-current {
+    display: grid;
+}
+
+.order-list__item--title {
+    background-color: #0d658a;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+@media screen and (min-width: 1060px) {
+    .order-list__item {
+        grid-template-columns: 1fr 150px 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .order-list__item {
+        grid-template-columns: repeat(6,1fr);
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .order-list__item {
+        grid-template-columns: repeat(2,1fr);
+        font-size: 18px;
+    }
+
+    .order-list__item--title {
+        font-size: 14px;
+    }
+
+    .order-list__item-route,
+    .order-list__item-date {
+        grid-row: 1;
+    }
+
+    .order-list__item-ticketType,
+    .order-list__item-price {
+        grid-row: 2;
+    }
+
+    .order-list__item-tripType
+    .order-list__item-passNum {
+        grid-row: 3;
+    }
+
+    .order-list__item-route{
+        grid-column: 1;
+    }
+    
+    .order-list__item-date{
+        grid-column: 2;
+    }
+    
+    .order-list__item-price {
+        grid-column: 2; 
+    }
+
+    .order-list__item-ticketType{
+        grid-column: 1;
+    }
+    
+    .order-list__item-tripType{
+        grid-column: 1;
+        grid-row: 3;
+    }
+    
+    .order-list__item-passNum {
+        grid-column: 2; 
+    }
 }
 
 @media screen and (max-width: 425px) {
