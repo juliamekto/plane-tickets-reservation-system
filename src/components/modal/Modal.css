@@ -126,12 +126,19 @@
     font-size: 26px;
     font-weight: bold;
     border-bottom: 1px solid #f30b0b;
+    align-self: center;
 }
 
 .seats-scheme__wrapper {
     width: 100%;
     max-width: 600px;
     display: flex;
+}
+
+.seats-scheme {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .seats-wrapper {
@@ -147,29 +154,37 @@
     margin: 20px 0;
 }
 
-.luggage-availability {
+.luggage-presence {
     display: flex;
     align-items: baseline;
 }
 
-.luggage-availability__question {
+.luggage-presence--num {
+    display: none;
+}
+
+.luggage-presence--shown {
+    display: flex;
+}
+
+.luggage-presence__question {
     font-size: 16px;
     font-weight: bold;
     margin-right: 20px;
 }
 
-.luggage-availability__answer {
+.luggage-presence__answer {
     display: flex;
     flex-direction: row-reverse;
     align-items: baseline;
 }
 
-.luggage-availability__answer-text {
+.luggage-presence__answer-text {
     margin-left: 10px;
     font-weight: bold;
 }
 
-.luggage-availability__answer-input {
+.luggage-presence__answer-input {
     margin: 0;
     width: 50px;
     padding: 5px;
@@ -243,6 +258,34 @@
     transition: .2s  background-color linear;
 }
 
+.seats-scheme__legend {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.legend-item__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.legend-item__icon--available {
+    background-color: #31e84e;
+}
+
+.legend-item__icon--not-available {
+    background-color: #80f092;
+}
+
+.legend-item__icon--booked {
+    background-color: #ea1d1d;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
 @media screen and (max-width: 425px) {
 /*REGISTRATION FORM STYLES*/
     .modal-greeting__text {
@@ -254,11 +297,11 @@
     }
 
 /* BOOK FORM STYLES */
-    .luggage-availability {
+    .luggage-presence {
         flex-direction: column;
     }
 
-    .luggage-availability__answer {
+    .luggage-presence__answer {
         margin-top: 10px;
     }
     

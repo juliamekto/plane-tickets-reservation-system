@@ -55,6 +55,7 @@
     text-align: center;
     grid-column: 1;
     grid-row: 1;
+    align-self: center;
 }
 
 .flight-info__time {
@@ -71,6 +72,19 @@
     justify-self: center;
 }
 
+.book-form--oneway .flight-info__time--round-ticket {
+    display: none;
+}
+
+.book-form--round-ticket .flight-info__time--oneway {
+    display: none;
+}
+
+.flight-info__time-caption {
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #f30b0b;
+}
 @media screen and (max-width: 660px) {
     .book-form-wrapper__title {
         font-size: 44px;

@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter  } from "react-router-dom";
+import { connect } from 'react-redux';
+import firebaseConfig from '../../firebase/firebase.js';
 import classNames from 'classnames/bind';
-import Button from '../Button.jsx';
-import FormInput from '../FormInput.jsx';
-import InlineError from '../InlineError.jsx';
-import './Authorization.css';
+import Button from '../../Button.jsx';
+import FormInput from '../../FormInput.jsx';
+import InlineError from '../../InlineError.jsx';
+import { signIn } from '../actions/AuthFormActions.js'
 
 const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 const REG_EXP_PASSWORD_VALIDATION = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
 class AuthorizationForm extends Component {
-    state = {
-      email: '',
-      password: '',
+  state = {
       isFormValid: false,
       isEmailValid: true,
       isPasswordValid: true,
       error: ''
-  }
+    }
 
   handleInput = ({ target: { name, value } }) => {
     if (name === 'email') {
@@ -28,7 +28,8 @@ class AuthorizationForm extends Component {
   }
 
   validateEmail = (value) => {
-    (REG_EXP_EMAIL_VALIDATION.test(value)) ? this.setState({ isEmailValid: true, email: value}) : this.setState({ isEmailValid: false});
+    (REG_EXP_EMAIL_VALIDATION.test(value)) ? this.setState({ isEmailValid: true}) : this.setState({ isEmailValid: false});
+    this.props.onChangeEmail(value);
   }
 
   validatePassword = (value) => {
@@ -40,23 +41,24 @@ class AuthorizationForm extends Component {
       this.setState ({ isPasswordValid: false, error });
       return;
     }
-
+    this.props.onChangePassword(value)
     this.setState ({ isPasswordValid: true, password: value, error: '' }); 
   }
 
   isFormValid = () => {
-    let { email, password, error, isPasswordValid, isEmailValid, isFormValid } = this.state;
+    let { error, isPasswordValid, isEmailValid, isFormValid } = this.state;
+    const { email, password } = this.props.authForm;
     
     if (!isPasswordValid || !isEmailValid) {
       error = 'incorrect email or password';
       this.setState ({ isFormValid: false, error });
-    } else if (password !== '' && email === '') {
+    } else if (password !== undefined && email === undefined) {
       error = 'email field cannot be empty';
       this.setState ({ isFormValid: false, error });
-    } else if (password === '' && email !== '') {
+    } else if (password === undefined && email !== undefined) {
       error = 'password field cannot be empty';
       this.setState ({ isFormValid: false, error });
-    } else if (email === '' && password === '') {
+    } else if (email === undefined && password === undefined) {
       error = 'email and password fields cannot be empty';
       this.setState ({ isFormValid: false, error });
     } else {
@@ -68,17 +70,25 @@ class AuthorizationForm extends Component {
     return isFormValid;
   }
 
-  handleFormSubmit = (e) => {
+  handleFormSubmit = async e => {
     e.preventDefault();
-    const { email, password } = this.state;
-    let userLogData;
+    const { email, password } = this.props.authForm;
     
     if (this.isFormValid()) {
-        userLogData = { email, password };
-        window.location.href = 'flight-search';
+        try {
+          const user = await firebaseConfig.auth().signInWithEmailAndPassword(email, password);
+          const userId =  user.user.uid;
+            
+          firebaseConfig.database().ref(`/users/${userId}/data`).set({
+              "id": userId
+          });
+          
+          this.props.history.push("flight-search");
+          
+        } catch (error) {
+          this.setState ({ error: error.message });
+        }
     }
-
-    return userLogData;
   }
 
   render() {
@@ -123,7 +133,7 @@ class AuthorizationForm extends Component {
                     action={this.handleFormSubmit}
             />
        </form>
-       <Link to="/registration" 
+       <Link to="registration" 
              className="form-link">
               or sign up
         </Link>
@@ -132,4 +142,14 @@ class AuthorizationForm extends Component {
  }
 }
 
-export default AuthorizationForm;
+
+const mapStateToProps = state => ({ authForm: state.authForm });
+
+const mapDistpatchToProps = dispatch => {
+  return {
+    onChangeEmail: value => dispatch(signIn( 'email', value )),
+    onChangePassword: value => dispatch(signIn( 'password', value ))
+  }
+};
+
+export default connect(mapStateToProps, mapDistpatchToProps)(withRouter(AuthorizationForm));

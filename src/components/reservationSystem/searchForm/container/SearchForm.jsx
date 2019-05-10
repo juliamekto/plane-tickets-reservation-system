@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
-import FormInput from '../../FormInput.jsx';
-import FormInputDate from '../../FormInputDate.jsx';
-import FormSelect from '../../FormSelect.jsx';
-import Button from '../../Button.jsx';
-import InlineError from '../../InlineError.jsx';
-import './SearchForm.css';
+import { withRouter  } from "react-router-dom";
+import firebaseConfig from '../../../firebase/firebase.js';
+import { connect } from 'react-redux';
+import FormInput from '../../../FormInput.jsx';
+import FormInputDate from '../../../FormInputDate.jsx';
+import FormSelect from '../../../FormSelect.jsx';
+import Button from '../../../Button.jsx';
+import InlineError from '../../../InlineError.jsx';
+import { getSearchFormData } from '../actions/SearchFormActions.js'
 
 const REG_EXP_CITY_VALIDATION = /^[a-zA-Z]+$/;
 const REG_EXP_PASSENGER_NUM_VALIDATION = /^\d+$/;
@@ -14,13 +17,6 @@ class SearchForm extends Component {
      state = {
           isOneWayTicketChosen: false,
           isRoundTicketChosen: true,
-          departureCity: '',
-          destinationCity: '',
-          departureDate: '',
-          destinationDate: '',
-          classType: '',
-          adultNum: '',
-          childNum: '',
           isDepartureCityValid: true,
           isDestinationCityValid: true,
           isDepartureDateValid: true,
@@ -31,7 +27,7 @@ class SearchForm extends Component {
           isFormValid: false,
           error: ''
      }
-
+ 
   handleOneTicketBtn = () => this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen, isRoundTicketChosen: false }));
 
   handleRoundTicketBtn = () => this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen, isOneWayTicketChosen: false }));
@@ -63,7 +59,8 @@ class SearchForm extends Component {
                this.setState ({ isDepartureCityValid: false, error });
                return;
           }
-         
+          
+          this.props.onChangeDepartCity(value);
           this.setState ({ isDepartureCityValid: true, departureCity: value, error: '' }); 
      } else {
           if(!REG_EXP_CITY_VALIDATION.test(value)) {
@@ -71,16 +68,20 @@ class SearchForm extends Component {
                this.setState ({ isDestinationCityValid: false, error });
                return;
              }
-             
+          
+          this.props.onChangeDestinationCity(value);
           this.setState ({ isDestinationCityValid: true, destinationCity: value, error: '' }); 
      }
+
   }
 
   validateDate = (value,fieldName) => {
        if (fieldName === 'depatureDate'){
           this.setState ({ departureDate: value });
+          this.props.onChangeDepartDate(value);
        } else {
           this.setState ({ destinationDate: value }); 
+          this.props.onChangeDestinationDate(value);
        }
   }
 
@@ -94,6 +95,7 @@ class SearchForm extends Component {
                return;
           }
          
+          this.props.onChangeAdultNum(value);
           this.setState ({ isAdultNumValid: true, adultNum: value, error: '' }); 
      } else {
           if(!REG_EXP_PASSENGER_NUM_VALIDATION.test(value)) {
@@ -101,12 +103,13 @@ class SearchForm extends Component {
                this.setState ({ isChildNumValid: false, error });
                return;
              }
-             
+          
+          this.props.onChangeChildNum(value);
           this.setState ({ isChildNumValid: true, childNum: value, error: '' }); 
      }
   }
 
-  validateClassType = (value) => {
+  validateClassType = value => {
      let { error } = this.state;
      
      if(value === 'default') {
@@ -115,19 +118,22 @@ class SearchForm extends Component {
           return; 
      }
 
+     this.props.onChangeClassType(value);
      this.setState ({ isClassTypeValid: true, classType: value, error: '' }); 
   }
 
   isFormValid = () => {
      let { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
           isDepartureDateValid, isDestinationDateValid, isAdultNumValid, isChildNumValid,
-          error, isClassTypeValid, isFormValid, departureCity, destinationCity,
-          departureDate, destinationDate, classType, adultNum, childNum } = this.state;
+          error, isClassTypeValid, isFormValid } = this.state;
+     
+     const { departCity, destinationCity, departDate, destinationDate,
+           classType, adultNum, childNum } = this.props.searchForm;
      
      if(!isDepartureCityValid || !isDestinationCityValid || !isDepartureDateValid || !isDestinationDateValid || !isAdultNumValid || !isChildNumValid || !isClassTypeValid) {
           error = 'Invalid form. Please, check the information once again';
           this.setState ({ isFormValid: false, error });
-     } else if (!departureCity && !destinationCity && !departureDate && !destinationDate && !classType && !adultNum && !childNum) {
+     } else if ( departCity === undefined && destinationCity === undefined && departDate === undefined && destinationDate === undefined && classType === undefined && adultNum === undefined && childNum === undefined) {
           error = 'Invalid form. Fields cannot be empty';
           this.setState ({ isFormValid: false, error });
      } else if (!isOneWayTicketChosen && !isRoundTicketChosen) {
@@ -145,20 +151,42 @@ class SearchForm extends Component {
      return isFormValid;
   }
 
-  handleFormSubmit = (e) => {
+  handleFormSubmit = async e => {
      e.preventDefault();
-     const { departureCity, destinationCity, departureDate, destinationDate,
-           classType, adultNum, childNum } = this.state;
+     const { departCity, destinationCity, departDate, destinationDate,
+            classType, adultNum, childNum } = this.props.searchForm;
+    
+     const { isRoundTicketChosen, isOneWayTicketChosen } = this.state;
+
+     const ticketId = '_' + Math.random().toString(36).substr(2, 9); 
      
-     let flightSearchData;
-     
+     let userId;
+       
      if (this.isFormValid()) {
-        flightSearchData = { departureCity, destinationCity, departureDate, destinationDate, classType, adultNum, childNum }
-        window.location.href = 'flight-booking';
+          try {
+               await firebaseConfig.auth().onAuthStateChanged((user) => {
+                    (user) ? userId = user.uid : console.log('cannot get user ID');
+               });
+
+               firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
+                    departCity,
+                    destinationCity,
+                    departDate,
+                    destinationDate,
+                    classType,
+                    adultNum,
+                    childNum,
+                    isRoundTicketChosen,
+                    isOneWayTicketChosen
+               });
+
+               this.props.history.push(`flight-booking/${ticketId}`);
+          
+          } catch (error) {
+               this.setState ({ error: error.message });
+          }
      }
- 
-     return flightSearchData;
-   }
+  }
 
   render() {
      const { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
@@ -276,4 +304,18 @@ class SearchForm extends Component {
   }
 }
 
-export default SearchForm;
+const mapStateToProps = state => ({ searchForm: state.searchForm });
+
+const mapDistpatchToProps = dispatch => {
+  return {
+    onChangeDepartCity: value => dispatch(getSearchFormData( 'departCity', value )),
+    onChangeDestinationCity: value => dispatch(getSearchFormData( 'destinationCity', value )),
+    onChangeDepartDate: value => dispatch(getSearchFormData( 'departDate', value )),
+    onChangeDestinationDate: value => dispatch(getSearchFormData( 'destinationDate', value )),
+    onChangeAdultNum: value => dispatch(getSearchFormData( 'adultNum', value )),
+    onChangeChildNum: value => dispatch(getSearchFormData( 'childNum', value )),
+    onChangeClassType: value => dispatch(getSearchFormData( 'classType', value ))
+  }
+};
+
+export default connect(mapStateToProps, mapDistpatchToProps)(withRouter(SearchForm)); 

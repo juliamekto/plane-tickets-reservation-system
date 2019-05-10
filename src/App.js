@@ -1,12 +1,16 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { createStore} from 'redux';
+import { Provider } from 'react-redux';
+import combineReducers from './store/reducers/index'
 import AppRouter from './components/AppRouter.jsx';
 import './index.css';
 
+const store = createStore(combineReducers);
+
 const App = () => (
-  <BrowserRouter>
-      <AppRouter />
-  </BrowserRouter>
+    <Provider store={store}>
+        <AppRouter />
+    </Provider>
 )
 
 export default App;

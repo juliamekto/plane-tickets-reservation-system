@@ -1,10 +1,22 @@
 .seat {
-    width: 40px;
-    height: 40px;
-    background: gray;
+    width: 30px;
+    height: 30px;
+    background-color: #97cea0;
+    transition: all .2s linear;
+}
+
+.seat:hover { 
+    transition: all .2s linear;
+    background-color: #1b8b2e;
+    color: #fff;
+    font-weight: bold;
+    transform: scale(1.2);
 }
 
 .seat--available {
-    background: yellow;
+    background-color: #31e84e;
 }
 
+.seat--booked {
+    background-color: #ea1d1d;
+}
