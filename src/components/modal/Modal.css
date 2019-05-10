@@ -82,10 +82,10 @@
     padding: 30px;
     width: 90%;
     max-width: 1200px;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: auto;
     top: 50%;
     left:50%;
     transform: translate(-50%,-50%);
@@ -97,10 +97,12 @@
 }
 .modal-booking {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    overflow-y: scroll;
 }
 
 .modal-booking__info {
@@ -320,6 +322,12 @@
     border-bottom: 1px solid #306d86;
     display: flex;
     flex-wrap: wrap;
+}
+
+@media screen and (max-width: 660px) {
+    .modal-main--booking {
+        padding: 30px 5px;
+    }
 }
 
 @media screen and (max-width: 425px) {

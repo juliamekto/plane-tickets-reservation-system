@@ -1,10 +1,10 @@
 .book-form {
-    padding: 20px;
-    height: 100vh;
+    padding: 20px; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%; 
 }
 
 .book-form__title {
@@ -22,7 +22,6 @@
     background-color: rgba(0,0,0,.1);
     box-shadow: 0 0 10px #63a8c5;
     border-radius: 10px;
-    overflow: hidden;
 }
 
 .flights__title {
@@ -38,12 +37,10 @@
 
 .flights__wrapper {
     width: 100%;
-    max-height: 100vh;
+    max-height: 300px;
+    min-height: 200px;
+    height: auto;
     overflow-y: scroll;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
 .flight-info {

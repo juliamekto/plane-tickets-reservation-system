@@ -10,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
+  min-height: 100vh;
   background: url(./assets/img/5.jpg) center center no-repeat;
   background-size: cover;
 }
@@ -20,6 +20,7 @@ h2 {
 }
 
 .default-input {
+  width: 100%;
   padding: 10px;
   border-radius: 10px;
   border: none;
@@ -121,6 +122,24 @@ h2 {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
+}
+
+::-webkit-scrollbar { /* скроллбар */
+  width: 4px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-button { /* кнопка */
+  height: 100%;
+  background-color:rgba(0,0,0,.1);
+}
+
+::-webkit-scrollbar-track-piece { /* видимая часть трека */ 
+  background-color: rgba(0,0,0,.1);
+}
+
+::-webkit-scrollbar-thumb { /* ползунок */
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 @media screen and (max-width: 660px) {

@@ -75,12 +75,12 @@ class BookForm extends Component {
           <React.Fragment>
             <MainHeader />
             <div className={bookFormClass}>
-            <h2 className="book-form__title">Book the flight</h2>
-            <div className="book-form__flights">
-                {(flightsInfo.length === 0) ? (<span className="flight__notification">There aren't available flights</span>) :  (<span className="flights__title">recommended flights</span>)}
-                <div className="flights__wrapper">{flightsInfo}</div>
-            </div>
-          </div> 
+              <h2 className="book-form__title">Book the flight</h2>
+              <div className="book-form__flights">
+                  {(flightsInfo.length === 0) ? (<span className="flight__notification">There aren't available flights</span>) :  (<span className="flights__title">recommended flights</span>)}
+                  <div className="flights__wrapper">{flightsInfo}</div>
+              </div>
+            </div> 
           <ModalBooking />
           </React.Fragment>
         );

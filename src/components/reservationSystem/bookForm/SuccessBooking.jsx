@@ -12,7 +12,11 @@ class SuccessBooking extends Component {
     }
 
     componentDidMount = () => {  
-         this.fetchData()
+        if(this.getTicketId() === 'success') {
+            console.log('success')
+        } else {
+            this.fetchData()
+        }
     }
 
     fetchData = async () => {
