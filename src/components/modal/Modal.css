@@ -56,7 +56,6 @@
     width: 100%;
     background-color: #2ba87c;
     border-radius: 0;
-    padding: 20px 10px;
 }
 
 .modal-main--greeting .button:hover {
@@ -111,7 +110,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    border-bottom: 1px solid #f30b0b;
+    border-bottom: 1px solid #306d86;
 }
 
 .modal-booking__seats-scheme {
@@ -125,7 +124,7 @@
 .seats-scheme__title {
     font-size: 26px;
     font-weight: bold;
-    border-bottom: 1px solid #f30b0b;
+    border-bottom: 1px solid #306d86;
     align-self: center;
 }
 
@@ -133,6 +132,8 @@
     width: 100%;
     max-width: 600px;
     display: flex;
+    justify-content: center;
+    margin: 10px 0 20px 0;
 }
 
 .seats-scheme {
@@ -143,9 +144,24 @@
 
 .seats-wrapper {
     display: flex;
-    height: 250px;
     flex-direction: column;
     flex-wrap: wrap;
+}
+
+.row-name {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.seats-row {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.seats-row:last-of-type {
+    margin-right: 0;
 }
 
 .modal-booking__luggage {
@@ -186,7 +202,7 @@
 
 .luggage-presence__answer-input {
     margin: 0;
-    width: 50px;
+    width:25px;
     padding: 5px;
     border-radius: 10px;
     border: none;
@@ -202,7 +218,7 @@
     height: 40px;
     border-radius: 50%;
     padding: 0;
-    border: 2px solid #f30b0b;
+    border: 2px solid #306d86;
     background-color: #fff;
     position: absolute;
     top: -10px;
@@ -226,7 +242,7 @@
     display: block;
 	width: 20px;
 	height: 2px;
-    background-color: #f30b0b;
+    background-color: #306d86;
     position: absolute;
 	top: 50%;
 	left: 50%;
@@ -239,7 +255,7 @@
     display: block;
 	width: 20px;
 	height: 2px;
-    background-color: #f30b0b;
+    background-color: #306d86;
     position: absolute;
 	top: 50%;
 	left: 50%;
@@ -248,7 +264,7 @@
 }
 
 .modal__close-btn:hover {
-    background-color: #f30b0b;
+    background-color: #306d86;
     transition: .2s  background-color linear;
 }
 
@@ -259,7 +275,9 @@
 }
 
 .seats-scheme__legend {
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
+    min-width: 270px;
     display: flex;
     justify-content: space-between;
 }
@@ -267,25 +285,43 @@
 .legend-item__icon {
     width: 20px;
     height: 20px;
+    border-radius: 5px;
     margin-right: 5px;
 }
 
 .legend-item__icon--available {
-    background-color: #31e84e;
+    background-color: #10c2fd;
 }
 
 .legend-item__icon--not-available {
-    background-color: #80f092;
+    background-color: #b0e8f9;
 }
 
 .legend-item__icon--booked {
-    background-color: #ea1d1d;
+    background-color: #306d86;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
 }
+
+.legend-item__caption {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.seats-scheme__caption {
+    width: 100%;
+    max-width: 300px;
+    font-size: 22px;
+    color: #000;
+    font-weight: bold;
+    border-bottom: 1px solid #306d86;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 @media screen and (max-width: 425px) {
 /*REGISTRATION FORM STYLES*/
     .modal-greeting__text {
@@ -305,7 +341,21 @@
         margin-top: 10px;
     }
     
-    .modal-booking__info {
-        justify-content: space-around;
+    .modal-booking__info { 
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .legend-item__icon {
+        width: 10px;
+        height: 10px;
+    }
+
+    .seats-scheme__title {
+        font-size: 22px;
+    }
+
+    .seats-scheme__caption {
+        font-size: 18px;
     }
 }

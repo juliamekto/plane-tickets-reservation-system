@@ -1,22 +1,37 @@
 .seat {
-    width: 30px;
-    height: 30px;
-    background-color: #97cea0;
+    width: 50px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #b0e8f9;
     transition: all .2s linear;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.seat:last-of-type {
+    margin-bottom: 0;
 }
 
 .seat:hover { 
     transition: all .2s linear;
-    background-color: #1b8b2e;
     color: #fff;
-    font-weight: bold;
     transform: scale(1.2);
 }
 
 .seat--available {
-    background-color: #31e84e;
+    background-color: #10c2fd;
 }
 
 .seat--booked {
-    background-color: #ea1d1d;
+    background-color: #306d86;
+}
+
+@media screen and (max-width: 425px) {
+    .seat {
+        width: 40px;
+        height: 30px;
+    }
 }

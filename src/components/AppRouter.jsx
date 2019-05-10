@@ -45,9 +45,9 @@ class AppRouter  extends Component  {
             return (
                 <BrowserRouter>
                     <div>
-                        <Route path="/" exact component={Intro} />
-                        <Route path="/authorization" component={Authorization} />
-                        <Route path="/registration" component={Registration} />
+                        <Route path="/" exact component={Intro} authenticated={authenticated}/>
+                        <Route path="/authorization" component={Authorization} authenticated={authenticated}/>
+                        <Route path="/registration" component={Registration} authenticated={authenticated}/>
                         <PrivateRoute path="/flight-search" component={Search} authenticated={authenticated}/>
                         <PrivateRoute path="/flight-booking" component={Book} authenticated={authenticated}/>
                         <PrivateRoute path="/success" component={SuccessBooking} authenticated={authenticated}/>

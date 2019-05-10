@@ -8,6 +8,7 @@ import FormInputDate from '../../../FormInputDate.jsx';
 import FormSelect from '../../../FormSelect.jsx';
 import Button from '../../../Button.jsx';
 import InlineError from '../../../InlineError.jsx';
+import MainHeader from '../../../MainHeader.jsx';
 import { getSearchFormData } from '../actions/SearchFormActions.js'
 
 const REG_EXP_CITY_VALIDATION = /^[a-zA-Z]+$/;
@@ -154,7 +155,7 @@ class SearchForm extends Component {
   handleFormSubmit = async e => {
      e.preventDefault();
      const { departCity, destinationCity, departDate, destinationDate,
-            classType, adultNum, childNum } = this.props.searchForm;
+            classType, adultNum, childNum } = this.props.searchForm ;
     
      const { isRoundTicketChosen, isOneWayTicketChosen } = this.state;
 
@@ -165,14 +166,15 @@ class SearchForm extends Component {
      if (this.isFormValid()) {
           try {
                await firebaseConfig.auth().onAuthStateChanged((user) => {
-                    (user) ? userId = user.uid : console.log('cannot get user ID');
+                    (user) ? userId = user.uid : console.log('cannot get user id');
                });
 
                firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
+                    ticketId,
                     departCity,
                     destinationCity,
                     departDate,
-                    destinationDate,
+                    destinationDate: destinationDate || null,
                     classType,
                     adultNum,
                     childNum,
@@ -180,7 +182,7 @@ class SearchForm extends Component {
                     isOneWayTicketChosen
                });
 
-               this.props.history.push(`flight-booking/${ticketId}`);
+               this.props.history.push(`/flight-booking/${userId}/${ticketId}`);
           
           } catch (error) {
                this.setState ({ error: error.message });
@@ -237,6 +239,8 @@ class SearchForm extends Component {
      });
 
     return (
+         <React.Fragment>
+              <MainHeader />
       <div className="search">
         <h2 className="search__title">Find the flight</h2>
         <form className="search__form">
@@ -300,6 +304,8 @@ class SearchForm extends Component {
         </form>
         <InlineError className={errorClass} formErrors={error}/>
       </div> 
+         </React.Fragment>
+      
     );
   }
 }

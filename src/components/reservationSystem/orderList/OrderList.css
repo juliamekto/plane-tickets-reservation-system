@@ -1,44 +1,47 @@
-.user-account   {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.user-account__header {
+.account-header {
     width: 100%;
-    background-color: #f30b0b;
+    background-color:  #63a8c5;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
-.user-account__title {
+.account-header__title {
     font-size: 24px;
     font-weight: bold;
     text-transform: uppercase;
     color: #fff;
 }
 
-.user-account-header-btn--search-btn {
+.account-header-btn--search-btn {
     margin-right: 20px;
 }
 
 .user-orders {
     width: 100%;
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.1);
     color: #fff;
     font-size: 20px;
-    margin-top: 50px;
     display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 10%;
+    left: 0;
 }
 
 .user-orders__title {
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.1);
+    color: #fff;
     padding: 15px;
     font-size: 20px;
-    font-weight: lighter;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
 }
 
 .user-orders__filters {
@@ -52,22 +55,25 @@
 }
 
 .user-orders__list {
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.1);
     margin: 30px 0 0 0;
     padding: 20px 0;
 }
 
 .order-list__item-route,
-.order-list__item-date {
+.order-list__item-date,
+.order-list__item-price,
+.order-list__item-ticketType,
+.order-list__item-tripType {
     margin-right: 10px;
 }
 
 .order-list__item:nth-of-type(even) {
     background-color: rgba(255,255,255,.3);
+    color: #306d86;;
 }
 
 .order-list__item:hover {
-    color: #f30b0b;
     transition: color .2s linear;
     cursor: default;
 }
@@ -76,12 +82,13 @@
     list-style: none;
     padding-left: 10px;
 }
+
 @media screen and (max-width: 425px) {
-    .user-account__title {
+    .account-header__title {
         font-size: 17px;
     }
     
-    .user-account-header-btn--search-btn {
+    .account-header-btn--search-btn {
         margin-right: 10px;
     }
 }

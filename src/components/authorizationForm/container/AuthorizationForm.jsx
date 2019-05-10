@@ -6,6 +6,7 @@ import classNames from 'classnames/bind';
 import Button from '../../Button.jsx';
 import FormInput from '../../FormInput.jsx';
 import InlineError from '../../InlineError.jsx';
+import UserNotification from '../../userNotification/UserNotification.jsx';
 import { signIn } from '../actions/AuthFormActions.js'
 
 const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
@@ -18,6 +19,22 @@ class AuthorizationForm extends Component {
       isPasswordValid: true,
       error: ''
     }
+
+componentDidMount() {
+    firebaseConfig.auth().onAuthStateChanged(user => {
+      if (user) {
+         const userId = user.uid;
+          this.setState({
+              authenticated: true,
+              userId
+          });
+      } else {
+          this.setState({
+              authenticated: false
+          });
+      }
+    });
+  }
 
   handleInput = ({ target: { name, value } }) => {
     if (name === 'email') {
@@ -43,6 +60,11 @@ class AuthorizationForm extends Component {
     }
     this.props.onChangePassword(value)
     this.setState ({ isPasswordValid: true, password: value, error: '' }); 
+  }
+
+  handleNotificationBtn = () => {
+    const { userId } = this.state;
+    this.props.history.push(`/flight-search/${userId}`);
   }
 
   isFormValid = () => {
@@ -79,11 +101,11 @@ class AuthorizationForm extends Component {
           const user = await firebaseConfig.auth().signInWithEmailAndPassword(email, password);
           const userId =  user.user.uid;
             
-          firebaseConfig.database().ref(`/users/${userId}/data`).set({
+          firebaseConfig.database().ref(`/users/${userId}/data`).update({
               "id": userId
           });
           
-          this.props.history.push("flight-search");
+          this.props.history.push(`/flight-search/${userId}`);
           
         } catch (error) {
           this.setState ({ error: error.message });
@@ -92,7 +114,7 @@ class AuthorizationForm extends Component {
   }
 
   render() {
-    const { email, password, error, isEmailValid, isPasswordValid } = this.state;
+    const { email, password, error, isEmailValid, isPasswordValid, authenticated } = this.state;
 
     const errorClass = classNames('inline-error',{
       'inline-error--show': error
@@ -105,40 +127,44 @@ class AuthorizationForm extends Component {
     const inputClassPassword = classNames('default-input default-input--password',{
       'default-input--invalid': !isPasswordValid
     }); 
-   
-    return (
-     <div className="authorization">
-       <h2 className="authorization__title">Sign in</h2>
-       <InlineError className={errorClass} formErrors={error}/>
-       <form className="authorization__form">
-           <FormInput id="email"
-                      name="email"
-                      type="email" 
-                      customClassName={inputClassEmail}
-                      value={email}
-                      placeholder="email" 
-                      action={this.handleInput}
-            />
-           <FormInput id="password" 
-                      name="password" 
-                      type="password" 
-                      placeholder="password"
-                      customClassName={inputClassPassword}
-                      value={password}
-                      action={this.handleInput}   
-            /> 
-            <Button className="button button--auth-form-btn"
-                    type="submit" 
-                    caption="sign in" 
-                    action={this.handleFormSubmit}
-            />
-       </form>
-       <Link to="registration" 
-             className="form-link">
-              or sign up
-        </Link>
-     </div>
-   );
+
+    if (authenticated) {    
+      return <UserNotification mainText='You have already been authorized :)' btnCaption="search the flights" btnAction={this.handleNotificationBtn}/>
+    } else {
+      return (
+        <div className="authorization">
+          <h2 className="authorization__title">Sign in</h2>
+          <InlineError className={errorClass} formErrors={error}/>
+          <form className="authorization__form">
+              <FormInput id="email"
+                        name="email"
+                        type="email" 
+                        customClassName={inputClassEmail}
+                        value={email}
+                        placeholder="email" 
+                        action={this.handleInput}
+              />
+              <FormInput id="password" 
+                        name="password" 
+                        type="password" 
+                        placeholder="password"
+                        customClassName={inputClassPassword}
+                        value={password}
+                        action={this.handleInput}   
+              /> 
+              <Button className="button button--auth-form-btn"
+                      type="submit" 
+                      caption="sign in" 
+                      action={this.handleFormSubmit}
+              />
+          </form>
+          <Link to="registration" 
+                className="form-link">
+                or sign up
+          </Link>
+        </div>
+      );
+    }
  }
 }
 
