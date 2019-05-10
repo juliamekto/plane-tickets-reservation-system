@@ -145,7 +145,7 @@ class ModalBooking extends Component {
         chosenSeatsParsed = [];
 
     chosenSeats.map( item => chosenSeatsParsed.push(JSON.parse(item)))
-    chosenSeatsParsed.map( item => choseanSeatsId.push(item.chosenSeatId)) 
+    chosenSeatsParsed.map( item => choseanSeatsId.push(item.id)) 
     
     if (this.isFormValid()) {
       try {
