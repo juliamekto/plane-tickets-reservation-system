@@ -3,17 +3,20 @@ import {  withRouter } from "react-router-dom";
 import ReactLoading from 'react-loading';
 import firebaseConfig from '../../firebase/firebase.js';
 import Button from '../../Button.jsx';
+import UserNotification from '../../userNotification/UserNotification.jsx';
 import './SuccessBooking.css';
 
 class SuccessBooking extends Component {  
     state = {
         isLoading: true,
-        ticketPrice: 0
+        ticketPrice: 0,
+        isTicketAvailable: true
     }
 
     componentDidMount = () => {  
         if(this.getTicketId() === 'success') {
-            console.log('success')
+            this.setState({ isTicketAvailable: false})
+            this.fetchUserId()
         } else {
             this.fetchData()
         }
@@ -47,37 +50,58 @@ class SuccessBooking extends Component {
         });
     }
 
+    fetchUserId = async () => {
+        let userId;
+      
+        await firebaseConfig.auth().onAuthStateChanged(user => {
+            (user) ? userId = user.uid : console.log('cannot get user ID');
+        });
+    
+       this.setState({ userId })
+    }
+
     getTotalPrice = (luggageNum, ticketPrice) => { 
         let totalPrice = 0;
        
         (luggageNum === 0 ) ? totalPrice = ticketPrice : totalPrice = ticketPrice * luggageNum;
         this.setState ({ totalPrice, isLoading: false });
-      }
+    }
 
-      getTicketId = () => {
+    getTicketId = () => {
         let ticketId = this.props.location.pathname,
             ticketIdPart = ticketId.lastIndexOf('/') + 1;
         
         ticketId = ticketId.substr(ticketIdPart)
-       
+        
         return ticketId;
-      }
+    }
     
-
     handleConfirmBtn = e => {
         e.preventDefault();
         const { ticketId, userId, totalPrice } = this.state; 
         firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
-            totalPrice
+            totalPrice,
+            confirmed: true
         }); 
-        this.props.history.push(`/user-account/${userId}`);
+        this.props.history.push('/user-account');
+    }
+
+    handleNotificationBtn = () => {
+        const { userId } = this.state;
+        this.props.history.push(`/flight-search/${userId}`);
     }
 
     render() {
     const { totalPrice, isLoading } = this.state;
     
     if (isLoading) {
-        return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
+        if(this.state.isTicketAvailable === false ) {
+            return <UserNotification mainText="You should give us all the neccesary information to get the total ticket price. Please, back to the search flight form" 
+                                     btnCaption="search flight"
+                                     btnAction={this.handleNotificationBtn}/>
+        } else {
+            return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
+        }
     } else {
             return (
                 <div className="success-page">

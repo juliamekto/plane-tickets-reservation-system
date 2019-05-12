@@ -23,7 +23,7 @@ componentDidMount = async () => {
     });
 
     let ticketData = firebaseConfig.database().ref(`/users/${userId}/data/ticket`);
-    
+   
     ticketData.on('value', (snapshot) => {
         let data = snapshot.val();
         let fetched_data = {};
@@ -32,8 +32,15 @@ componentDidMount = async () => {
         }
     
         const ticketDataKeys = _(fetched_data).map().uniq().value();
+        
+        let ticketConfirmed = []
+        ticketDataKeys.forEach( item => {
+           if(item.confirmed) {
+               ticketConfirmed.push(item) 
+           }
+        })
 
-        this.props.fetchOrders(ticketDataKeys);
+        this.props.fetchOrders(ticketConfirmed);
         this.props.isOrdersDataLoading(false);
     });
 }
@@ -76,30 +83,31 @@ render () {
         return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
     } else {
         return (
-            <div className="user-account">
-                <MainHeader />
-                <div className="user-orders">
-                    <span className="user-orders__title">My orders</span>
-                    <div className="user-orders__main">
-                        <div className="user-orders__filters">
-                            <Button className="button orders-filters-btn--past" caption="Past orders" action={this.showPastOrders}/>
-                            <Button className="button orders-filters-btn--current" caption="Current orders"  action={this.showCurrentOrders}/>
+            <React.Fragment>
+                 <MainHeader />
+                    <div className="user-account">
+                        <div className="user-orders">
+                            <span className="user-orders__title">My orders</span>
+                            <div className="user-orders__main">
+                                <div className="user-orders__filters">
+                                    <Button className="button orders-filters-btn--past" caption="Past orders" action={this.showPastOrders}/>
+                                    <Button className="button orders-filters-btn--current" caption="Current orders"  action={this.showCurrentOrders}/>
+                                </div>
+                                <ul className={orderListClass}>
+                                <li className='order-list__item order-list__item--title'>
+                                    <span className="order-list__item-route">route</span>
+                                    <span className="order-list__item-date">date</span>
+                                    <span className="order-list__item-price">price</span>
+                                    <span className="order-list__item-ticketType">ticket Type</span>
+                                    <span className="order-list__item-tripType">trip Type</span>
+                                    <span className="order-list__item-passNum">Passengers</span>
+                                </li>
+                                    {(allUserOrders.length === 0) ? <span className="user-orders__notification">You don't have any orders</span> : allUserOrders}
+                                </ul>
+                            </div>
                         </div>
-                        <ul className={orderListClass}>
-                        
-                        <li className='order-list__item order-list__item--title'>
-                            <span className="order-list__item-route">route</span>
-                            <span className="order-list__item-date">date</span>
-                            <span className="order-list__item-price">price</span>
-                            <span className="order-list__item-ticketType">ticket Type</span>
-                            <span className="order-list__item-tripType">trip Type</span>
-                            <span className="order-list__item-passNum">Passengers</span>
-                        </li>
-                            {allUserOrders}
-                        </ul>
                     </div>
-                </div>
-            </div>
+            </React.Fragment>
         )
       }
     } 

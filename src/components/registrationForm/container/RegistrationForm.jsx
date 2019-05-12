@@ -168,9 +168,8 @@ class RegistrationForm extends Component {
         firebaseConfig.database().ref(`/users/${userId}/data`).set({
             "id": userId
         });
-
+        
         this.setState ({ userId });
-
         this.showModal();
       } catch (error) {
         this.setState ({ error: error.message });
@@ -219,7 +218,22 @@ class RegistrationForm extends Component {
     }); 
 
     if (authenticated) {
-        return <UserNotification mainText='You have already been authorized :)' btnCaption="search the flights" btnAction={this.handleClick}/>
+        return (
+        <React.Fragment>
+          <UserNotification mainText='You have already been authorized :)' btnCaption="search the flights" btnAction={this.handleClick}/>
+           <Modal show={isModalShown} 
+                 handleClose={this.hideModal}
+                 modalMainClass="modal-main--greeting">
+               <div className="modal-greeting">
+                   <span className="modal-greeting__title">Great!</span>
+                   <span className="modal-greeting__text">You've been successfully registered!</span>
+               </div>
+               <div className="modal__img-wrapper"></div>
+               <Button caption="start"
+                       action={this.handleClick}/>
+         </Modal>
+        </React.Fragment>
+        )
       } else {
         return (
           <React.Fragment>

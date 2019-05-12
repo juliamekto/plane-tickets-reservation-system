@@ -179,7 +179,8 @@ class SearchForm extends Component {
                     adultNum,
                     childNum,
                     isRoundTicketChosen,
-                    isOneWayTicketChosen
+                    isOneWayTicketChosen,
+                    confirmed: false
                });
 
                this.props.history.push(`/flight-booking/${userId}/${ticketId}`);

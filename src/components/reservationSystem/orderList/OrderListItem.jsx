@@ -13,26 +13,28 @@ class OrderListItem extends Component {
         adultNum: this.props.item.adultNum,
         childNum: this.props.item.childNum,
         pastOrder: this.props.item.pastOrder,
-        currentOrder: this.props.item.currentOrder
+        currentOrder: this.props.item.currentOrder,
+        totalPrice: this.props.item.totalPrice
     }
 
     componentDidMount =  () => this.getTicketData();
 
     getTicketData = () => {
-        const { departCity, destinationCity, classType, isRoundTicketChosen, departDate, destinationDate, adultNum, childNum } = this.state;
+        const { departCity, destinationCity, classType, isRoundTicketChosen, departDate, destinationDate, adultNum, childNum, totalPrice } = this.state;
     
         const route = `${departCity} - ${destinationCity}`,
               passNumTotal = Number(adultNum) + Number(childNum),
               passNum =  (passNumTotal < 2) ? `${passNumTotal} traveler` : `${passNumTotal} travelers`,
               ticketType = classType.replace(/Class/g,''),
               tripType = (isRoundTicketChosen) ? 'Round trip' : 'One way',
-              date = (isRoundTicketChosen) ? `${departDate} - ${destinationDate}` : `${departDate}`;
+              date = (isRoundTicketChosen) ? `${departDate} - ${destinationDate}` : `${departDate}`,
+              price = totalPrice + '$';
         
-        this.setState ({ route, passNum, date, ticketType, tripType });
+        this.setState ({ route, passNum, date, ticketType, tripType, price });
     }
 
     render() {
-        const { route, passNum, date, ticketType, tripType, pastOrder, currentOrder } = this.state
+        const { route, passNum, date, ticketType, tripType, pastOrder, currentOrder, price } = this.state
        
         const orderListItemClass = classNames('order-list__item',{
             'order-list__item--past': pastOrder,
@@ -43,7 +45,7 @@ class OrderListItem extends Component {
             <li className={orderListItemClass}>
                 <span className="order-list__item-route">{route}</span>
                 <span className="order-list__item-date">{date}</span>
-                <span className="order-list__item-price">230$</span>
+                <span className="order-list__item-price">{price}</span>
                 <span className="order-list__item-ticketType">{ticketType}</span>
                 <span className="order-list__item-tripType">{tripType}</span>
                 <span className="order-list__item-passNum">{passNum}</span>
