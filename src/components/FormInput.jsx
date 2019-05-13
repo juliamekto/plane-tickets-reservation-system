@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormInput = ({ name, type, placeholder, action, customClassName }) => (
+const FormInput = ({ name, type, placeholder, action, customClassName, value }) => (
     <input className={customClassName} 
            name={name} 
            type={type}
            placeholder={placeholder}
-           onChange={action}
-           onKeyUp={action}/>
+           onChange={action} 
+           onKeyUp={action} />
 );
 
 FormInput.propTypes  = {

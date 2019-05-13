@@ -1,4 +1,4 @@
-const searchForm = (state = {}, action) => {
+const searchForm = (state = {adultNum: 0, childNum: 0}, action) => {
     switch (action.type) {
       case 'UPDATE_FIELD_SEARCH':
         return  {

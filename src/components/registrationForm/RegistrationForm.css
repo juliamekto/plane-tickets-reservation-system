@@ -37,6 +37,7 @@
 .privacy-policy__caption{
     color: #264861;
     font-weight: bold;
+    font-size: 18px;
     margin-left: 10px;
 }
 
@@ -93,6 +94,12 @@
     height: 5px;
     border: solid white;
     border-width: 0 2px 2px 0; 
+}
+
+@media screen and (max-width: 660px) {
+    .privacy-policy__caption {
+        font-size: 16px;
+    }
 }
 
 @media screen and (max-width: 425px) {

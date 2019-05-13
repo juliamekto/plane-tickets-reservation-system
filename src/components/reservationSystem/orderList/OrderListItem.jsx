@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import Button from '../../Button.jsx'
 
 class OrderListItem extends Component {
     state = {
@@ -49,6 +50,8 @@ class OrderListItem extends Component {
                 <span className="order-list__item-ticketType">{ticketType}</span>
                 <span className="order-list__item-tripType">{tripType}</span>
                 <span className="order-list__item-passNum">{passNum}</span>
+                <Button caption='view details'
+                        className='button button--order-list-item'/>
             </li>
         )
     }

@@ -16,7 +16,8 @@ body {
 }
 
 h2 {
-  font-size: 30px;
+  font-size: 40px;
+  margin: 0;
 }
 
 .default-input {
@@ -26,6 +27,7 @@ h2 {
   border: none;
   box-shadow: 0 0 10px  rgba(0,0,0,.7);
   margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .default-input--invalid {
@@ -38,6 +40,12 @@ h2 {
   border-radius: 10px;
   border: none;
   box-shadow: 0 0 10px  rgba(0,0,0,.7);
+}
+
+.default-input--people-counter {
+  width: 35px;
+  height: 35px;
+  text-align: center;
 }
 
 .button {
@@ -101,20 +109,51 @@ h2 {
   background-color: #0d658a;
 }
 
-
 .button--account-header-btn:hover {
   background-color: transparent;
   color: rgba(0,0,0,.3);
 }
 
+.button--order-list-item {
+    width: auto;
+    text-transform: lowercase;
+    color: #000;
+    padding: 0;
+    font-size: 16px;
+    background: none;
+}
+
+.button--order-list-item:hover { 
+  color: #000;
+  background: none;
+}
+
+.button--order-list-item:active { 
+  color: #000;
+  background: none;
+}
+
+.button--people-counter {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .form-link{
-  color: #264861;;
+  color: #264861;
   font-weight: bold;
   text-decoration: none;
+  font-size: 18px;
+  transition: color .2s linear;
 }
 
 .form-link:hover {
   color: #fff;
+  transition: color .2s linear;
 }
 
 .loading-spinner {
@@ -142,9 +181,29 @@ h2 {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
+.people-counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 140px;
+}
+
 @media screen and (max-width: 660px) {
+  h2 {
+    font-size: 30px;
+  }
+
   .button--flight-info-btn {
     width: 110px;
+  }
+
+  .default-input {
+    font-size: 16px;
+  }
+
+  .form-link {
+    font-size: 16px;
   }
 }
 

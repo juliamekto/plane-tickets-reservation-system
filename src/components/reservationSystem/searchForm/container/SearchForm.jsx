@@ -3,16 +3,17 @@ import classNames from 'classnames/bind';
 import { withRouter  } from "react-router-dom";
 import firebaseConfig from '../../../firebase/firebase.js';
 import { connect } from 'react-redux';
+import ReactLoading from 'react-loading';
+import { getSearchFormData } from '../actions/SearchFormActions.js'
 import FormInput from '../../../FormInput.jsx';
 import FormInputDate from '../../../FormInputDate.jsx';
 import FormSelect from '../../../FormSelect.jsx';
 import Button from '../../../Button.jsx';
 import InlineError from '../../../InlineError.jsx';
 import MainHeader from '../../../MainHeader.jsx';
-import { getSearchFormData } from '../actions/SearchFormActions.js'
+import PeopleCounter from '../../../PeopleCounter.jsx';
 
 const REG_EXP_CITY_VALIDATION = /^[a-zA-Z]+$/;
-const REG_EXP_PASSENGER_NUM_VALIDATION = /^\d+$/;
 
 class SearchForm extends Component {
      state = {
@@ -23,292 +24,289 @@ class SearchForm extends Component {
           isDepartureDateValid: true,
           isDestinationDateValid: true,
           isClassTypeValid: true,
-          isAdultNumValid: true,
-          isChildNumValid: true,
           isFormValid: false,
-          error: ''
+          error: '',
+          isLoading: true
+     }
+
+     componentDidMount() {
+          this.setState({ isLoading: false });
      }
  
-  handleOneTicketBtn = () => this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen, isRoundTicketChosen: false }));
+     handleOneTicketBtn = () => this.setState(({ isOneWayTicketChosen }) => ( { isOneWayTicketChosen: !isOneWayTicketChosen, isRoundTicketChosen: false }));
 
-  handleRoundTicketBtn = () => this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen, isOneWayTicketChosen: false }));
-  
-  handleInput = ({ target: { name, value } }) => {
-     if (name === 'depatureCity') {
-       this.validateCity(value,'depatureCity');
-     } else if (name === 'destinationCity') {
-       this.validateCity(value,'destinationCity');
-     } else if (name === 'depatureDate') {
-          this.validateDate(value,'depatureDate');
-     } else if (name === 'destinationDate') {
-          this.validateDate(value,'destinationDate');
-     } else if (name === 'adultNum') {
-          this.validatePassengerNum(value,'adultNum');
-     } else if (name === 'childNum') {
-          this.validatePassengerNum(value,'childNum');
-     } else {
-          this.validateClassType(value);
-     }
-   }
+     handleRoundTicketBtn = () => this.setState(({ isRoundTicketChosen }) => ( { isRoundTicketChosen: !isRoundTicketChosen, isOneWayTicketChosen: false }));
 
-  validateCity = (value, fieldName) => {
-     let { error } = this.state;
-    
-     if (fieldName === 'depatureCity') {
-          if(!REG_EXP_CITY_VALIDATION.test(value)) {
-               error = "only letters are allowed";
-               this.setState ({ isDepartureCityValid: false, error });
-               return;
+     handleInput = ({ target: { name, value } }) => {
+          if (name === 'depatureCity') {
+               this.validateCity(value,'depatureCity');
+          } else if (name === 'destinationCity') {
+               this.validateCity(value,'destinationCity');
+          } else if (name === 'depatureDate') {
+               this.validateDate(value,'depatureDate');
+          } else if (name === 'destinationDate') {
+               this.validateDate(value,'destinationDate');
+          } else {
+               this.validateClassType(value);
           }
-          
-          this.props.onChangeDepartCity(value);
-          this.setState ({ isDepartureCityValid: true, departureCity: value, error: '' }); 
-     } else {
-          if(!REG_EXP_CITY_VALIDATION.test(value)) {
-               error = "only letters are allowed";
-               this.setState ({ isDestinationCityValid: false, error });
-               return;
-             }
-          
-          this.props.onChangeDestinationCity(value);
-          this.setState ({ isDestinationCityValid: true, destinationCity: value, error: '' }); 
      }
 
-  }
+     validateCity = (value, fieldName) => {
+          let { error } = this.state;
 
-  validateDate = (value,fieldName) => {
-       if (fieldName === 'depatureDate'){
+          if (fieldName === 'depatureCity') {
+               if(!REG_EXP_CITY_VALIDATION.test(value)) {
+                    error = "only letters are allowed";
+                    this.setState ({ isDepartureCityValid: false, error });
+                    return;
+               }
+
+               this.props.onChangeDepartCity(value);
+               this.setState ({ isDepartureCityValid: true, departureCity: value, error: '' }); 
+          } else {
+               if(!REG_EXP_CITY_VALIDATION.test(value)) {
+                    error = "only letters are allowed";
+                    this.setState ({ isDestinationCityValid: false, error });
+                    return;
+               }
+
+               this.props.onChangeDestinationCity(value);
+               this.setState ({ isDestinationCityValid: true, destinationCity: value, error: '' }); 
+          }
+     }
+
+     validateDate = (value,fieldName) => {
+          if (fieldName === 'depatureDate'){
           this.setState ({ departureDate: value });
           this.props.onChangeDepartDate(value);
-       } else {
+          } else {
           this.setState ({ destinationDate: value }); 
           this.props.onChangeDestinationDate(value);
-       }
-  }
-
-  validatePassengerNum = (value,fieldName) => {
-     let { error } = this.state;
-     
-     if (fieldName === 'adultNum') {
-          if(!REG_EXP_PASSENGER_NUM_VALIDATION.test(value)) {
-               error = "only numbers are allowed";
-               this.setState ({ isAdultNumValid: false, error });
-               return;
-          }
-         
-          this.props.onChangeAdultNum(value);
-          this.setState ({ isAdultNumValid: true, adultNum: value, error: '' }); 
-     } else {
-          if(!REG_EXP_PASSENGER_NUM_VALIDATION.test(value)) {
-               error = "only numbers are allowed";
-               this.setState ({ isChildNumValid: false, error });
-               return;
-             }
-          
-          this.props.onChangeChildNum(value);
-          this.setState ({ isChildNumValid: true, childNum: value, error: '' }); 
-     }
-  }
-
-  validateClassType = value => {
-     let { error } = this.state;
-     
-     if(value === 'default') {
-          error = "please, choose class seat";
-          this.setState ({ isClassTypeValid: false, error }); 
-          return; 
-     }
-
-     this.props.onChangeClassType(value);
-     this.setState ({ isClassTypeValid: true, classType: value, error: '' }); 
-  }
-
-  isFormValid = () => {
-     let { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
-          isDepartureDateValid, isDestinationDateValid, isAdultNumValid, isChildNumValid,
-          error, isClassTypeValid, isFormValid } = this.state;
-     
-     const { departCity, destinationCity, departDate, destinationDate,
-           classType, adultNum, childNum } = this.props.searchForm;
-     
-     if(!isDepartureCityValid || !isDestinationCityValid || !isDepartureDateValid || !isDestinationDateValid || !isAdultNumValid || !isChildNumValid || !isClassTypeValid) {
-          error = 'Invalid form. Please, check the information once again';
-          this.setState ({ isFormValid: false, error });
-     } else if ( departCity === undefined && destinationCity === undefined && departDate === undefined && destinationDate === undefined && classType === undefined && adultNum === undefined && childNum === undefined) {
-          error = 'Invalid form. Fields cannot be empty';
-          this.setState ({ isFormValid: false, error });
-     } else if (!isOneWayTicketChosen && !isRoundTicketChosen) {
-          error = 'Choose one way or round ticket option';
-          this.setState ({ isFormValid: false, error });
-     } else if (classType === '') {
-          error = "please, choose class seat";
-          this.setState ({ isClassTypeValid: false, error, isFormValid: false }); 
-     } else {
-          isFormValid = true;
-          error = '';
-          this.setState ({ isFormValid, error});
-     }
-
-     return isFormValid;
-  }
-
-  handleFormSubmit = async e => {
-     e.preventDefault();
-     const { departCity, destinationCity, departDate, destinationDate,
-            classType, adultNum, childNum } = this.props.searchForm ;
-    
-     const { isRoundTicketChosen, isOneWayTicketChosen } = this.state;
-
-     const ticketId = '_' + Math.random().toString(36).substr(2, 9); 
-     
-     let userId;
-       
-     if (this.isFormValid()) {
-          try {
-               await firebaseConfig.auth().onAuthStateChanged((user) => {
-                    (user) ? userId = user.uid : console.log('cannot get user id');
-               });
-
-               firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
-                    ticketId,
-                    departCity,
-                    destinationCity,
-                    departDate,
-                    destinationDate: destinationDate || null,
-                    classType,
-                    adultNum,
-                    childNum,
-                    isRoundTicketChosen,
-                    isOneWayTicketChosen,
-                    confirmed: false
-               });
-
-               this.props.history.push(`/flight-booking/${userId}/${ticketId}`);
-          
-          } catch (error) {
-               this.setState ({ error: error.message });
           }
      }
-  }
 
-  render() {
-     const { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
-             isDepartureDateValid, isDestinationDateValid, isAdultNumValid, isChildNumValid,
-             error, isClassTypeValid } = this.state;
-     
-     const errorClass = classNames('inline-error',{
-          'inline-error--show': error 
-     }); 
+     validateClassType = value => {
+          let { error } = this.state;
 
-     const oneWayTicketClass = classNames('search-form__btn',{
-          'search-form__btn--active': isOneWayTicketChosen
-     });
+          if(value === 'default') {
+               error = "please, choose class seat";
+               this.setState ({ isClassTypeValid: false, error }); 
+               return; 
+          }
 
-     const roundTicketClass = classNames('search-form__btn',{
-          'search-form__btn--active': isRoundTicketChosen
-     });
+          this.props.onChangeClassType(value);
+          this.setState ({ isClassTypeValid: true, classType: value, error: '' }); 
+     }
 
-     const oneWayContent = classNames('search-form__content',{
-          'search-form__content--one-way': isOneWayTicketChosen
-     });
+     isFormValid = () => {
+          let { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
+               isDepartureDateValid, isDestinationDateValid, error, isClassTypeValid, isFormValid } = this.state;
 
-     const inputClassDepartureCity = classNames('default-input default-input--departure-city',{
-          'default-input--invalid': !isDepartureCityValid 
-     });
+          const { departCity, destinationCity, departDate, destinationDate,
+                    classType, adultNum, childNum } = this.props.searchForm;
 
-     const inputClassDestinationCity = classNames('default-input default-input--destination-city',{
-          'default-input--invalid': !isDestinationCityValid
-     });
+          if(!isDepartureCityValid || !isDestinationCityValid || !isDepartureDateValid || !isDestinationDateValid || !isClassTypeValid) {
+               error = 'Invalid form. Please, check the information once again';
+               this.setState ({ isFormValid: false, error });
+          } else if ( departCity === undefined && destinationCity === undefined && departDate === undefined && destinationDate === undefined && classType === undefined && adultNum === undefined && childNum === undefined) {
+               error = 'Invalid form. Fields cannot be empty';
+               this.setState ({ isFormValid: false, error });
+          } else if (adultNum === 0 && childNum === 0) {
+               error = 'Invalid form. Choose the number of travelers';
+               this.setState ({ isFormValid: false, error });
+          } else if (!isOneWayTicketChosen && !isRoundTicketChosen) {
+               error = 'Choose one way or round ticket option';
+               this.setState ({ isFormValid: false, error });
+          } else if (classType === undefined) {
+               error = "please, choose class seat";
+               this.setState ({ isClassTypeValid: false, error, isFormValid: false }); 
+          } else {
+               isFormValid = true;
+               error = '';
+               this.setState ({ isFormValid, error});
+          }
 
-     const inputClassDepartureDate = classNames('default-input default-input--departure-date',{
-          'default-input--invalid': !isDepartureDateValid
-     });
+          return isFormValid;
+     }
 
-     const inputClassDestinationDate = classNames('default-input default-input--destination-date',{
-          'default-input--invalid': !isDestinationDateValid
-     });
+     handleFormSubmit = async e => {
+          e.preventDefault();
+          const { departCity, destinationCity, departDate, destinationDate,
+                    classType, adultNum, childNum } = this.props.searchForm ;
 
-     const inputClassAdultNum = classNames('default-input default-input--adult-num',{
-          'default-input--invalid': !isAdultNumValid
-     });
+          const { isRoundTicketChosen, isOneWayTicketChosen } = this.state;
 
-     const inputClassChildNum = classNames('default-input default-input--destination-city',{
-          'default-input--invalid': !isChildNumValid
-     });
-     const selectClassType = classNames('default-input default-input--class-type',{
-          'default-input--invalid': !isClassTypeValid
-     });
+          const ticketId = '_' + Math.random().toString(36).substr(2, 9); 
 
-    return (
-         <React.Fragment>
-              <MainHeader />
-      <div className="search">
-        <h2 className="search__title">Find the flight</h2>
-        <form className="search__form">
-            <div className="search-form__header">
-                <button className={oneWayTicketClass} type="button" onClick={this.handleOneTicketBtn}>one way</button>
-                <button className={roundTicketClass} type="button" onClick={this.handleRoundTicketBtn}>round ticket</button>
-            </div>
-            <div className={oneWayContent}>
-                <div className="search-form__input search-form__input--departure-city">
-                     <label className="search-form__label">From</label>
-                     <FormInput customClassName={inputClassDepartureCity}
-                                name="depatureCity"
-                                placeholder="city or airport"
-                                action={this.handleInput}/>
-                </div>
-                <div className="search-form__input search-form__input--destination-city">
-                     <label className="search-form__label">To</label>
-                     <FormInput customClassName={inputClassDestinationCity}
-                                name="destinationCity" 
-                                placeholder="city or airport"
-                                action={this.handleInput}/>
-                </div>
-                <div className="search-form__input search-form__input--departure-date">
-                     <label className="search-form__label">Depart</label>
-                     <FormInputDate customClassName={inputClassDepartureDate}
-                                    name="depatureDate"  
-                                    type="date"
-                                    action={this.handleInput}/>
-                </div>
-               <div className="search-form__input search-form__input--destination-date">
-                     <label className="search-form__label">Return</label>
-                     <FormInputDate customClassName={inputClassDestinationDate}
-                                    name="destinationDate"  
-                                    type="date"
-                                    action={this.handleInput}/>
-                </div>
-                <div className="search-form__input search-form__input--class-type">
-                     <label className="search-form__label">Class</label>
-                     <FormSelect name="classType"
-                                 customClassName={selectClassType}
-                                 action={this.handleInput}/>
-                </div>
-                <div className="search-form__input search-form__input--adult">
-                     <label className="search-form__label">Adult(12+)</label>
-                     <FormInput name="adultNum"  
-                                placeholder="0"
-                                action={this.handleInput}
-                                customClassName={inputClassAdultNum}/>
-                </div>
-                <div className="search-form__input search-form__input--child">
-                     <label className="search-form__label">Child(2-11 yrs)</label>
-                     <FormInput name="childNum"  
-                                placeholder="0"
-                                action={this.handleInput}
-                                customClassName={inputClassChildNum}/>
-                </div>
-               <Button className="search-form__send-btn button button--search-form-send" 
-                         caption='show flights'
-                         action={this.handleFormSubmit}/>
-            </div>
-        </form>
-        <InlineError className={errorClass} formErrors={error}/>
-      </div> 
-         </React.Fragment>
-      
-    );
-  }
+          let userId;
+               
+          if (this.isFormValid()) {
+               try {
+                    await firebaseConfig.auth().onAuthStateChanged((user) => {
+                         (user) ? userId = user.uid : console.log('cannot get user id');
+                    });
+
+                    firebaseConfig.database().ref(`/users/${userId}/data/ticket/${ticketId}`).update({
+                         ticketId,
+                         departCity,
+                         destinationCity,
+                         departDate,
+                         destinationDate: destinationDate || null,
+                         classType,
+                         adultNum,
+                         childNum,
+                         isRoundTicketChosen,
+                         isOneWayTicketChosen,
+                         confirmed: false
+                    });
+
+                    this.props.history.push(`/flight-booking/${userId}/${ticketId}`);
+               
+               } catch (error) {
+                    this.setState ({ error: error.message });
+               }
+          }
+     }
+
+     increment = (value,method)  =>  method(value + 1)
+
+     decrement = (value, method) => method(value - 1)
+
+     incrementAdult = () => {
+          const { adultNum } = this.props.searchForm;
+          this.increment(adultNum,this.props.onChangeAdultNum)
+     }
+
+     decrementAdult = () => {
+          const { adultNum } = this.props.searchForm;
+          if (adultNum === 0) {
+               return false
+          }
+          this.decrement(adultNum,this.props.onChangeAdultNum)
+}
+
+     incrementChild = () => {
+          const { childNum } = this.props.searchForm;
+          this.increment(childNum,this.props.onChangeChildNum)
+     }
+
+     decrementChild = () => {
+          const { childNum } = this.props.searchForm;
+          if (childNum === 0) {
+               return false
+          }
+          this.decrement(childNum,this.props.onChangeChildNum)
+     }
+
+     render() {
+          const { isOneWayTicketChosen, isRoundTicketChosen, isDepartureCityValid, isDestinationCityValid, 
+               isDepartureDateValid, isDestinationDateValid, error, isClassTypeValid, isLoading } = this.state;
+          
+          const { adultNum, childNum } = this.props.searchForm;
+          
+          const errorClass = classNames('inline-error',{
+               'inline-error--show': error 
+          }); 
+
+          const oneWayTicketClass = classNames('search-form__btn',{
+               'search-form__btn--active': isOneWayTicketChosen
+          });
+
+          const roundTicketClass = classNames('search-form__btn',{
+               'search-form__btn--active': isRoundTicketChosen
+          });
+
+          const oneWayContent = classNames('search-form__content',{
+               'search-form__content--one-way': isOneWayTicketChosen
+          });
+
+          const inputClassDepartureCity = classNames('default-input default-input--departure-city',{
+               'default-input--invalid': !isDepartureCityValid 
+          });
+
+          const inputClassDestinationCity = classNames('default-input default-input--destination-city',{
+               'default-input--invalid': !isDestinationCityValid
+          });
+
+          const inputClassDepartureDate = classNames('default-input default-input--departure-date',{
+               'default-input--invalid': !isDepartureDateValid
+          });
+
+          const inputClassDestinationDate = classNames('default-input default-input--destination-date',{
+               'default-input--invalid': !isDestinationDateValid
+          });
+
+          const selectClassType = classNames('default-input default-input--class-type',{
+               'default-input--invalid': !isClassTypeValid
+          });
+
+          if (isLoading) {
+               return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
+          } else {
+               return (
+                    <React.Fragment>
+                         <MainHeader />
+                         <div className="search">
+                         <h2 className="search__title">Find the flight</h2>
+                         <form className="search__form">
+                              <div className="search-form__header">
+                                   <button className={oneWayTicketClass} type="button" onClick={this.handleOneTicketBtn}>one way</button>
+                                   <button className={roundTicketClass} type="button" onClick={this.handleRoundTicketBtn}>round ticket</button>
+                              </div>
+                              <div className={oneWayContent}>
+                                   <div className="search-form__input search-form__input--departure-city">
+                                        <label className="search-form__label">From</label>
+                                        <FormInput customClassName={inputClassDepartureCity}
+                                                  name="depatureCity"
+                                                  placeholder="city or airport"
+                                                  action={this.handleInput}/>
+                                   </div>
+                                   <div className="search-form__input search-form__input--destination-city">
+                                        <label className="search-form__label">To</label>
+                                        <FormInput customClassName={inputClassDestinationCity}
+                                                  name="destinationCity" 
+                                                  placeholder="city or airport"
+                                                  action={this.handleInput}/>
+                                   </div>
+                                   <div className="search-form__input search-form__input--departure-date">
+                                        <label className="search-form__label">Depart</label>
+                                        <FormInputDate customClassName={inputClassDepartureDate}
+                                                       name="depatureDate"  
+                                                       type="date"
+                                                       action={this.handleInput}/>
+                                   </div>
+                                   <div className="search-form__input search-form__input--destination-date">
+                                        <label className="search-form__label">Return</label>
+                                        <FormInputDate customClassName={inputClassDestinationDate}
+                                                       name="destinationDate"  
+                                                       type="date"
+                                                       action={this.handleInput}/>
+                                   </div>
+                                   <div className="search-form__input search-form__input--class-type">
+                                        <label className="search-form__label">Class</label>
+                                        <FormSelect name="classType"
+                                                  customClassName={selectClassType}
+                                                  action={this.handleInput}/>
+                                   </div>
+                                   <div className="search-form__input search-form__input--adult">
+                                        <label className="search-form__label">Adult(12+)</label>
+                                        <PeopleCounter value={adultNum} increment={this.incrementAdult} decrement={this.decrementAdult}/>
+                                   </div>
+                                   <div className="search-form__input search-form__input--child">
+                                        <label className="search-form__label">Child(2-11 yrs)</label>
+                                        <PeopleCounter value={childNum} increment={this.incrementChild} decrement={this.decrementChild}/>
+                                   </div>
+                                   <Button className="search-form__send-btn button button--search-form-send" 
+                                             caption='show flights'
+                                             action={this.handleFormSubmit}/>
+                              </div>
+                         </form>
+                         <InlineError className={errorClass} formErrors={error}/>
+                         </div> 
+                    </React.Fragment> 
+               );
+          }
+     }
 }
 
 const mapStateToProps = state => ({ searchForm: state.searchForm });

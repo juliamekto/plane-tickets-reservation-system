@@ -287,7 +287,7 @@ class RegistrationForm extends Component {
                 </label>
                 <span className="privacy-policy__caption">I agree to the terms and conditions</span>
             </div>
-            <Link to="/authorization" className="form-link"> i already have an account </Link>
+            <Link to="/authorization" className="form-link"> I already have an account </Link>
           </div>
           <Modal show={isModalShown} 
                  handleClose={this.hideModal}

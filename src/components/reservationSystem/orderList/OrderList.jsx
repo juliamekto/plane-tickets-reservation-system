@@ -95,12 +95,12 @@ render () {
                                 </div>
                                 <ul className={orderListClass}>
                                 <li className='order-list__item order-list__item--title'>
-                                    <span className="order-list__item-route">route</span>
-                                    <span className="order-list__item-date">date</span>
-                                    <span className="order-list__item-price">price</span>
-                                    <span className="order-list__item-ticketType">ticket Type</span>
-                                    <span className="order-list__item-tripType">trip Type</span>
-                                    <span className="order-list__item-passNum">Passengers</span>
+                                    <span className="order-item-title--route">route</span>
+                                    <span className="order-item-title--date">date</span>
+                                    <span className="order-item-title--price">price</span>
+                                    <span className="order-item-title--ticketType">ticket Type</span>
+                                    <span className="order-item-title--tripType">trip Type</span>
+                                    <span className="order-item-title--passNum">Passengers</span>
                                 </li>
                                     {(allUserOrders.length === 0) ? <span className="user-orders__notification">You don't have any orders</span> : allUserOrders}
                                 </ul>

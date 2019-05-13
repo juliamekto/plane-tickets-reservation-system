@@ -16,6 +16,7 @@
     font-weight: bold;
     text-transform: uppercase;
     color: #fff;
+    cursor: pointer;
 }
 
 .account-header-btn--search-btn {
@@ -30,7 +31,6 @@
 
 .user-orders {
     width: 100%;
-    background-color: rgba(0,0,0,.1);
     color: #fff;
     font-size: 20px;
     display: flex;
@@ -41,10 +41,9 @@
 }
 
 .user-orders__title {
-    background-color: rgba(0,0,0,.1);
-    color: #fff;
+    color: #0d658a;
     padding: 15px;
-    font-size: 20px;
+    font-size: 40px;
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -62,9 +61,12 @@
 }
 
 .user-orders__list {
-    background-color: rgba(0,0,0,.2);
-    margin: 30px 0 0 0;
-    padding: 20px 0;
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto 0 auto;
+    background-color:rgba(255,255,255,.4);
+    color:#000;
+    padding: 0 0 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,11 +87,6 @@
 .order-list__item-tripType {
     margin-right: 10px;
     grid-row: 1;
-}
-
-.order-list__item:nth-of-type(even) {
-    background-color: rgba(255,255,255,.6);
-    color: #306d86;;
 }
 
 .order-list__item:hover {
@@ -129,6 +126,11 @@
 .order-list__item-passNum {
     grid-column: 6; 
 }
+
+.button--order-list-item {
+    display: none;
+}
+
 .order-list__item--past,
 .order-list__item-current {
     display: grid;
@@ -136,6 +138,7 @@
 
 .order-list__item--title {
     background-color: #0d658a;
+    color: #fff;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 18px;
@@ -168,58 +171,41 @@
 @media screen and (max-width: 992px) {
     .order-list__item {
         grid-template-columns: repeat(6,1fr);
-        font-size: 20px;
+        font-size: 18px;
+    }
+
+    .user-orders__title {
+        font-size: 30px;
     }
 }
 
 @media screen and (max-width: 780px) {
     .order-list__item {
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(3,1fr);
         font-size: 18px;
     }
 
     .order-list__item--title {
         font-size: 14px;
     }
-
-    .order-list__item-route,
-    .order-list__item-date {
-        grid-row: 1;
+    
+    .button--order-list-item {
+        display: block;
+        grid-column: 3; 
     }
 
+    .order-item-title--price,
+    .order-item-title--ticketType,
+    .order-item-title--tripType,
+    .order-item-title--passNum {
+        display: none;
+    }
+
+    .order-list__item-price,
     .order-list__item-ticketType,
-    .order-list__item-price {
-        grid-row: 2;
-    }
-
-    .order-list__item-tripType
-    .order-list__item-passNum {
-        grid-row: 3;
-    }
-
-    .order-list__item-route{
-        grid-column: 1;
-    }
-    
-    .order-list__item-date{
-        grid-column: 2;
-    }
-    
-    .order-list__item-price {
-        grid-column: 2; 
-    }
-
-    .order-list__item-ticketType{
-        grid-column: 1;
-    }
-    
-    .order-list__item-tripType{
-        grid-column: 1;
-        grid-row: 3;
-    }
-    
-    .order-list__item-passNum {
-        grid-column: 2; 
+    .order-list__item-tripType,
+    .order-list__item-passNum{
+        display: none;
     }
 }
 

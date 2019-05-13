@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter  } from "react-router-dom";
 import { connect } from 'react-redux';
+import ReactLoading from 'react-loading';
 import firebaseConfig from '../../firebase/firebase.js';
 import classNames from 'classnames/bind';
 import Button from '../../Button.jsx';
@@ -17,7 +18,8 @@ class AuthorizationForm extends Component {
       isFormValid: false,
       isEmailValid: true,
       isPasswordValid: true,
-      error: ''
+      error: '',
+      isLoading: false
     }
 
 componentDidMount() {
@@ -104,9 +106,8 @@ componentDidMount() {
           firebaseConfig.database().ref(`/users/${userId}/data`).update({
               "id": userId
           });
-          
-          this.props.history.push(`/flight-search/${userId}`);
-          
+
+          this.props.history.push(`/flight-search/${userId}`)
         } catch (error) {
           this.setState ({ error: error.message });
         }
@@ -114,7 +115,7 @@ componentDidMount() {
   }
 
   render() {
-    const { email, password, error, isEmailValid, isPasswordValid, authenticated } = this.state;
+    const { email, password, error, isEmailValid, isPasswordValid, authenticated, isLoading } = this.state;
 
     const errorClass = classNames('inline-error',{
       'inline-error--show': error
@@ -131,39 +132,43 @@ componentDidMount() {
     if (authenticated) {    
       return <UserNotification mainText='You have already been authorized :)' btnCaption="search the flights" btnAction={this.handleNotificationBtn}/>
     } else {
-      return (
-        <div className="authorization">
-          <h2 className="authorization__title">Sign in</h2>
-          <InlineError className={errorClass} formErrors={error}/>
-          <form className="authorization__form">
-              <FormInput id="email"
-                        name="email"
-                        type="email" 
-                        customClassName={inputClassEmail}
-                        value={email}
-                        placeholder="email" 
-                        action={this.handleInput}
-              />
-              <FormInput id="password" 
-                        name="password" 
-                        type="password" 
-                        placeholder="password"
-                        customClassName={inputClassPassword}
-                        value={password}
-                        action={this.handleInput}   
-              /> 
-              <Button className="button button--auth-form-btn"
-                      type="submit" 
-                      caption="sign in" 
-                      action={this.handleFormSubmit}
-              />
-          </form>
-          <Link to="registration" 
-                className="form-link">
-                or sign up
-          </Link>
-        </div>
-      );
+      if(isLoading) {
+        return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
+      } else {
+        return (
+          <div className="authorization">
+            <h2 className="authorization__title">Sign in</h2>
+            <InlineError className={errorClass} formErrors={error}/>
+            <form className="authorization__form">
+                <FormInput id="email"
+                          name="email"
+                          type="email" 
+                          customClassName={inputClassEmail}
+                          value={email}
+                          placeholder="email" 
+                          action={this.handleInput}
+                />
+                <FormInput id="password" 
+                          name="password" 
+                          type="password" 
+                          placeholder="password"
+                          customClassName={inputClassPassword}
+                          value={password}
+                          action={this.handleInput}   
+                /> 
+                <Button className="button button--auth-form-btn"
+                        type="submit" 
+                        caption="sign in" 
+                        action={this.handleFormSubmit}
+                />
+            </form>
+            <Link to="registration" 
+                  className="form-link">
+                  or sign up
+            </Link>
+          </div>
+        );
+      }
     }
  }
 }
