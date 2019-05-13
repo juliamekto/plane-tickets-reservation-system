@@ -181,17 +181,23 @@
 
 @media screen and (max-width: 780px) {
     .order-list__item {
-        grid-template-columns: repeat(3,1fr);
+        grid-template-columns: repeat(4,1fr);
         font-size: 18px;
     }
 
     .order-list__item--title {
         font-size: 14px;
     }
+
+    .order-list__item-date,
+    .order-item-title--date {
+        grid-column: 2/4;
+    }
     
     .button--order-list-item {
         display: block;
-        grid-column: 3; 
+        grid-column: 4; 
+        justify-self: center;
     }
 
     .order-item-title--price,
@@ -200,12 +206,35 @@
     .order-item-title--passNum {
         display: none;
     }
-
     .order-list__item-price,
     .order-list__item-ticketType,
     .order-list__item-tripType,
-    .order-list__item-passNum{
-        display: none;
+    .order-list__item-passNum {
+       display:none;
+    }
+
+    .order-list__item--mob .order-list__item-price {
+        display: block;
+        grid-row: 2;
+        grid-column: 1;
+    }
+
+    .order-list__item--mob .order-list__item-ticketType {
+        display: block;
+        grid-row: 2;
+        grid-column: 2;
+    }
+
+    .order-list__item--mob .order-list__item-tripType {
+        display: block;
+        grid-row: 2;
+        grid-column: 3;
+    }
+
+    .order-list__item--mob .order-list__item-passNum {
+        display: block;
+        grid-row: 2;
+        grid-column: 4;
     }
 }
 

@@ -15,7 +15,8 @@ class OrderListItem extends Component {
         childNum: this.props.item.childNum,
         pastOrder: this.props.item.pastOrder,
         currentOrder: this.props.item.currentOrder,
-        totalPrice: this.props.item.totalPrice
+        totalPrice: this.props.item.totalPrice,
+        isMoreOrderDetailsShown: false
     }
 
     componentDidMount =  () => this.getTicketData();
@@ -34,12 +35,15 @@ class OrderListItem extends Component {
         this.setState ({ route, passNum, date, ticketType, tripType, price });
     }
 
+    isMoreOrderDetailsShown = () => this.setState(({ isMoreOrderDetailsShown }) => ( { isMoreOrderDetailsShown: !isMoreOrderDetailsShown }));
+
     render() {
-        const { route, passNum, date, ticketType, tripType, pastOrder, currentOrder, price } = this.state
+        const { route, passNum, date, ticketType, tripType, pastOrder, currentOrder, price, isMoreOrderDetailsShown } = this.state
        
         const orderListItemClass = classNames('order-list__item',{
             'order-list__item--past': pastOrder,
-            'order-list__item--current': currentOrder
+            'order-list__item--current': currentOrder,
+            'order-list__item--mob': isMoreOrderDetailsShown
         });
         
         return (
@@ -51,7 +55,8 @@ class OrderListItem extends Component {
                 <span className="order-list__item-tripType">{tripType}</span>
                 <span className="order-list__item-passNum">{passNum}</span>
                 <Button caption='view details'
-                        className='button button--order-list-item'/>
+                        className='button button--order-list-item'
+                        action={this.isMoreOrderDetailsShown}/>
             </li>
         )
     }

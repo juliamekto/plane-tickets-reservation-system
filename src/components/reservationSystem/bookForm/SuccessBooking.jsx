@@ -4,6 +4,7 @@ import ReactLoading from 'react-loading';
 import firebaseConfig from '../../firebase/firebase.js';
 import Button from '../../Button.jsx';
 import UserNotification from '../../userNotification/UserNotification.jsx';
+import MainHeader from '../../MainHeader.jsx';
 import './SuccessBooking.css';
 
 class SuccessBooking extends Component {  
@@ -86,6 +87,13 @@ class SuccessBooking extends Component {
         this.props.history.push('/user-account');
     }
 
+    handleBackBtn = e => {
+        e.preventDefault();
+        const { ticketId, userId } = this.state; 
+     
+        this.props.history.push(`/flight-booking/${userId}/${ticketId}`);
+    }
+
     handleNotificationBtn = () => {
         const { userId } = this.state;
         this.props.history.push(`/flight-search/${userId}`);
@@ -104,16 +112,24 @@ class SuccessBooking extends Component {
         }
     } else {
             return (
-                <div className="success-page">
-                    <div className="success__form">
-                        <h2 className="success__form-title">Your booking is done</h2>
-                        <span className="success__text">
-                            The price is <span className="success__price">{totalPrice} $</span>  
-                        </span>
-                        <Button caption="confirm"
-                                action={this.handleConfirmBtn} />
-                    </div> 
-                </div>
+                <React.Fragment>
+                    <MainHeader />
+                    <div className="success-page">
+                        <div className="success__form">
+                            <h2 className="success__form-title">Your booking is done</h2>
+                            <span className="success__text">
+                                The price is <span className="success__price">{totalPrice} $</span>  
+                            </span>
+                            <div className="success__buttons">
+                                <Button caption="go back"
+                                        action={this.handleBackBtn}
+                                        className="button button--success-back-btn" />
+                                <Button caption="confirm"
+                                        action={this.handleConfirmBtn} />
+                            </div>
+                        </div> 
+                    </div>
+                </React.Fragment>
             )
         }
     }

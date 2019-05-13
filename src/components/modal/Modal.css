@@ -109,10 +109,11 @@
 .modal-booking__info {
     width: 100%;
     max-width: 600px;
+    font-size: 20px;
     margin: 20px 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     border-bottom: 1px solid #306d86;
 }
 
@@ -196,6 +197,7 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: baseline;
+    cursor: pointer;
 }
 
 .luggage-presence__answer-text {
@@ -329,6 +331,11 @@
     .modal-main--booking {
         padding: 30px 5px;
     }
+    
+    /* BOOK FORM STYLES */
+    .modal-booking__info{
+        font-size: 16px;
+    }
 }
 
 @media screen and (max-width: 425px) {
@@ -348,6 +355,7 @@
 
     .luggage-presence__answer {
         margin-top: 10px;
+        padding: 0 5px;
     }
     
     .modal-booking__info { 

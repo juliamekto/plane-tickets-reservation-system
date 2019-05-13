@@ -40,6 +40,18 @@
     font-weight: bold;
 }
 
+.success__buttons {
+    display: flex;
+}
+
+@media screen and (max-width: 660px) {
+    .success__buttons {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+    } 
+}
+
 @media screen and (max-width: 425px) {
     .success__form {
         padding: 20px;
