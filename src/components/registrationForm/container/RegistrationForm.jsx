@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
+import ReactLoading from 'react-loading';
 import firebaseConfig from '../../firebase/firebase.js';
 import FormInput from '../../FormInput.jsx';
 import Button from '../../Button.jsx';
@@ -26,7 +27,8 @@ class RegistrationForm extends Component {
         isUsernameValid: true,
         isFullNameValid: true,
         repeatedPassword: '',
-        error: ''
+        error: '',
+        isLoading: false
     }
 
   componentDidMount() {

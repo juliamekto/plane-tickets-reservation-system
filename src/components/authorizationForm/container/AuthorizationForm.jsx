@@ -106,8 +106,11 @@ componentDidMount() {
           firebaseConfig.database().ref(`/users/${userId}/data`).update({
               "id": userId
           });
-
-          this.props.history.push(`/flight-search/${userId}`)
+          this.setState ({ isLoading: true });
+          setTimeout(() => {
+             this.props.history.push(`/flight-search/${userId}`)
+          }, 2000);
+          
         } catch (error) {
           this.setState ({ error: error.message });
         }
@@ -130,6 +133,9 @@ componentDidMount() {
     }); 
 
     if (authenticated) {    
+      if(isLoading) {
+        return <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
+      } 
       return <UserNotification mainText='You have already been authorized :)' btnCaption="search the flights" btnAction={this.handleNotificationBtn}/>
     } else {
       if(isLoading) {
