@@ -8,7 +8,7 @@ class Intro extends Component {
       authenticated: false
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
       firebaseConfig.auth().onAuthStateChanged(user => {
           if (user) {
               this.setState({

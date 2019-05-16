@@ -5,7 +5,7 @@ import { isTimerOver } from './actions/BookFormActions.js';
 class Timer extends Component {
   state = {
     time: {},
-    seconds: 200,
+    seconds: 60,
     isTimerOver: false
   }
   timer = 0;
