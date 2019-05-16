@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
+import ReactLoading from 'react-loading';
 import { showModal, isTicketInfoAvailable, getAvailableFlights } from '../actions/BookFormActions.js';
 import _ from 'lodash';
 import firebaseConfig from '../../../firebase/firebase.js';
@@ -11,6 +12,10 @@ import MainHeader from '../../../MainHeader.jsx';
 import ModalBooking from './ModalBooking.jsx';
 
 class BookForm extends Component {
+  state = {
+    isLoading: true 
+  }
+
   componentDidMount = () => {
   const ticketId = this.getTicketId();
   (ticketId === 'flight-booking') ? this.props.checkTicketInfo(false) : this.props.checkTicketInfo(true);
@@ -33,6 +38,7 @@ class BookForm extends Component {
 
     const availableFlights = _(fetchedFlights).map().uniq().value();
     this.props.getAvailableFlights(availableFlights)
+    this.setState({ isLoading: false })
     });
   }
 
@@ -56,6 +62,7 @@ class BookForm extends Component {
  
   render() {
     const { isOneWayTicketChosen, isRoundTicketChosen, isTicketInfoAvailable, availableFlights } = this.props.bookForm;
+    const { isLoading } = this.state;
    
     const bookFormClass = classNames('book-form',{
         'book-form--oneway': isOneWayTicketChosen,
@@ -71,19 +78,19 @@ class BookForm extends Component {
                             btnAction={this.handleNotificationBtn}/>
         )
         } else {
-        return (
-          <React.Fragment>
-            <MainHeader />
-            <div className={bookFormClass}>
-              <h2 className="book-form__title">Book the flight</h2>
-              <div className="book-form__flights">
-                  {(flightsInfo.length === 0) ? (<span className="flight__notification">There aren't available flights</span>) :  (<span className="flights__title">recommended flights</span>)}
-                  <div className="flights__wrapper">{flightsInfo}</div>
-              </div>
-            </div> 
-          <ModalBooking />
-          </React.Fragment>
-        );
+            return (
+              <React.Fragment>
+                <MainHeader />
+                <div className={bookFormClass}>
+                  <h2 className="book-form__title">Book the flight</h2>
+                  <div className="book-form__flights">
+                      {(flightsInfo.length === 0) ? (<span className="flight__notification">There aren't available flights</span>) :  (<span className="flights__title">recommended flights</span>)}
+                      {(isLoading) ? (<ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />) :  ( <div className="flights__wrapper">{flightsInfo}</div>)}
+                  </div>
+                </div> 
+              <ModalBooking />
+              </React.Fragment>
+            );
       }
     }
   }

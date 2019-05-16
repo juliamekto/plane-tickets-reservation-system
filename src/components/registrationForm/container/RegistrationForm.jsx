@@ -171,8 +171,8 @@ class RegistrationForm extends Component {
             "id": userId
         });
         
-        this.setState ({ userId });
-        this.showModal();
+        this.setState ({ userId, isLoading: true });
+        setTimeout(() => {this.showModal()}, 2000);
       } catch (error) {
         this.setState ({ error: error.message });
       }
@@ -189,7 +189,7 @@ class RegistrationForm extends Component {
   handleCheckboxClick= () => this.setState(({ isCheckboxChecked }) => ( { isCheckboxChecked: !isCheckboxChecked }));
   
   render() {
-    const { isModalShown, isEmailValid, isPasswordValid, isRepeatedPasswordValid, error, isUsernameValid, isFullNameValid, isCheckboxChecked, authenticated } = this.state;
+    const { isLoading, isModalShown, isEmailValid, isPasswordValid, isRepeatedPasswordValid, error, isUsernameValid, isFullNameValid, isCheckboxChecked, authenticated } = this.state;
 
     const errorClass = classNames('inline-error',{
       'inline-error--show': error
@@ -220,22 +220,26 @@ class RegistrationForm extends Component {
     }); 
 
     if (authenticated) {
-        return (
-        <React.Fragment>
-          <UserNotification mainText='You have already been authorized :)' btnCaption="search the flights" btnAction={this.handleClick}/>
-           <Modal show={isModalShown} 
-                 handleClose={this.hideModal}
-                 modalMainClass="modal-main--greeting">
-               <div className="modal-greeting">
-                   <span className="modal-greeting__title">Great!</span>
-                   <span className="modal-greeting__text">You've been successfully registered!</span>
-               </div>
-               <div className="modal__img-wrapper"></div>
-               <Button caption="start"
-                       action={this.handleClick}/>
-         </Modal>
-        </React.Fragment>
-        )
+        if( isLoading ) {
+          return (
+          <React.Fragment>
+             <ReactLoading className="loading-spinner" type="spin" color='#fff' height={50} width={50} />;
+               <Modal show={isModalShown} 
+                    handleClose={this.hideModal}
+                    modalMainClass="modal-main--greeting">
+                  <div className="modal-greeting">
+                      <span className="modal-greeting__title">Great!</span>
+                      <span className="modal-greeting__text">You've been successfully registered!</span>
+                  </div>
+                  <div className="modal__img-wrapper"></div>
+                  <Button caption="start"
+                          action={this.handleClick}/>
+            </Modal>
+          </React.Fragment>
+         )
+        } else {
+          return <UserNotification mainText='You have already been authorized :)' btnCaption="search the flights" btnAction={this.handleClick}/>
+        }
       } else {
         return (
           <React.Fragment>

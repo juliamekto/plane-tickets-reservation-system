@@ -5,10 +5,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1;
 }
 
 .account-header__title {
@@ -64,7 +60,7 @@
     width: 90%;
     max-width: 1200px;
     margin: 30px auto 0 auto;
-    background-color:rgba(255,255,255,.4);
+    background-color:rgba(255,255,255,.7);
     color:#000;
     padding: 0 0 20px 0;
     display: flex;
@@ -250,4 +246,9 @@
     .user-orders__notification {
         font-size: 22px;
     }
+
+    .order-list__item {
+        font-size: 14px;
+    }
 }
+
