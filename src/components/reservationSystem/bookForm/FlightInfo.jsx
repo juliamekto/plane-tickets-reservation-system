@@ -15,7 +15,7 @@ class FlightInfo extends Component {
     showModal = () =>  this.props.showModal();
 
     render() {
-        const { companyName, departTime, returnTime } = this.state;
+        const { companyName, departTime, returnTime } = this.state; 
         
         return (
             <div className="flight-info">

@@ -204,6 +204,7 @@ class SearchForm extends Component {
           
           const { adultNum, childNum } = this.props.searchForm;
           
+          console.log(this.props)
           const errorClass = classNames('inline-error',{
                'inline-error--show': error 
           }); 

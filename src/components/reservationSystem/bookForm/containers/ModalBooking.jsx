@@ -167,7 +167,6 @@ class ModalBooking extends Component {
         })
 
         this.props.history.push(`/success/${ticketId}`);
-
       } catch (error) {
         this.setState ({ error: error.message });
       }
@@ -260,11 +259,11 @@ class ModalBooking extends Component {
                         <span className="seats-scheme__title">Choose a seat</span>    
                         <Timer />
                         <div className="seats-scheme__wrapper">
-                            <SeatRow  seatRow={seatsRowA} rowName='A'/>
-                            <SeatRow  seatRow={seatsRowB} rowName='B'/>
-                            <SeatRow  seatRow={seatsRowC} rowName='C'/>
-                            <SeatRow  seatRow={seatsRowD} rowName='D'/>
-                            <SeatRow  seatRow={seatsRowE} rowName='E'/>
+                            <SeatRow seatRow={seatsRowA} rowName='A'/>
+                            <SeatRow seatRow={seatsRowB} rowName='B'/>
+                            <SeatRow seatRow={seatsRowC} rowName='C'/>
+                            <SeatRow seatRow={seatsRowD} rowName='D'/>
+                            <SeatRow seatRow={seatsRowE} rowName='E'/>
                         </div>
                         <div className='seats-scheme__legend'>
                           <div className="legend-item">

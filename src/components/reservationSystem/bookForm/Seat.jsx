@@ -27,7 +27,7 @@ class Seat extends Component {
     handleSeatClick = e => {
         const { chosenSeats, totalPassengersNum } =  this.props.bookForm;
         const chosenSeat = this.state.seatRow + this.state.seatNum;
-        const { id, price} = this.state;
+        const { id, price } = this.state;
         const seatData = { chosenSeat, id, price }
 
         let { isSeatBooked } = this.state;
