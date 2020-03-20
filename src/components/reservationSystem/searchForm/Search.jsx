@@ -1,5 +1,6 @@
 import React from 'react';
-import SearchForm from './SearchForm.jsx'
+import SearchForm from './container/SearchForm.jsx'
+import './SearchForm.css'
 
 const Search= () => <SearchForm />;
 

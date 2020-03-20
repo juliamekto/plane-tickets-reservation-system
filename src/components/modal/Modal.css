@@ -56,7 +56,6 @@
     width: 100%;
     background-color: #2ba87c;
     border-radius: 0;
-    padding: 20px 10px;
 }
 
 .modal-main--greeting .button:hover {
@@ -111,7 +110,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    border-bottom: 1px solid #f30b0b;
+    border-bottom: 1px solid #306d86;
 }
 
 .modal-booking__seats-scheme {
@@ -125,20 +124,43 @@
 .seats-scheme__title {
     font-size: 26px;
     font-weight: bold;
-    border-bottom: 1px solid #f30b0b;
+    border-bottom: 1px solid #306d86;
+    align-self: center;
 }
 
 .seats-scheme__wrapper {
     width: 100%;
     max-width: 600px;
     display: flex;
+    margin: 10px 0 20px 0;
+}
+
+.seats-scheme {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .seats-wrapper {
     display: flex;
-    height: 250px;
     flex-direction: column;
     flex-wrap: wrap;
+}
+
+.row-name {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.seats-row {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.seats-row:last-of-type {
+    margin-right: 0;
 }
 
 .modal-booking__luggage {
@@ -147,31 +169,39 @@
     margin: 20px 0;
 }
 
-.luggage-availability {
+.luggage-presence {
     display: flex;
     align-items: baseline;
 }
 
-.luggage-availability__question {
+.luggage-presence--num {
+    display: none;
+}
+
+.luggage-presence--shown {
+    display: flex;
+}
+
+.luggage-presence__question {
     font-size: 16px;
     font-weight: bold;
     margin-right: 20px;
 }
 
-.luggage-availability__answer {
+.luggage-presence__answer {
     display: flex;
     flex-direction: row-reverse;
     align-items: baseline;
 }
 
-.luggage-availability__answer-text {
+.luggage-presence__answer-text {
     margin-left: 10px;
     font-weight: bold;
 }
 
-.luggage-availability__answer-input {
+.luggage-presence__answer-input {
     margin: 0;
-    width: 50px;
+    width:25px;
     padding: 5px;
     border-radius: 10px;
     border: none;
@@ -187,7 +217,7 @@
     height: 40px;
     border-radius: 50%;
     padding: 0;
-    border: 2px solid #f30b0b;
+    border: 2px solid #306d86;
     background-color: #fff;
     position: absolute;
     top: -10px;
@@ -211,7 +241,7 @@
     display: block;
 	width: 20px;
 	height: 2px;
-    background-color: #f30b0b;
+    background-color: #306d86;
     position: absolute;
 	top: 50%;
 	left: 50%;
@@ -224,7 +254,7 @@
     display: block;
 	width: 20px;
 	height: 2px;
-    background-color: #f30b0b;
+    background-color: #306d86;
     position: absolute;
 	top: 50%;
 	left: 50%;
@@ -233,7 +263,7 @@
 }
 
 .modal__close-btn:hover {
-    background-color: #f30b0b;
+    background-color: #306d86;
     transition: .2s  background-color linear;
 }
 
@@ -241,6 +271,52 @@
 .modal__close-btn:hover:before {
     background-color: #fff;
     transition: .2s  background-color linear;
+}
+
+.seats-scheme__legend {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.legend-item__icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.legend-item__icon--available {
+    background-color: #10c2fd;
+}
+
+.legend-item__icon--not-available {
+    background-color: #b0e8f9;
+}
+
+.legend-item__icon--booked {
+    background-color: #306d86;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.legend-item__caption {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.seats-scheme__caption {
+    width: 100%;
+    max-width: 300px;
+    font-size: 22px;
+    color: #000;
+    font-weight: bold;
+    border-bottom: 1px solid #306d86;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 @media screen and (max-width: 425px) {
@@ -254,11 +330,11 @@
     }
 
 /* BOOK FORM STYLES */
-    .luggage-availability {
+    .luggage-presence {
         flex-direction: column;
     }
 
-    .luggage-availability__answer {
+    .luggage-presence__answer {
         margin-top: 10px;
     }
     

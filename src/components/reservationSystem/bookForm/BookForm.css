@@ -8,7 +8,8 @@
 }
 
 .book-form__title {
-    color: #fff;
+    color: #306d86;
+    font-weight: lighter;
     font-size: 50px;
 }
 
@@ -18,8 +19,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(0,0,0,.3);
-    box-shadow: 0 0 10px #000;
+    background-color: rgba(0,0,0,.1);
+    box-shadow: 0 0 10px #63a8c5;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -27,7 +28,7 @@
 .flights__title {
     width: 100%;
     padding: 10px;
-    background-color: rgba(243,11,11,.7);
+    background-color: #306d86;
     font-size: 20px;
     font-weight: bold;
     color: #fff;
@@ -35,10 +36,16 @@
     margin-bottom: 30px;
 }
 
+.flights__wrapper {
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+
 .flight-info {
     width: 100%;
     padding: 15px;
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.1);
     color: #fff;
     font-size: 20px;
     margin-bottom: 30px;
@@ -50,11 +57,13 @@
 
 .flight-info__airline {
     border: 1px solid #fff;
+    background-color: #306d865c;
     font-weight: lighter;
     padding: 5px;
     text-align: center;
     grid-column: 1;
     grid-row: 1;
+    align-self: center;
 }
 
 .flight-info__time {
@@ -67,10 +76,24 @@
 .button--flight-info-btn {
     grid-column: 3;
     grid-row: 1;
+    box-shadow: 0 0 5px #fff;
     align-self: center;
     justify-self: center;
 }
 
+.book-form--oneway .flight-info__time--round-ticket {
+    display: none;
+}
+
+.book-form--round-ticket .flight-info__time--oneway {
+    display: none;
+}
+
+.flight-info__time-caption {
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #306d86;
+}
 @media screen and (max-width: 660px) {
     .book-form-wrapper__title {
         font-size: 44px;
