@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import firebaseConfig from '../../firebase/firebase.js';
 import FormInput from '../../FormInput.jsx';
 import Button from '../../Button.jsx';
 import Modal from '../../modal/Modal.jsx';
 import InlineError from '../../InlineError.jsx';
+import UserNotification from '../../userNotification/UserNotification.jsx';
 import { signUp } from '../actions/RegistrationFormActions.js';
 
 const REG_EXP_EMAIL_VALIDATION = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
@@ -27,6 +28,22 @@ class RegistrationForm extends Component {
         repeatedPassword: '',
         error: ''
     }
+
+  componentDidMount() {
+      firebaseConfig.auth().onAuthStateChanged(user => {
+        if (user) {
+           const userId = user.uid;
+            this.setState({
+                authenticated: true,
+                userId
+            });
+        } else {
+            this.setState({
+                authenticated: false
+            });
+        }
+      });
+  }
 
   handleInput = ({ target: { name, value } }) => {
     if (name === 'fullName') {
@@ -80,6 +97,11 @@ class RegistrationForm extends Component {
     }
 
     this.setState ({ isRepeatedPasswordValid: true, repeatedPassword: value, error: '' }); 
+  }
+
+  handleClick = () => {
+    const { userId } = this.state
+    this.props.history.push(`/flight-search/${userId}`);
   }
 
   validateUsername = value => {
@@ -147,6 +169,8 @@ class RegistrationForm extends Component {
             "id": userId
         });
 
+        this.setState ({ userId });
+
         this.showModal();
       } catch (error) {
         this.setState ({ error: error.message });
@@ -163,9 +187,8 @@ class RegistrationForm extends Component {
 
   handleCheckboxClick= () => this.setState(({ isCheckboxChecked }) => ( { isCheckboxChecked: !isCheckboxChecked }));
   
-
   render() {
-    const { isModalShown, isEmailValid, isPasswordValid, isRepeatedPasswordValid, error, isUsernameValid, isFullNameValid, isCheckboxChecked } = this.state;
+    const { isModalShown, isEmailValid, isPasswordValid, isRepeatedPasswordValid, error, isUsernameValid, isFullNameValid, isCheckboxChecked, authenticated } = this.state;
 
     const errorClass = classNames('inline-error',{
       'inline-error--show': error
@@ -195,74 +218,77 @@ class RegistrationForm extends Component {
       'default-input--invalid': !isFullNameValid
     }); 
 
-    return (
-      <React.Fragment>
-         <div className="registration">
-           <h2 className="registration__title">Sign Up</h2>
-           <InlineError className={errorClass} formErrors={error}/>
-           <form className="registration___form">
-               <FormInput  id="fullName" 
-                           name="fullName" 
-                           type="text" 
-                           placeholder="full name"
-                           customClassName={inputClassFullName}
-                           action={this.handleInput}/> 
-               <FormInput  id="username" 
-                           name="username" 
-                           type="text"
-                           placeholder="username"
-                           customClassName={inputClassUsername}
-                           action={this.handleInput}/> 
-               <FormInput id="email" 
-                           name="email" 
-                           type="email" 
-                           customClassName={inputClassEmail}
-                           placeholder="email" 
-                           action={this.handleInput}/>
-               <FormInput id="password" 
-                           name="password" 
-                           type="password" 
-                           placeholder="password"
-                           customClassName={inputClassPass}
-                           action={this.handleInput}/> 
-               <FormInput  id="repeatedPassword" 
-                           name="repeatedPassword" 
-                           type="password" 
-                           placeholder="repeat password"
-                           customClassName={inputClassRepeatedPass}
-                           action={this.handleInput}/> 
-               <Button type="submit" 
-                       className="button button--registration-form-btn"
-                       caption="sign up"
-                       action={this.handleFormSubmit}/>
-           </form>
-           <div className="privacy-policy">
-               <label className="privacy-policy__container"  
-                      onClick={this.handleCheckboxClick}>
-                <span className={checkBoxClass}
-                      tabIndex="0" 
-                      role="checkbox" 
-                      aria-checked="true">
-                </span>
-               </label>
-               <span className="privacy-policy__caption">I agree to the terms and conditions</span>
-           </div>
-           <Link to="/authorization" className="form-link"> i already have an account </Link>
-         </div>
-         <Modal show={isModalShown} 
-                handleClose={this.hideModal}
-                modalMainClass="modal-main--greeting">
-              <div className="modal-greeting">
-                  <span className="modal-greeting__title">Great!</span>
-                  <span className="modal-greeting__text">You've been successfully registered!</span>
-              </div>
-              <div className="modal__img-wrapper"></div>
-              <Link to="/flight-search" className="modal__route-link" onClick={this.hideModal}>
-                  <Button caption="start"/>
-              </Link>
-        </Modal>
-      </React.Fragment>
-    );
+    if (authenticated) {
+        return <UserNotification mainText='You have already been authorized :)' btnCaption="search the flights" btnAction={this.handleClick}/>
+      } else {
+        return (
+          <React.Fragment>
+          <div className="registration">
+            <h2 className="registration__title">Sign Up</h2>
+            <InlineError className={errorClass} formErrors={error}/>
+            <form className="registration___form">
+                <FormInput  id="fullName" 
+                            name="fullName" 
+                            type="text" 
+                            placeholder="full name"
+                            customClassName={inputClassFullName}
+                            action={this.handleInput}/> 
+                <FormInput  id="username" 
+                            name="username" 
+                            type="text"
+                            placeholder="username"
+                            customClassName={inputClassUsername}
+                            action={this.handleInput}/> 
+                <FormInput id="email" 
+                            name="email" 
+                            type="email" 
+                            customClassName={inputClassEmail}
+                            placeholder="email" 
+                            action={this.handleInput}/>
+                <FormInput id="password" 
+                            name="password" 
+                            type="password" 
+                            placeholder="password"
+                            customClassName={inputClassPass}
+                            action={this.handleInput}/> 
+                <FormInput  id="repeatedPassword" 
+                            name="repeatedPassword" 
+                            type="password" 
+                            placeholder="repeat password"
+                            customClassName={inputClassRepeatedPass}
+                            action={this.handleInput}/> 
+                <Button type="submit" 
+                        className="button button--registration-form-btn"
+                        caption="sign up"
+                        action={this.handleFormSubmit}/>
+            </form>
+            <div className="privacy-policy">
+                <label className="privacy-policy__container"  
+                       onClick={this.handleCheckboxClick}>
+                 <span className={checkBoxClass}
+                       tabIndex="0" 
+                       role="checkbox" 
+                       aria-checked="true">
+                 </span>
+                </label>
+                <span className="privacy-policy__caption">I agree to the terms and conditions</span>
+            </div>
+            <Link to="/authorization" className="form-link"> i already have an account </Link>
+          </div>
+          <Modal show={isModalShown} 
+                 handleClose={this.hideModal}
+                 modalMainClass="modal-main--greeting">
+               <div className="modal-greeting">
+                   <span className="modal-greeting__title">Great!</span>
+                   <span className="modal-greeting__text">You've been successfully registered!</span>
+               </div>
+               <div className="modal__img-wrapper"></div>
+               <Button caption="start"
+                       action={this.handleClick}/>
+         </Modal>
+       </React.Fragment>
+        )
+      }
   }
 }
 
@@ -277,4 +303,4 @@ const mapDistpatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDistpatchToProps)(RegistrationForm);
+export default connect(mapStateToProps, mapDistpatchToProps)(withRouter(RegistrationForm));

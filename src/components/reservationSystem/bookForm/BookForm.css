@@ -40,6 +40,10 @@
     width: 100%;
     max-height: 100vh;
     overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .flight-info {
@@ -94,21 +98,54 @@
     font-weight: bold;
     background-color: #306d86;
 }
+
+.flight__notification {
+    font-size: 26px;
+    background: url(../../../assets/img/bubble-mask.png) repeat #306d86;
+    background-size: 300px auto;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: backgroundRise 12s infinite linear;
+    font-weight: bold;
+}
+
+@keyframes backgroundRise {
+    0% {
+      background-position: 0 0%; }
+    100% {
+      background-position: 0 -300px; } 
+}
+
+/* TIMER STYLES */
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 660px) {
     .book-form-wrapper__title {
         font-size: 44px;
     }
+
     .flight-info {
         grid-template-columns: 100px auto 110px;
         font-size: 16px;
         grid-gap: 0 5px;
     }
+
+    .flight__notification {
+        font-size: 22px;
+    }
 }
 
 @media screen and (max-width: 425px) {
-    .book-form-wrapper__title {
+    .book-form__title {
         font-size: 38px;
     }
+
     .flight-info {
         grid-template-columns: 1fr;
         grid-gap: 10px 0;
@@ -129,5 +166,9 @@
     .button--flight-info-btn {
         grid-column: 1;
         grid-row: 3;
+    }
+
+    .flight__notification {
+        font-size: 18px;
     }
 }

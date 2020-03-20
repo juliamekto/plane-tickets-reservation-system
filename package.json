@@ -9,6 +9,7 @@
     "lodash": "^4.17.11",
     "npm-install-all": "^1.1.21",
     "react": "^16.8.3",
+    "react-countdowntimer": "^0.1.8",
     "react-dom": "^16.8.3",
     "react-loading": "^2.0.3",
     "react-lodash": "^0.1.2",

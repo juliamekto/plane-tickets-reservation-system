@@ -51,6 +51,7 @@ h2 {
   height: 40px;
   padding: 10px;
   cursor: pointer;
+  text-align: center;
   transition: all .2s linear;
 }
 
@@ -78,6 +79,16 @@ h2 {
   width: 300px;
   background: url(../src//assets/img/plane.svg) 95% 50% no-repeat #63a8c5;
   background-size: 25px;
+}
+
+.button--notification-link {
+  text-decoration: none;
+  width: 100%;
+  max-width: 300px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button:hover {
@@ -133,5 +144,9 @@ h2 {
 
   .button--flights__btn {
     width: 200px;
+  }
+
+  .button--notification-link {
+    font-size: 14px;
   }
 }
